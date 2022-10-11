@@ -35,6 +35,7 @@
     labels:
       component: "{{ item.component }}"
       cluster: "{{ cluster_name }}"
+      service: "{{ item.service }}"
   loop: "{{ prometheus_tdp_components_targets }}"
 
 - name: Enrich prometheus_scrape_configs var with TDP components targets

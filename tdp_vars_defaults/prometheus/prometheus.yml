@@ -36,12 +36,15 @@ prometheus_tdp_components_targets:
     ports:
       - "{{ hdfs_nn_jmx_exporter_port }}"
       - "{{ hdfs_zkfc_jmx_exporter_port }}"
+    service: hdfs
   - component: hdfs_dn
     ports:
       - "{{ hdfs_dn_jmx_exporter_port }}"
+    service: hdfs
   - component: hdfs_jn
     ports:
       - "{{ hdfs_jn_jmx_exporter_port }}"
+    service: hdfs
 
 # Prometheus scrape jobs
 # Will be enriched with 1 job per component in prometheus_tdp_components_targets
