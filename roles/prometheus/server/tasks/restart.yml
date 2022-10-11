@@ -1,0 +1,8 @@
+# Copyright 2022 Adaltas
+# SPDX-License-Identifier: MIT
+
+---
+- name: Restart Prometheus server
+  service:
+    name: prometheus
+    state: restarted

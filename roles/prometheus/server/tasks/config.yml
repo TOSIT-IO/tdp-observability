@@ -1,0 +1,61 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Create Prometheus certs and static targets dirs
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: prometheus
+    mode: "0770"
+  loop:
+    - "{{ prometheus_certs_dir }}"
+    - "{{ prometheus_static_targets_dir }}"
+
+- name: Copy node certificates to Prometheus certs dir
+  copy:
+    src: "/etc/ssl/certs/{{ ansible_fqdn }}.{{ item }}"
+    dest: "{{ prometheus_certs_dir }}/{{ ansible_fqdn }}.{{ item }}"
+    remote_src: yes
+    owner: root
+    group: prometheus
+    mode: "0640"
+  loop:
+    - pem
+    - key
+
+- name: Template Prometheus file_sd targets for TDP components
+  template:
+    src: file_sd.yml.j2
+    dest: "{{ prometheus_static_targets_dir }}/{{ item.component }}.yml"
+  vars:
+    hosts: "{{ groups[item.component] | map('tosit.tdp.access_fqdn', hostvars) | list }}"
+    ports: "{{ item.ports }}"
+    labels:
+      component: "{{ item.component }}"
+      cluster: "{{ cluster_name }}"
+  loop: "{{ prometheus_tdp_components_targets }}"
+
+- name: Enrich prometheus_scrape_configs var with TDP components targets
+  set_fact:
+    prometheus_scrape_configs: |
+      {{ prometheus_scrape_configs
+         + [{
+               'job_name': item,
+               'file_sd_configs': [
+                 {'files': [prometheus_static_targets_dir + '/' + item + '.yml']}
+               ]
+           }] }}
+  loop: "{{ prometheus_tdp_components_targets | map(attribute='component') | list }}"
+
+- debug:
+    var: prometheus_scrape_configs
+
+- include_role:
+    name: cloudalchemy.prometheus
+    tasks_from: preflight
+
+- include_role:
+    name: cloudalchemy.prometheus
+    tasks_from: configure

@@ -1,0 +1,11 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- include_role:
+    name: cloudalchemy.prometheus
+    tasks_from: preflight
+
+- include_role:
+    name: cloudalchemy.prometheus
+    tasks_from: install

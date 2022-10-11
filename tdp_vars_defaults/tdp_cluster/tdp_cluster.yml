@@ -1,0 +1,33 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+#######################################################################
+# TEMPORARY                                                           #
+# Remove after the vars are tracked in tdp_vars_defaults/tdp_cluster  #
+#######################################################################
+
+# Cluster name
+cluster_name: mycluster
+
+# HDFS ports
+### The NameNode port for JMX metrics
+### Used in: HDFS_NAMENODE_OPTS
+hdfs_nn_jmx_exporter_port: 18101
+### The ZooKeeper Failover Controler port for JMX metrics
+### Used in: HDFS_ZKFC_OPTS
+hdfs_zkfc_jmx_exporter_port: 18102
+### The JournalNode port for JMX metrics
+### Used in: HDFS_JOURNALNODE_OPTS
+hdfs_jn_jmx_exporter_port: 18103
+### The DataNode port for JMX metrics
+### Used in: HDFS_DATANODE_OPTS
+hdfs_dn_jmx_exporter_port: 18104
+
+#######################################################################
+# TEMPORARY                                                           #
+# Remove after the vars are tracked in tdp_vars_defaults/tdp_cluster  #
+#######################################################################
+
+# Prometheus ports
+prometheus_web_port: 9090

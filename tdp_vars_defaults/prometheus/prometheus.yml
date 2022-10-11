@@ -1,0 +1,56 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+prometheus_start_on_boot: no
+
+prometheus_version: 2.38.0
+prometheus_selinux_packages:
+  # For RHEL 7
+  - libselinux-python
+  - policycoreutils-python
+  # For RHEL 8
+  # - python3-libselinux
+  # - python3-policycoreutils
+
+# Prometheus directories
+prometheus_config_dir: /etc/prometheus
+prometheus_certs_dir: "{{ prometheus_config_dir }}/certs"
+prometheus_static_targets_dir: "{{ prometheus_config_dir }}/file_sd"
+prometheus_db_dir: /var/lib/prometheus
+
+# Prometheus web configuration
+prometheus_admin_user: admin
+prometheus_admin_password: PrometheusAdmin123
+prometheus_web_listen_address: "0.0.0.0:{{ prometheus_web_port }}"
+prometheus_web_config:
+  tls_server_config:
+    cert_file: "{{ prometheus_certs_dir }}/{{ ansible_fqdn }}.pem"
+    key_file: "{{ prometheus_certs_dir }}/{{ ansible_fqdn }}.key"
+  basic_auth_users:
+    "{{ prometheus_admin_user }}": "{{ prometheus_admin_password | password_hash('blowfish') }}"
+
+# Prometheus targets to generate from TDP components Ansible groups
+prometheus_tdp_components_targets:
+  - component: hdfs_nn
+    ports:
+      - "{{ hdfs_nn_jmx_exporter_port }}"
+      - "{{ hdfs_zkfc_jmx_exporter_port }}"
+  - component: hdfs_dn
+    ports:
+      - "{{ hdfs_dn_jmx_exporter_port }}"
+  - component: hdfs_jn
+    ports:
+      - "{{ hdfs_jn_jmx_exporter_port }}"
+
+# Prometheus scrape jobs
+# Will be enriched with 1 job per component in prometheus_tdp_components_targets
+prometheus_scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets:
+          - "{{ ansible_fqdn }}:9090"
+    scheme: https
+    basic_auth:
+      username: "{{ prometheus_admin_user }}"
+      password: "{{ prometheus_admin_password }}"

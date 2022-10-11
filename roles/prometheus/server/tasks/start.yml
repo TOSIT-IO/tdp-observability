@@ -1,0 +1,9 @@
+# Copyright 2022 Adaltas
+# SPDX-License-Identifier: MIT
+
+---
+- name: Start Prometheus server
+  service:
+    name: prometheus
+    state: started
+    enabled: "{{ prometheus_start_on_boot }}"

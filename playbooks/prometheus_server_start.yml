@@ -1,0 +1,13 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Prometheus install
+  hosts: prometheus
+  tasks:
+    - tosit.tdp.resolve:
+        node_name: prometheus_server
+    - import_role:
+        name: alliage.tdp_monitoring.prometheus.server
+        tasks_from: start
+    - meta: clear_facts
