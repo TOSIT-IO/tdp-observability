@@ -20,8 +20,6 @@ prometheus_static_targets_dir: "{{ prometheus_config_dir }}/file_sd"
 prometheus_db_dir: /var/lib/prometheus
 
 # Prometheus web configuration
-prometheus_admin_user: admin
-prometheus_admin_password: PrometheusAdmin123
 prometheus_web_listen_address: "0.0.0.0:{{ prometheus_web_port }}"
 prometheus_web_config:
   tls_server_config:
@@ -54,7 +52,7 @@ prometheus_tdp_components_targets:
     service: hdfs
 
 # Prometheus scrape jobs
-# Will be enriched with 1 job per component in prometheus_tdp_components_targets
+# Will be enriched with 1 job per component in 'prometheus_tdp_components_targets'
 prometheus_scrape_configs:
   - job_name: prometheus
     static_configs:

@@ -1,0 +1,41 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: grafana_server_install
+  depends_on: []
+
+- name: grafana_server_config
+  depends_on:
+    - grafana_server_install
+
+- name: grafana_server_start
+  depends_on:
+    - grafana_server_config
+
+- name: grafana_server_init
+  depends_on:
+    - grafana_server_start
+
+- name: grafana_install
+  noop: yes
+  depends_on:
+    - grafana_server_install
+
+- name: grafana_config
+  noop: yes
+  depends_on:
+    - grafana_install
+    - grafana_server_config
+
+- name: grafana_start
+  noop: yes
+  depends_on:
+    - grafana_config
+    - grafana_server_start
+
+- name: grafana_init
+  noop: yes
+  depends_on:
+    - grafana_start
+    - grafana_server_init

@@ -1,0 +1,13 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Grafana Server Stop
+  hosts: grafana
+  tasks:
+    - tosit.tdp.resolve:
+        node_name: grafana_server
+    - import_role:
+        name: alliage.tdp_monitoring.grafana.server
+        tasks_from: stop
+    - meta: clear_facts

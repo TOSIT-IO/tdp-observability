@@ -1,5 +1,9 @@
 # TDP Monitoring
 
+Ansible collection to deploy a monitorinf stack on top of a [TDP](https://github.com/TOSIT-IO/TDP) cluster.
+
+For now, relies on [cloudalchemy.prometheus](https://github.com/cloudalchemy/ansible-prometheus) and [cloudalchemy.grafana](https://github.com/cloudalchemy/ansible-grafana) to deploy Prometheus and Grafana.
+
 ## Using in tdp-getting-started
 
 ```sh
@@ -15,7 +19,10 @@ git clone git@github.com:alliage-io/tdp-monitoring.git ansible_collections/allia
 ./ansible_collections/alliage/tdp_monitoring/scripts/setup.sh -c
 
 # Deploy Prometheus
-tdp deploy --targets prometheus_start
+tdp deploy --targets prometheus_init
+
+# Deploy Grafana
+tdp deploy --targets grafana_init
 ```
 
 Optional non-destructive option for the setup:
@@ -33,10 +40,20 @@ cd inventory/tdp_vars/tdp_cluster && git commit -a -m 'feat: add tdp_monitoring 
 ## Web UI links
 
 - Prometheus targets: https://master-01.tdp:9090/targets
+
   - Username: `admin`
   - Password: `PrometheusAdmin123`
 
+- Grafana: https://master-01.tdp:3000
+  - Username: `admin`
+  - Password: `GrafanaAdmin123`
+
 ## Roadmap
+
+**Architecture:**
+
+- Grafana:
+  - [ ] Use cluster PostgreSQL as back-end database
 
 **Grafana dashboards:**
 

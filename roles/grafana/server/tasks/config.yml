@@ -1,0 +1,36 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Create Grafana certs dir
+  file:
+    path: "{{ grafana_certs_dir }}"
+    state: directory
+    owner: root
+    group: grafana
+    mode: "0770"
+
+- name: Copy node certificates to Grafana certs dir
+  copy:
+    src: "/etc/ssl/certs/{{ ansible_fqdn }}.{{ item }}"
+    dest: "{{ grafana_certs_dir }}/{{ ansible_fqdn }}.{{ item }}"
+    remote_src: yes
+    owner: root
+    group: grafana
+    mode: "0640"
+  loop:
+    - pem
+    - key
+
+- include_role:
+    name: cloudalchemy.grafana
+    tasks_from: preflight
+
+- include_role:
+    name: cloudalchemy.grafana
+    tasks_from: configure
+
+- include_role:
+    name: cloudalchemy.grafana
+    tasks_from: plugins
+  when: grafana_plugins != []
