@@ -35,3 +35,24 @@ cd inventory/tdp_vars/tdp_cluster && git commit -a -m 'feat: add tdp_monitoring 
 - Prometheus targets: https://master-01.tdp:9090/targets
   - Username: `admin`
   - Password: `PrometheusAdmin123`
+
+## Roadmap
+
+**Grafana dashboards:**
+
+- HDFS:
+  - [ ] 1 HDFS service dashboard:
+    - [ ] %|Number of NameNode|DataNode|JournalNode Live
+    - [ ] NameNode Heap Usage
+    - [ ] HDFS Space Utilization
+    - [ ] HDFS Disk Usage
+    - [ ] HDFS Total Number of Blocks
+    - [ ] HDFS Blocks Under-replicated or Corrupted
+  - [ ] 1 HDFS NameNode dashboard
+    - [ ] NameNode RPC Latency
+    - [ ] NameNode Connection Load
+    - [ ] NameNode GC Time
+  - [ ] 1 HDFS DataNode dashboard
+    - [ ] DataNode RPC Latency
+    - [ ] NameNode Connection Load
+    - [ ] NameNode GC Time
