@@ -33,4 +33,4 @@
 - include_role:
     name: cloudalchemy.grafana
     tasks_from: plugins
-  when: grafana_plugins != []
+  when: (grafana_plugins | length)

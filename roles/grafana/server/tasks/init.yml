@@ -11,12 +11,12 @@
 - include_role:
     name: cloudalchemy.grafana
     tasks_from: datasources
-  when: grafana_datasources != []
+  when: (grafana_datasources | length)
 
 - include_role:
     name: cloudalchemy.grafana
     tasks_from: notifications
-  when: grafana_alert_notifications | length > 0
+  when: (grafana_alert_notifications | length)
 
 - name: "Check if there are any dashboards in local {{ grafana_dashboards_dir }}"
   become: false
@@ -26,4 +26,4 @@
 - include_role:
     name: cloudalchemy.grafana
     tasks_from: dashboards
-  when: grafana_dashboards | length > 0 or found_dashboards | length > 0
+  when: (grafana_dashboards | length) or (found_dashboards | length)
