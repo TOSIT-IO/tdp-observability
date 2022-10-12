@@ -38,6 +38,8 @@ init_collection() {
     rm -f sqlite.db
     echo "Delete tdp_vars/tdp_cluster"
     rm -rf inventory/tdp_vars/tdp_cluster
+    echo "Delete tdp_vars/prometheus"
+    rm -rf inventory/tdp_vars/prometheus
   fi
   tdp init
 }
@@ -54,7 +56,7 @@ ansible-galaxy install -r "$tdp_monitoring_path/requirements.yml"
 pip install -r "ansible_collections/alliage/tdp_monitoring/requirements.txt"
 
 # Add tdp_monitoring path to TDP_COLLECTION_PATH
-sed -i "s|TDP_COLLECTION_PATH=\(.*\)\(:$tdp_monitoring_path\)*|TDP_COLLECTION_PATH=\1:$tdp_monitoring_path|" .env
+sed -ri "s|TDP_COLLECTION_PATH=((ansible_collections/tosit/tdp)(:?ansible_collections/tosit/\w*)*)(:$tdp_monitoring_path)?$|TDP_COLLECTION_PATH=\1:$tdp_monitoring_path|" .env
 
 # Init collection (delete sqlite.db if needed)
 init_collection
