@@ -1,6 +1,6 @@
 # TDP Monitoring
 
-Ansible collection to deploy a monitorinf stack on top of a [TDP](https://github.com/TOSIT-IO/TDP) cluster.
+Ansible collection to deploy a monitoring stack on top of a [TDP](https://github.com/TOSIT-IO/TDP) cluster.
 
 For now, relies on [cloudalchemy.prometheus](https://github.com/cloudalchemy/ansible-prometheus) and [cloudalchemy.grafana](https://github.com/cloudalchemy/ansible-grafana) to deploy Prometheus and Grafana.
 
