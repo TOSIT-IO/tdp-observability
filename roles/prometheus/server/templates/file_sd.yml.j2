@@ -1,9 +1,7 @@
 ---
 - targets:
 {% for host in hosts %}
-{% for port in ports %}
     - {{ host }}:{{ port }}
-{% endfor %}
 {% endfor %}
   labels:
 {% for name, value in labels.items() %}

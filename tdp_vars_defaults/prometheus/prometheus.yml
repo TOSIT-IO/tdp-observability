@@ -32,18 +32,25 @@ prometheus_web_config:
 
 # Prometheus targets to generate from TDP components Ansible groups
 prometheus_tdp_components_targets:
+  - component: exporter_node
+    group: exporter_node
+    port: "{{ node_exporter_port }}"
+    service: node
   - component: hdfs_nn
-    ports:
-      - "{{ hdfs_nn_jmx_exporter_port }}"
-      - "{{ hdfs_zkfc_jmx_exporter_port }}"
+    group: hdfs_nn
+    port: "{{ hdfs_nn_jmx_exporter_port }}"
+    service: hdfs
+  - component: hdfs_zkfc
+    group: hdfs_nn
+    port: "{{ hdfs_zkfc_jmx_exporter_port }}"
     service: hdfs
   - component: hdfs_dn
-    ports:
-      - "{{ hdfs_dn_jmx_exporter_port }}"
+    group: hdfs_dn
+    port: "{{ hdfs_dn_jmx_exporter_port }}"
     service: hdfs
   - component: hdfs_jn
-    ports:
-      - "{{ hdfs_jn_jmx_exporter_port }}"
+    group: hdfs_jn
+    port: "{{ hdfs_jn_jmx_exporter_port }}"
     service: hdfs
 
 # Prometheus scrape jobs

@@ -30,8 +30,8 @@
     src: file_sd.yml.j2
     dest: "{{ prometheus_static_targets_dir }}/{{ item.component }}.yml"
   vars:
-    hosts: "{{ groups[item.component] | map('tosit.tdp.access_fqdn', hostvars) | list }}"
-    ports: "{{ item.ports }}"
+    hosts: "{{ groups[item.group] | map('tosit.tdp.access_fqdn', hostvars) | list }}"
+    port: "{{ item.port }}"
     labels:
       component: "{{ item.component }}"
       cluster: "{{ cluster_name }}"
