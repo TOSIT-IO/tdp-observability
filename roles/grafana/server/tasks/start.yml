@@ -1,0 +1,9 @@
+# Copyright 2022 Adaltas
+# SPDX-License-Identifier: MIT
+
+---
+- name: Start Grafana server
+  service:
+    name: grafana-server
+    state: started
+    enabled: "{{ grafana_start_on_boot }}"

@@ -33,5 +33,11 @@ hdfs_dn_jmx_exporter_port: 18104
 # Remove after the vars are tracked in tdp_vars_defaults/tdp_cluster  #
 #######################################################################
 
+# Grafana ports
+grafana_web_port: 3000
+
 # Prometheus ports
 prometheus_web_port: 9090
+# Prometheus basicAuth
+prometheus_admin_user: admin
+prometheus_admin_password: PrometheusAdmin123

@@ -1,0 +1,62 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+grafana_start_on_boot: no
+
+grafana_version: 9.2.0
+grafana_package: "grafana-{{ grafana_version }}"
+grafana_dependencies:
+  - chkconfig
+
+# Grafana directories
+grafana_config_dir: /etc/grafana # Not configurable
+grafana_certs_dir: "{{ grafana_config_dir }}/certs"
+grafana_logs_dir: "/var/log/grafana"
+grafana_data_dir: "/var/lib/grafana"
+
+# Grafana security config
+grafana_security:
+  admin_user: admin
+  admin_password: GrafanaAdmin123
+
+# Grafana server config
+grafana_address: "{{ ansible_fqdn }}"
+grafana_port: "{{ grafana_web_port }}"
+grafana_server:
+  protocol: https
+  http_port: "{{ grafana_port }}"
+  cert_file: "{{ grafana_certs_dir }}/{{ ansible_fqdn }}.pem"
+  cert_key: "{{ grafana_certs_dir }}/{{ ansible_fqdn }}.key"
+grafana_url: "{{ grafana_server.protocol }}://{{ grafana_address }}:{{ grafana_port }}"
+
+# Grafana database
+grafana_database:
+  type: sqlite3
+
+# Grafana plugins
+grafana_plugins: []
+
+# Grafana datasources
+prometheus_server: "{{ groups['prometheus'][0] | tosit.tdp.access_fqdn(hostvars) }}"
+grafana_datasources:
+  - name: TDP Prometheus
+    type: prometheus
+    default: yes
+    access: proxy
+    url: "https://{{ prometheus_server }}:{{ prometheus_web_port }}"
+    basicAuth: yes
+    basicAuthUser: "{{ prometheus_admin_user }}"
+    secureJsonData:
+      basicAuthPassword: "{{ prometheus_admin_password }}"
+
+# Grafana alerts
+grafana_alert_notifications: []
+
+# Grafana dashboards
+grafana_dashboards_dir: dashboards
+grafana_dashboards:
+  # Node Exporter Full: https://grafana.com/grafana/dashboards/1860-node-exporter-full
+  - dashboard_id: 1860
+    revision_id: 27
+    datasource: TDP Prometheus

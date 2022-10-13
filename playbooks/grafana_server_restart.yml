@@ -2,12 +2,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-- name: Prometheus Server Restart
-  hosts: prometheus
+- name: Grafana Server Restart
+  hosts: grafana
   tasks:
     - tosit.tdp.resolve:
-        node_name: prometheus_server
+        node_name: grafana_server
     - import_role:
-        name: alliage.tdp_monitoring.prometheus.server
+        name: alliage.tdp_monitoring.grafana.server
         tasks_from: restart
     - meta: clear_facts
