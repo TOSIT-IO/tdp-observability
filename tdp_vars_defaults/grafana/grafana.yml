@@ -54,9 +54,5 @@ grafana_datasources:
 grafana_alert_notifications: []
 
 # Grafana dashboards
-grafana_dashboards_dir: dashboards
-grafana_dashboards:
-  # Node Exporter Full: https://grafana.com/grafana/dashboards/1860-node-exporter-full
-  - dashboard_id: 1860
-    revision_id: 27
-    datasource: TDP Prometheus
+grafana_dashboards_dir: tdp-gd/dashboards
+grafana_dashboards: []
