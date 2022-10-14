@@ -46,8 +46,10 @@
                'job_name': item,
                'file_sd_configs': [
                  {'files': [prometheus_static_targets_dir + '/' + item + '.yml']}
-               ]
-           }] }}
+                 ],
+               'relabel_configs': prometheus_relabels
+           }] 
+      }}
   loop: "{{ prometheus_tdp_components_targets | map(attribute='component') | list }}"
 
 - debug:
