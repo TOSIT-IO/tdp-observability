@@ -62,6 +62,7 @@ prometheus_scrape_configs:
     basic_auth:
       username: "{{ prometheus_admin_user }}"
       password: "{{ prometheus_admin_password }}"
+    relabel_configs: "{{ prometheus_relabels }}"
 
 # Relabel jobs
 prometheus_relabels:
