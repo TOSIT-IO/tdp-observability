@@ -62,3 +62,13 @@ prometheus_scrape_configs:
     basic_auth:
       username: "{{ prometheus_admin_user }}"
       password: "{{ prometheus_admin_password }}"
+
+# Relabel jobs
+# Relabeling of instance from "host:port" to "host"
+
+prometheus_relabels:
+  - source_labels: ['__address__']
+    separator:     ':'
+    regex:         '(.*):.*'
+    target_label:  'instance'
+    replacement:   '${1}'
