@@ -7,6 +7,7 @@
 
 - name: grafana_server_config
   depends_on:
+    - tdp-cluster_config
     - grafana_server_install
 
 - name: grafana_server_start
