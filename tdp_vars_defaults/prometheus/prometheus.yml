@@ -34,6 +34,10 @@ prometheus_tdp_components_targets:
     group: exporter_node
     port: "{{ node_exporter_port }}"
     service: node
+  - component: zk_server
+    group: zk
+    port: "{{ zk_server_jmx_exporter_port }}"
+    service: zookeeper
   - component: hdfs_nn
     group: hdfs_nn
     port: "{{ hdfs_nn_jmx_exporter_port }}"

@@ -14,6 +14,11 @@ cluster_name: mycluster
 ### The node exporter port for machine metrics
 node_exporter_port: 9100
 
+# ZooKeeper ports
+### The ZooKeeper Server port for JMX metrics
+### Used in: JMX_OPTS
+zk_server_jmx_exporter_port: 18109
+
 # HDFS ports
 ### The NameNode port for JMX metrics
 ### Used in: HDFS_NAMENODE_OPTS
@@ -27,6 +32,11 @@ hdfs_jn_jmx_exporter_port: 18103
 ### The DataNode port for JMX metrics
 ### Used in: HDFS_DATANODE_OPTS
 hdfs_dn_jmx_exporter_port: 18104
+
+# ZooKeeper for Kafka ports
+### The ZooKeeper Server port for JMX metrics
+### Used in: JMX_OPTS
+zk_kafka_server_jmx_exporter_port: 18201
 
 #######################################################################
 # TEMPORARY                                                           #
