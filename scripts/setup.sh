@@ -43,7 +43,7 @@ init_collection() {
     echo "Delete tdp_vars/prometheus"
     rm -rf inventory/tdp_vars/prometheus
   fi
-  tdp init
+  tdp init --overrides tdp_vars_overrides
 }
 
 parse_cmdline "$@"
