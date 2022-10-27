@@ -62,12 +62,12 @@ hbase_rest_jmx_exporter_port: 18112
 hbase_pqs_jmx_exporter_port: 18113
 
 # Hive ports
-### The Hive Metastore port for JMX metrics
-### Used in: JMX_OPTS
-hive_ms_jmx_exporter_port: 18114
 ### The Hive Server2 port for JMX metrics
 ### Used in: JMX_OPTS
-hive_s2_jmx_exporter_port: 18115
+hive_s2_jmx_exporter_port: 18114
+### The Hive Metastore port for JMX metrics
+### Used in: JMX_OPTS
+hive_ms_jmx_exporter_port: 18115
 
 # Knox ports
 ### The Knox Server port for JMX metrics
