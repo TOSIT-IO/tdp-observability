@@ -14,6 +14,11 @@ cluster_name: mycluster
 ### The node exporter port for machine metrics
 node_exporter_port: 9100
 
+# ZooKeeper ports
+### The ZooKeeper Server port for JMX metrics
+### Used in: JMX_OPTS
+zk_server_jmx_exporter_port: 18109
+
 # HDFS ports
 ### The NameNode port for JMX metrics
 ### Used in: HDFS_NAMENODE_OPTS
@@ -27,6 +32,58 @@ hdfs_jn_jmx_exporter_port: 18103
 ### The DataNode port for JMX metrics
 ### Used in: HDFS_DATANODE_OPTS
 hdfs_dn_jmx_exporter_port: 18104
+
+# YARN/MapReduce ports
+### The ResourceManager port for JMX metrics
+### Used in: YARN_RESOUCEMANAGER_OPTS
+yarn_rm_jmx_exporter_port: 18105
+### The NodeManager port for JMX metrics
+### Used in: YARN_NODEMANAGER_OPTS
+yarn_nm_jmx_exporter_port: 18106
+### The App Timeline Server port for JMX metrics
+### Used in: YARN_TIMELINESERVER_OPTS
+yarn_ats_jmx_exporter_port: 18107
+### The Job History Server port for JMX metrics
+### Used in: MAPRED_HISTORYSERVER_OPTS
+mapred_jhs_jmx_exporter_port: 18108
+
+# HBase ports
+### The HBase Master port for JMX metrics
+### Used in: HBASE_MASTER_OPTS
+hbase_hm_jmx_exporter_port: 18110
+### The RegionServer port for JMX metrics
+### Used in: HBASE_REGIONSERVER_OPTS
+hbase_rs_jmx_exporter_port: 18111
+### The HBase REST port for JMX metrics
+### Used in: HBASE_REST_OPTS
+hbase_rest_jmx_exporter_port: 18112
+### The Phoenix Query Server port for JMX metrics
+### Used in: PHOENIX_QUERYSERVER_OPTS
+hbase_pqs_jmx_exporter_port: 18113
+
+# Hive ports
+### The Hive Server2 port for JMX metrics
+### Used in: JMX_OPTS
+hive_s2_jmx_exporter_port: 18114
+### The Hive Metastore port for JMX metrics
+### Used in: JMX_OPTS
+hive_ms_jmx_exporter_port: 18115
+
+# Knox ports
+### The Knox Server port for JMX metrics
+### Used in: APP_JMX_OPTS
+knox_jmx_exporter_port: 18116
+
+# Ranger ports
+### The Ranger Admin port for JMX metrics
+### Used in: JMX_OPTS
+ranger_admin_jmx_exporter_port: 18117
+### The Ranger Usersync port for JMX metrics
+### Used in: JMX_OPTS
+ranger_usync_jmx_exporter_port: 18118
+### The Ranger KMS Admin port for JMX metrics
+### Used in: JMX_OPTS
+ranger_kms_jmx_exporter_port: 18119
 
 #######################################################################
 # TEMPORARY                                                           #

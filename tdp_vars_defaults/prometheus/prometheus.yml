@@ -34,22 +34,82 @@ prometheus_tdp_components_targets:
     group: exporter_node
     port: "{{ node_exporter_port }}"
     service: node
+  - component: zk_server
+    group: zk
+    port: "{{ zk_server_jmx_exporter_port }}"
+    service: ZooKeeper
   - component: hdfs_nn
     group: hdfs_nn
     port: "{{ hdfs_nn_jmx_exporter_port }}"
-    service: hdfs
+    service: HDFS
   - component: hdfs_zkfc
     group: hdfs_nn
     port: "{{ hdfs_zkfc_jmx_exporter_port }}"
-    service: hdfs
+    service: HDFS
   - component: hdfs_dn
     group: hdfs_dn
     port: "{{ hdfs_dn_jmx_exporter_port }}"
-    service: hdfs
+    service: HDFS
   - component: hdfs_jn
     group: hdfs_jn
     port: "{{ hdfs_jn_jmx_exporter_port }}"
-    service: hdfs
+    service: HDFS
+  - component: yarn_rm
+    group: yarn_rm
+    port: "{{ yarn_rm_jmx_exporter_port }}"
+    service: YARN
+  - component: yarn_nm
+    group: yarn_nm
+    port: "{{ yarn_nm_jmx_exporter_port }}"
+    service: YARN
+  - component: yarn_ats
+    group: yarn_ats
+    port: "{{ yarn_ats_jmx_exporter_port }}"
+    service: YARN
+  - component: mapred_jhs
+    group: mapred_jhs
+    port: "{{ mapred_jhs_jmx_exporter_port }}"
+    service: YARN
+  - component: hbase_master
+    group: hbase_master
+    port: "{{ hbase_hm_jmx_exporter_port }}"
+    service: HBase
+  - component: hbase_rs
+    group: hbase_rs
+    port: "{{ hbase_rs_jmx_exporter_port }}"
+    service: HBase
+  - component: hbase_rest
+    group: hbase_rest
+    port: "{{ hbase_rest_jmx_exporter_port }}"
+    service: HBase
+  - component: phoenix_queryserver
+    group: phoenix_queryserver_daemon
+    port: "{{ hbase_pqs_jmx_exporter_port }}"
+    service: HBase
+  - component: hive_ms
+    group: hive_ms
+    port: "{{ hive_ms_jmx_exporter_port }}"
+    service: Hive
+  - component: hive_s2
+    group: hive_s2
+    port: "{{ hive_s2_jmx_exporter_port }}"
+    service: Hive
+  - component: ranger_admin
+    group: ranger_admin
+    port: "{{ ranger_admin_jmx_exporter_port }}"
+    service: Ranger
+  - component: ranger_usersync
+    group: ranger_usersync
+    port: "{{ ranger_usync_jmx_exporter_port }}"
+    service: Ranger
+  - component: ranger_kms
+    group: ranger_kms
+    port: "{{ ranger_kms_jmx_exporter_port }}"
+    service: Ranger
+  - component: knox_server
+    group: knox
+    port: "{{ knox_jmx_exporter_port }}"
+    service: Knox
 
 # Prometheus scrape jobs
 # Will be enriched with 1 job per component in 'prometheus_tdp_components_targets'

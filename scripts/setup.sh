@@ -36,14 +36,14 @@ init_collection() {
   if [[ "$CLEAN" == "true" ]]; then
     echo "Delete sqlite.db if exists"
     rm -f sqlite.db
-    echo "Delete tdp_vars/tdp_cluster"
-    rm -rf inventory/tdp_vars/tdp_cluster
+    echo "Delete tdp_vars/tdp-cluster"
+    rm -rf inventory/tdp_vars/tdp-cluster
     echo "Delete tdp_vars/gafana"
     rm -rf inventory/tdp_vars/grafana
     echo "Delete tdp_vars/prometheus"
     rm -rf inventory/tdp_vars/prometheus
   fi
-  tdp init
+  tdp init --overrides tdp_vars_overrides
 }
 
 parse_cmdline "$@"
