@@ -52,9 +52,6 @@
       }}
   loop: "{{ prometheus_tdp_components_targets | map(attribute='component') | list }}"
 
-- debug:
-    var: prometheus_scrape_configs
-
 - include_role:
     name: cloudalchemy.prometheus
     tasks_from: preflight
