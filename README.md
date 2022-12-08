@@ -12,7 +12,9 @@ cd /path/to/tdp-getting-started
 source ./venv/bin/activate
 
 # Install collection (SSH example)
-git clone git@github.com:alliage-io/tdp-monitoring.git ansible_collections/alliage/tdp_monitoring
+git clone git@github.com:alliage-io/tdp-monitoring.git \
+  ansible_collections/alliage/tdp_monitoring \
+  --recurse-submodules
 
 # Setup collection
 ## Destructive setup: this will reset tdp-lib database
