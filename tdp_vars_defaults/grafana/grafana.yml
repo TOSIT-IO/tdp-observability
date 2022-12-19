@@ -63,3 +63,11 @@ grafana_smtp:
   skip_verify: true
   from_address: "admin@{{ ansible_fqdn }}"
   from_name: Grafana
+
+grafana_alert_notifications:
+  - name: "Email Alert"
+    type: "email"
+    uid: channel1
+    is_default: true
+    settings:
+      addresses: "grafana@{{ansible_hostname}}.localdomain"
