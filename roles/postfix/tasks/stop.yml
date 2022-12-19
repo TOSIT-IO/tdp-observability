@@ -1,0 +1,6 @@
+---
+- name: Ensure postfix is stopped.
+  service:
+    name: postfix
+    state: stopped
+    enabled: "{{ postfix_service_enabled }}"

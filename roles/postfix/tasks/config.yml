@@ -1,0 +1,8 @@
+---
+- name: Update Postfix configuration.
+  ansible.builtin.template:
+    src: main.cf.j2
+    dest: "{{ postfix_config_file }}"
+    owner: root
+    group: root
+    mode: '0644'

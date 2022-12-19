@@ -1,0 +1,6 @@
+---
+- name: Ensure postfix is restarted.
+  service:
+    name: postfix
+    state: restarted
+    enabled: "{{ postfix_service_enabled }}"

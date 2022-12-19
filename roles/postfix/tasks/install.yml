@@ -1,0 +1,5 @@
+---
+- name: Ensure postfix is installed.
+  package:
+    name: postfix
+    state: present
