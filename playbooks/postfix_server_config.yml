@@ -1,0 +1,11 @@
+
+---
+- name: postfix Config
+  hosts: grafana
+  tasks:
+    - tosit.tdp.resolve:
+        node_name: postfix_server
+    - import_role:
+        name: alliage.tdp_monitoring.postfix
+        tasks_from: config
+    - meta: clear_facts

@@ -1,0 +1,13 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: postfix Install
+  hosts: grafana
+  tasks:
+    - tosit.tdp.resolve:
+        node_name: postfix_server
+    - import_role:
+        name: alliage.tdp_monitoring.postfix
+        tasks_from: install
+    - meta: clear_facts
