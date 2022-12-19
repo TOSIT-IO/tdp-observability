@@ -1,0 +1,20 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: postfix_install
+  depends_on: []
+
+- name: postfix_config
+  depends_on:
+    - tdp-cluster_config
+    - postfix_install
+
+- name: postfix_start
+  depends_on:
+    - postfix_config
+
+- name: postfix_init
+  noop: yes
+  depends_on:
+    - postfix_start
