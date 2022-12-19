@@ -3,7 +3,7 @@
 
 ---
 - name: postfix Install
-  hosts: grafana
+  hosts: smtp
   tasks:
     - tosit.tdp.resolve:
         node_name: postfix_server

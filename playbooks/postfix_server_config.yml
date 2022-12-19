@@ -1,7 +1,7 @@
 
 ---
 - name: postfix Config
-  hosts: grafana
+  hosts: smtp
   tasks:
     - tosit.tdp.resolve:
         node_name: postfix_server
