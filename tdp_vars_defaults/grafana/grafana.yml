@@ -56,3 +56,10 @@ grafana_alert_notifications: []
 # Grafana dashboards
 grafana_dashboards_dir: tdp-gd/dashboards
 grafana_dashboards: []
+
+grafana_smtp:
+  enabled: true
+  host: localhost:25
+  skip_verify: true
+  from_address: "admin@{{ ansible_fqdn }}"
+  from_name: Grafana

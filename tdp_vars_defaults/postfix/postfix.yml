@@ -1,0 +1,13 @@
+---
+my_domain: localdomain
+postfix_config_file: /etc/postfix/main.cf
+
+postfix_service_state: started
+postfix_service_enabled: true
+
+postfix_inet_interfaces: loopback-only
+postfix_inet_protocols: all
+mydestination: "localhost.{{my_domain}}, localhost, $myhostname"
+
+smtpd_tls_cert_file: "/etc/ssl/certs/{{ ansible_fqdn }}.pem"
+smtpd_tls_key_file: "/etc/ssl/certs/{{ ansible_fqdn }}.key"
