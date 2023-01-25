@@ -54,5 +54,5 @@ grafana_datasources:
 grafana_alert_notifications: []
 
 # Grafana dashboards
-grafana_dashboards_dir: tdp-gd/dashboards
+grafana_dashboards_dir: dashboards
 grafana_dashboards: []
