@@ -12,13 +12,13 @@ cd /path/to/tdp-getting-started
 source ./venv/bin/activate
 
 # Install collection (SSH example)
-git clone git@github.com:alliage-io/tdp-monitoring.git \
-  ansible_collections/alliage/tdp_monitoring \
+git clone git@github.com:TOSIT-IO/tdp-monitoring.git \
+  ansible_collections/tosit/tdp_monitoring \
   --recurse-submodules
 
 # Setup collection
 ## Destructive setup: this will reset tdp-lib database
-./ansible_collections/alliage/tdp_monitoring/scripts/setup.sh -c
+./ansible_collections/tosit/tdp_monitoring/scripts/setup.sh -c
 
 # Deploy Prometheus
 tdp deploy --targets prometheus_init,grafana_init
@@ -30,10 +30,10 @@ Optional non-destructive option for the setup:
 # Setup collection
 ## Non destructive: Manually add extra tdp_cluster variables to tdp_vars
 ## ON FIRST INSTALL ONLY
-cat ansible_collections/alliage/tdp_monitoring/tdp_vars_defaults/tdp_cluster/tdp_cluster.yml |
+cat ansible_collections/tosit/tdp_monitoring/tdp_vars_defaults/tdp_cluster/tdp_cluster.yml |
 grep -vP '^[#-]' | grep -P '^\w+' >> inventory/tdp_vars/tdp_cluster/tdp_cluster.yml
 cd inventory/tdp_vars/tdp_cluster && git commit -a -m 'feat: add tdp_monitoring vars' && cd -
-./ansible_collections/alliage/tdp_monitoring/scripts/setup.sh
+./ansible_collections/tosit/tdp_monitoring/scripts/setup.sh
 ```
 
 ## Web UI links
