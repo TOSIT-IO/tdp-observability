@@ -8,6 +8,6 @@
     - tosit.tdp.resolve:
         node_name: prometheus_server
     - import_role:
-        name: alliage.tdp_monitoring.prometheus.server
+        name: tosit.tdp_observability.prometheus.server
         tasks_from: config
     - meta: clear_facts

@@ -8,6 +8,6 @@
     - tosit.tdp.resolve:
         node_name: grafana_server
     - import_role:
-        name: alliage.tdp_monitoring.grafana.server
+        name: tosit.tdp_observability.grafana.server
         tasks_from: install
     - meta: clear_facts
