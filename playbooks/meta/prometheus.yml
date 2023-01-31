@@ -1,0 +1,11 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- import_playbook: ../prometheus_server_install.yml
+# prometheus_install
+- import_playbook: ../prometheus_server_config.yml
+# prometheus_config
+- import_playbook: ../prometheus_server_start.yml
+# prometheus_start
+# prometheus_init
