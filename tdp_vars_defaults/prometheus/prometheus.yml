@@ -39,90 +39,108 @@ prometheus_web_config:
 
 # Prometheus targets to generate from TDP components Ansible groups
 prometheus_tdp_components_targets:
-  - component: exporter_node
-    group: exporter_node
-    port: "{{ exporter_node_http_port }}"
-    service: node
-  - component: exporter_postgres
+  exporter_postgres:
+    component: exporter_postgres
     group: exporter_postgres
     port: "{{ exporter_postgres_http_port }}"
     service: node
-  - component: zk_server
+  zk_server:
+    component: zk_server
     group: zk
     port: "{{ exporter_zookeeper_server_http_port }}"
     service: ZooKeeper
-  - component: hdfs_nn
+  hdfs_nn:
+    component: hdfs_nn
     group: hdfs_nn
     port: "{{ exporter_hdfs_nn_http_port }}"
     service: HDFS
-  - component: hdfs_zkfc
+  hdfs_zkfc:
+    component: hdfs_zkfc
     group: hdfs_nn
     port: "{{ exporter_hdfs_zkfc_http_port }}"
     service: HDFS
-  - component: hdfs_dn
+  hdfs_dn:
+    component: hdfs_dn
     group: hdfs_dn
     port: "{{ exporter_hdfs_dn_http_port }}"
     service: HDFS
-  - component: hdfs_jn
+  hdfs_jn:
+    component: hdfs_jn
     group: hdfs_jn
     port: "{{ exporter_hdfs_jn_http_port }}"
     service: HDFS
-  - component: yarn_rm
+  yarn_rm:
+    component: yarn_rm
     group: yarn_rm
     port: "{{ exporter_yarn_rm_http_port }}"
     service: YARN
-  - component: yarn_nm
+  yarn_nm:
+    component: yarn_nm
     group: yarn_nm
     port: "{{ exporter_yarn_nm_http_port }}"
     service: YARN
-  - component: yarn_ats
+  yarn_ats:
+    component: yarn_ats
     group: yarn_ats
     port: "{{ exporter_yarn_ats_http_port }}"
     service: YARN
-  - component: mapred_jhs
+  mapred_jhs:
+    component: mapred_jhs
     group: mapred_jhs
     port: "{{ exporter_mapred_jhs_http_port }}"
     service: YARN
-  - component: hbase_master
+  hbase_master:
+    component: hbase_master
     group: hbase_master
     port: "{{ exporter_hbase_hm_http_port }}"
     service: HBase
-  - component: hbase_rs
+  hbase_rs:
+    component: hbase_rs
     group: hbase_rs
     port: "{{ exporter_hbase_hrs_http_port }}"
     service: HBase
-  - component: hbase_rest
+  hbase_rest:
+    component: hbase_rest
     group: hbase_rest
     port: "{{ exporter_hbase_hr_http_port }}"
     service: HBase
-  - component: phoenix_queryserver
+  phoenix_queryserver:
+    component: phoenix_queryserver
     group: phoenix_queryserver_daemon
     port: "{{ exporter_hbase_pqs_http_port }}"
     service: HBase
-  - component: hive_ms
+  hive_ms:
+    component: hive_ms
     group: hive_ms
     port: "{{ exporter_hive_hms_http_port }}"
     service: Hive
-  - component: hive_s2
+  hive_s2:
+    component: hive_s2
     group: hive_s2
     port: "{{ exporter_hive_hs2_http_port }}"
     service: Hive
-  - component: ranger_admin
+  ranger_admin:
+    component: ranger_admin
     group: ranger_admin
     port: "{{ exporter_ranger_ra_http_port }}"
     service: Ranger
-  - component: ranger_usersync
+  ranger_usersync:
+    component: ranger_usersync
     group: ranger_usersync
     port: "{{ exporter_ranger_ru_http_port }}"
     service: Ranger
-  - component: ranger_kms
+  ranger_kms:
+    component: ranger_kms
     group: ranger_kms
     port: "{{ exporter_ranger_kms_http_port }}"
     service: Ranger
-  - component: knox_gateway
+  knox_gateway:
+    component: knox_gateway
     group: knox
     port: "{{ exporter_knox_gateway_http_port }}"
     service: Knox
+
+prometheus_tdp_custom_targets: {}
 
 # Prometheus scrape jobs
 # Will be enriched with 1 job per component in 'prometheus_tdp_components_targets'
