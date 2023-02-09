@@ -28,32 +28,34 @@
 - name: Template Prometheus file_sd targets for TDP components
   template:
     src: file_sd.yml.j2
-    dest: "{{ prometheus_static_targets_dir }}/{{ item.component }}.yml"
+    dest: "{{ prometheus_static_targets_dir }}/{{ item.value.component }}.yml"
     owner: root
     group: prometheus
     mode: "0640"
   vars:
-    hosts: "{{ groups[item.group] | map('tosit.tdp.access_fqdn', hostvars) | list }}"
-    port: "{{ item.port }}"
+    hosts: "{{ groups[item.value.group] | map('tosit.tdp.access_fqdn', hostvars) | list }}"
+    port: "{{ item.value.port }}"
     labels:
-      component: "{{ item.component }}"
+      component: "{{ item.value.component }}"
       cluster: "{{ cluster_name }}"
-      service: "{{ item.service }}"
-  loop: "{{ prometheus_tdp_components_targets }}"
+      service: "{{ item.value.service }}"
+  when: item.value.group in groups.keys()
+  loop: "{{ prometheus_tdp_components_targets | combine(prometheus_tdp_custom_targets) | dict2items)}}"
 
 - name: Enrich prometheus_scrape_configs var with TDP components targets
   set_fact:
     prometheus_scrape_configs: |
       {{ prometheus_scrape_configs
          + [{
-               'job_name': item,
+               'job_name': item.value.component,
                'file_sd_configs': [
-                 {'files': [prometheus_static_targets_dir + '/' + item + '.yml']}
+                 {'files': [prometheus_static_targets_dir + '/' + item.value.component + '.yml']}
                  ],
                'relabel_configs': prometheus_relabels
            }] 
       }}
-  loop: "{{ prometheus_tdp_components_targets | map(attribute='component') | list }}"
+  when: item.value.group in groups.keys()
+  loop: "{{ prometheus_tdp_components_targets | combine(prometheus_tdp_custom_targets) | dict2items)}}"
 
 - include_role:
     name: cloudalchemy.prometheus
