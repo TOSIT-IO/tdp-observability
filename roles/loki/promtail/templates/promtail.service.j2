@@ -1,0 +1,15 @@
+[Unit]
+Description=Promtail service
+After=network.target
+
+[Service]
+Type=simple
+User={{ promtail_user }}
+ExecStart={{ promtail_install_dir }}/promtail-linux-amd64 -config.file {{ promtail_conf_dir }}/config.yml
+# Give a reasonable amount of time for promtail to start up/shut down
+TimeoutSec = 60
+Restart = on-failure
+RestartSec = 2
+
+[Install]
+WantedBy=multi-user.target

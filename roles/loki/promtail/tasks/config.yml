@@ -1,0 +1,20 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Backup configuration
+  copy:
+    src: "{{ promtail_conf_dir }}/"
+    dest: "{{ promtail_conf_dir }}.{{ ansible_date_time.epoch }}"
+    owner: "{{ promtail_user }}"
+    group: "{{ promtail_group }}"
+    mode: "755"
+    remote_src: true
+
+- name: Render {{ promtail_conf_dir }}/config.yml
+  copy:
+    dest: "{{ promtail_conf_dir }}/config.yml"
+    content: "{{ promtail_configuration | to_nice_yaml(indent=1, sort_keys=False) }}"
+    owner: "{{ promtail_user }}"
+    group: "{{ promtail_group }}"
+    mode: "755"

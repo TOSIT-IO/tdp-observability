@@ -1,0 +1,9 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Stop promtail
+  service:
+    name: promtail
+    state: stopped
+    enabled: "{{ promtail_start_on_boot }}"

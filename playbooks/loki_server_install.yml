@@ -1,0 +1,13 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Loki server install
+  hosts: loki
+  tasks:
+    - tosit.tdp.resolve:
+        node_name: loki_server
+    - import_role:
+        name: tosit.tdp_observability.loki.server
+        tasks_from: install
+    - meta: clear_facts
