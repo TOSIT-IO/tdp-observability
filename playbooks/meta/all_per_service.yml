@@ -3,4 +3,5 @@
 
 ---
 - import_playbook: grafana.yml
+- import_playbook: loki.yml
 - import_playbook: prometheus.yml

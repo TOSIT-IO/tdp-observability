@@ -1,0 +1,40 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Backup configuration
+  copy:
+    src: "{{ loki_conf_dir }}/"
+    dest: "{{ loki_conf_dir }}.{{ ansible_date_time.epoch }}"
+    owner: "{{ loki_user }}"
+    group: "{{ loki_group }}"
+    mode: "755"
+    remote_src: true
+
+- name: Render {{ loki_conf_dir }}/config.yml
+  copy:
+    dest: "{{ loki_conf_dir }}/config.yml"
+    content: "{{ loki_configuration | to_nice_yaml(indent=1, sort_keys=False) }}"
+    owner: "{{ loki_user }}"
+    group: "{{ loki_group }}"
+    mode: "755"
+
+- name: Create Loki certs dir
+  file:
+    path: "{{ loki_certs_dir }}"
+    state: directory
+    owner: "{{ loki_user }}"
+    group: "{{ loki_group }}"
+    mode: "0770"
+
+- name: Copy node certificates to Loki certs dir
+  copy:
+    src: "/etc/ssl/certs/{{ ansible_fqdn }}.{{ item }}"
+    dest: "{{ loki_certs_dir }}/{{ ansible_fqdn }}.{{ item }}"
+    remote_src: yes
+    owner: "{{ loki_user }}"
+    group: "{{ loki_group }}"
+    mode: "0640"
+  loop:
+    - pem
+    - key

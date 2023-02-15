@@ -1,0 +1,9 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Stop loki
+  service:
+    name: loki
+    state: stopped
+    enabled: "{{ loki_start_on_boot }}"

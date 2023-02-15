@@ -23,3 +23,11 @@ prometheus_web_port: 9090
 # Prometheus basicAuth
 prometheus_admin_user: admin
 prometheus_admin_password: PrometheusAdmin123
+
+# Promtail ports
+promtail_web_port: 9080
+promtail_grpc_port: 9095
+
+# Loki ports
+loki_web_port: 3100
+loki_grpc_port: 9096

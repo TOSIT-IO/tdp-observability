@@ -1,0 +1,43 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+# promtail users and group
+promtail_user: promtail
+promtail_group: hadoop
+
+# promtail version
+promtail_release: promtail-2.7.2-linux-amd64
+promtail_dist_file: "{{ promtail_release }}.zip"
+
+# promtail installation directory
+promtail_root_dir: /opt/tdp_observability
+promtail_install_dir: "{{ promtail_root_dir }}/promtail"
+
+# promtail configuration directory
+promtail_conf_dir: /etc/promtail
+
+# promtail data directory
+promtail_data_dir: /var/lib/promtail
+
+# promtail configuration
+loki_server: "{{ groups['loki'][0] | tosit.tdp.access_fqdn(hostvars) }}"
+promtail_configuration:
+  server:
+    http_listen_port: "{{ promtail_web_port }}"
+    grpc_listen_port: "{{ promtail_grpc_port }}"
+  positions:
+    filename: "{{ promtail_data_dir }}/positions.yaml"
+  clients:
+    - url: "https://{{ loki_server }}:3100/loki/api/v1/push"
+  scrape_configs:
+  - job_name: system
+    static_configs:
+    - targets:
+        - localhost
+      labels:
+        job: varlogs
+        __path__: /var/log/*log
+
+# promtail service start on boot policies
+promtail_start_on_boot: false

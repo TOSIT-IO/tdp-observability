@@ -1,0 +1,16 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- import_playbook: ../loki_promtail_install.yml
+- import_playbook: ../loki_server_install.yml
+# loki_install
+- import_playbook: ../loki_promtail_config.yml
+- import_playbook: ../loki_promtail_start.yml
+# loki_promtail_init
+- import_playbook: ../loki_server_config.yml
+# loki_config
+- import_playbook: ../loki_server_start.yml
+# loki_server_init
+# loki_start
+# loki_init

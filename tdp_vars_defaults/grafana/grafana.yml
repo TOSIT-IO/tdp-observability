@@ -39,6 +39,7 @@ grafana_plugins: []
 
 # Grafana datasources
 prometheus_server: "{{ groups['prometheus'][0] | tosit.tdp.access_fqdn(hostvars) }}"
+loki_server: "{{ groups['loki'][0] | tosit.tdp.access_fqdn(hostvars) }}"
 grafana_datasources:
   - name: TDP Prometheus
     type: prometheus
@@ -49,6 +50,12 @@ grafana_datasources:
     basicAuthUser: "{{ prometheus_admin_user }}"
     secureJsonData:
       basicAuthPassword: "{{ prometheus_admin_password }}"
+  - name: TDP Loki
+    type: loki
+    default: yes
+    access: proxy
+    url: "https://{{ loki_server }}:{{ loki_web_port }}"
+    basicAuth: no
 
 # Grafana alerts
 grafana_alert_notifications: []
