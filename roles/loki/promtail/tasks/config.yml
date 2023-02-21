@@ -10,6 +10,8 @@
     group: "{{ promtail_group }}"
     mode: "755"
     remote_src: true
+  tags:
+    - backup
 
 - name: Render {{ promtail_conf_dir }}/config.yml
   copy:
