@@ -52,7 +52,7 @@ grafana_datasources:
       basicAuthPassword: "{{ prometheus_admin_password }}"
   - name: TDP Loki
     type: loki
-    default: yes
+    default: no
     access: proxy
     url: "https://{{ loki_server }}:{{ loki_web_port }}"
     basicAuth: no
