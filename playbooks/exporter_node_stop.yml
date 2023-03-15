@@ -1,0 +1,14 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: node-exporter stop
+  hosts: exporter_node
+  tasks:
+    - tosit.tdp.resolve: # noqa unnamed-task
+        node_name: exporter_node
+    - name: Stop node exporter
+      import_role:
+        name: tosit.tdp_observability.exporter.node
+        tasks_from: stop
+    - meta: clear_facts # noqa unnamed-task
