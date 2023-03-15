@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
+- import_playbook: ../exporter_node_install.yml
+# exporter_install
 - import_playbook: ../grafana_server_install.yml
 # grafana_install
 - import_playbook: ../loki_promtail_install.yml
@@ -9,6 +11,13 @@
 # loki_install
 - import_playbook: ../prometheus_server_install.yml
 # prometheus_install
+# tdp-cluster_install
+# tdp-cluster_config
+# exporter_node_config
+# exporter_config
+- import_playbook: ../exporter_node_start.yml
+# exporter_start
+# exporter_init
 - import_playbook: ../grafana_server_config.yml
 # grafana_config
 - import_playbook: ../grafana_server_start.yml
@@ -29,3 +38,5 @@
 - import_playbook: ../prometheus_server_start.yml
 # prometheus_start
 # prometheus_init
+# tdp-cluster_start
+# tdp-cluster_init

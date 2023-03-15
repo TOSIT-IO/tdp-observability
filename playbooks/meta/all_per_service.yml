@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
+# tdp-cluster
+- import_playbook: exporter.yml
 - import_playbook: grafana.yml
 - import_playbook: loki.yml
 - import_playbook: prometheus.yml
