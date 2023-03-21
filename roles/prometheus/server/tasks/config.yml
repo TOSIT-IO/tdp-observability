@@ -29,6 +29,9 @@
   template:
     src: file_sd.yml.j2
     dest: "{{ prometheus_static_targets_dir }}/{{ item.component }}.yml"
+    owner: root
+    group: prometheus
+    mode: "0640"
   vars:
     hosts: "{{ groups[item.group] | map('tosit.tdp.access_fqdn', hostvars) | list }}"
     port: "{{ item.port }}"
