@@ -40,7 +40,7 @@
       cluster: "{{ cluster_name }}"
       service: "{{ item.value.service }}"
   when: item.value.group in groups.keys()
-  loop: "{{ prometheus_tdp_components_targets | combine(prometheus_tdp_custom_targets) | dict2items)}}"
+  loop: "{{ prometheus_tdp_generated_targets | combine(prometheus_tdp_additional_targets) | dict2items)}}"
 
 - name: Enrich prometheus_scrape_configs var with TDP components targets
   set_fact:
@@ -55,7 +55,7 @@
            }] 
       }}
   when: item.value.group in groups.keys()
-  loop: "{{ prometheus_tdp_components_targets | combine(prometheus_tdp_custom_targets) | dict2items)}}"
+  loop: "{{ prometheus_tdp_generated_targets | combine(prometheus_tdp_additional_targets) | dict2items)}}"
 
 - include_role:
     name: cloudalchemy.prometheus
