@@ -6,6 +6,51 @@
     name: cloudalchemy.prometheus
     tasks_from: preflight
 
+- name: Upload {{ prometheus_dist_file }}
+  copy:
+    src: files/{{ prometheus_dist_file }}
+    dest: "{{ binaries_upload_dir }}"
+    owner: root
+    group: root
+    mode: "644"
+  diff: false
+
+- name: Ensure {{ prometheus_root_dir }} exists
+  file:
+    path: "{{ prometheus_root_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "755"
+
+- name: Extract {{ prometheus_dist_file }}
+  unarchive:
+    src: "{{ binaries_upload_dir }}/{{ prometheus_dist_file }}"
+    dest: "{{ prometheus_root_dir }}"
+    owner: root
+    group: root
+    mode: "755"
+    remote_src: true
+    creates: "{{ prometheus_root_dir }}/{{ prometheus_release }}"
+
+- name: Create symbolic link to Prometheus installation
+  file:
+    src: "{{ prometheus_root_dir }}/{{ prometheus_release }}"
+    dest: "{{ prometheus_install_dir }}"
+    state: link
+
+# In role cloudalchemy.prometheus, a variable "_prometheus_binary_install_dir" is used
+# to define binaries install directory but "tdp_vars" can not override it because
+# the variable is located inside role "vars" directory
+- name: Symlink prometheus and promtool binaries
+  file:
+    src: "{{ prometheus_install_dir }}/{{ item }}"
+    dest: "{{ prometheus_binary_install_dir }}/{{ item }}"
+    state: link
+  loop:
+    - prometheus
+    - promtool
+
 - include_role:
     name: cloudalchemy.prometheus
     tasks_from: install

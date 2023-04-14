@@ -2,22 +2,31 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-prometheus_start_on_boot: no
+# Prometheus version
+prometheus_version: 2.37.6
+prometheus_release: "prometheus-{{ prometheus_version }}.linux-amd64"
+prometheus_dist_file: "{{ prometheus_release }}.tar.gz"
 
-prometheus_version: 2.38.0
-prometheus_selinux_packages:
-  # For RHEL 7
-  - libselinux-python
-  - policycoreutils-python
-  # For RHEL 8
-  # - python3-libselinux
-  # - python3-policycoreutils
+# Prometheus installation directory
+prometheus_root_dir: /opt/tdp_observability
+prometheus_install_dir: "{{ prometheus_root_dir }}/prometheus"
+# _prometheus_binary_install_dir is used inside cloudalchemy.prometheus
+# but with "tdp_vars" we can not override it
+prometheus_binary_install_dir: "/usr/local/bin"
 
-# Prometheus directories
+# Skip cloudalchemy.prometheus install, we perform air-gap installation ourself
+prometheus_skip_install: true
+
+# Prometheus configuration directories
 prometheus_config_dir: /etc/prometheus
 prometheus_certs_dir: "{{ prometheus_config_dir }}/certs"
 prometheus_static_targets_dir: "{{ prometheus_config_dir }}/file_sd"
+
+# Prometheus data directory
 prometheus_db_dir: /var/lib/prometheus
+
+# Selinux packages are not needed, prometheus is unconfined
+prometheus_selinux_packages: []
 
 # Prometheus web configuration
 prometheus_web_listen_address: "0.0.0.0:{{ prometheus_web_port }}"
@@ -131,3 +140,6 @@ prometheus_relabels:
     regex: "(.*):.*"
     target_label: "instance"
     replacement: "${1}"
+
+# Prometheus service start on boot policies
+prometheus_start_on_boot: false
