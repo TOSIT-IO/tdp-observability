@@ -35,3 +35,6 @@ loki_grpc_port: 9096
 
 # Node Exporter port
 exporter_node_http_port: 9100
+
+# Postgres Exporter port
+exporter_postgres_http_port: 9187

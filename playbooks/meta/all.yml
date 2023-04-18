@@ -3,6 +3,7 @@
 
 ---
 - import_playbook: ../exporter_node_install.yml
+- import_playbook: ../exporter_postgres_install.yml
 # exporter_install
 - import_playbook: ../grafana_server_install.yml
 # grafana_install
@@ -16,6 +17,7 @@
 # exporter_node_config
 # exporter_config
 - import_playbook: ../exporter_node_start.yml
+- import_playbook: ../exporter_postgres_start.yml
 # exporter_start
 # exporter_init
 - import_playbook: ../grafana_server_config.yml
