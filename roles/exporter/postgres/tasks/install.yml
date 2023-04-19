@@ -78,6 +78,14 @@
     owner: root
     mode: "640"
 
+- name: Template postgres-exporter logrotate file
+  template:
+    src: postgres-exporter.logrotate.j2
+    dest: "/etc/logrotate.d/postgres-exporter"
+    group: root
+    owner: root
+    mode: "644"
+
 - name: Template postgres-exporter service file
   template:
     src: postgres-exporter.service.j2
