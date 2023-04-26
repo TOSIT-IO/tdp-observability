@@ -43,6 +43,10 @@ prometheus_tdp_components_targets:
     group: exporter_node
     port: "{{ exporter_node_http_port }}"
     service: node
+  - component: exporter_postgres
+    group: exporter_postgres
+    port: "{{ exporter_postgres_http_port }}"
+    service: node
   - component: zk_server
     group: zk
     port: "{{ exporter_zookeeper_server_http_port }}"
