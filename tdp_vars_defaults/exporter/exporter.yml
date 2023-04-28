@@ -14,7 +14,7 @@ node_exporter_release: node_exporter-1.3.1.linux-amd64
 node_exporter_dist_file: "{{ node_exporter_release }}.tar.gz"
 
 # node exporter installation directory
-node_exporter_root_dir: /opt/tdp
+node_exporter_root_dir: /opt/tdp_observability
 node_exporter_install_dir: "{{ node_exporter_root_dir }}/node-exporter"
 node_exporter_pid_dir: /run/node-exporter
 
@@ -25,3 +25,33 @@ node_exporter_web_listen_address: --web.listen-address=:{{ exporter_node_http_po
 
 # node exporter service start on boot policies
 node_exporter_start_on_boot: false
+
+#####################
+# postgres-exporter #
+#####################
+# postgres-exporter users and group
+postgres_exporter_user: postgres-exporter
+postgres_exporter_group: postgres-exporter
+
+# postgres exporter version
+postgres_exporter_release: postgres_exporter-0.12.0.linux-amd64
+postgres_exporter_dist_file: "{{ postgres_exporter_release }}.tar.gz"
+
+# postgres exporter installation directory
+postgres_exporter_root_dir: /opt/tdp_observability
+postgres_exporter_install_dir: "{{ postgres_exporter_root_dir }}/postgres-exporter"
+postgres_exporter_log_dir: /var/log/postgres-exporter
+postgres_exporter_work_dir: /var/lib/postgres-exporter
+
+# postgres exporter configuration
+postgres_exporter_telemetry: --web.telemetry-path=/metrics
+postgres_exporter_web_listen_address: --web.listen-address=:{{ exporter_postgres_http_port }}
+postgres_exporter_log_file: postgres-exporter.log
+postgres_exporter_log_conf: --log.level=info --log.format=logfmt
+
+# postgres exporter service start on boot policies
+postgres_exporter_start_on_boot: false
+
+# postgresql server connexion
+postgres_exporter_sql_user: exporter
+postgres_exporter_sql_password: exporter

@@ -1,0 +1,15 @@
+[Unit]
+Description=Prometheus PostgreSQL Exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User={{ postgres_exporter_user }}
+Group={{ postgres_exporter_group }}
+WorkingDirectory={{ postgres_exporter_work_dir }}
+EnvironmentFile={{ postgres_exporter_install_dir }}/postgres-exporter.env
+ExecStart=/bin/bash -c 'exec /usr/local/bin/postgres_exporter {{ postgres_exporter_web_listen_address }} {{ postgres_exporter_telemetry}} {{ postgres_exporter_log_conf }} >>{{ postgres_exporter_log_dir }}/{{ postgres_exporter_log_file }} 2>&1'
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

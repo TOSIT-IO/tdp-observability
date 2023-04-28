@@ -1,0 +1,10 @@
+{{ postgres_exporter_log_dir }}/{{ postgres_exporter_log_file }} {
+  compress
+  delaycompress
+  daily
+  rotate 31
+  create 0640 {{ postgres_exporter_user }} {{ postgres_exporter_group }}
+  postrotate
+    /bin/systemctl restart postgres-exporter.service 2> /dev/null || true
+  endscript
+}

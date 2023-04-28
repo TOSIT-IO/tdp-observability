@@ -1,0 +1,9 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Restart postgres-exporter
+  service:
+    name: postgres-exporter
+    state: restarted
+    enabled: "{{ postgres_exporter_start_on_boot }}"
