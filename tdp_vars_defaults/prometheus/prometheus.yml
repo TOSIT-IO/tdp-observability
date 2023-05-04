@@ -140,11 +140,6 @@ prometheus_tdp_components_targets:
     port: "{{ exporter_knox_gateway_http_port }}"
     service: Knox
 
-<<<<<<< HEAD
-prometheus_tdp_custom_targets: {}
-
-=======
->>>>>>> f28b2a9 (feat: use ansible dict merge for prometheus targets)
 # Prometheus scrape jobs
 # Will be enriched with 1 job per component in 'prometheus_tdp_components_targets'
 prometheus_scrape_configs:
