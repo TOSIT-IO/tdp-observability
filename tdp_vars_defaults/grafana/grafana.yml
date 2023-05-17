@@ -4,16 +4,45 @@
 ---
 grafana_start_on_boot: no
 
+# grafana users and group
+grafana_user: grafana
+grafana_group: grafana
+
 grafana_version: 9.2.0
 grafana_package: "grafana-{{ grafana_version }}"
-grafana_dependencies:
-  - chkconfig
+grafana_release: "{{ grafana_package }}.linux-amd64"
+grafana_dist_file: "{{ grafana_release }}.tar.gz"
+
+# Grafana installation directory
+grafana_root_dir: /opt/tdp_observability
+grafana_install_dir: "{{ grafana_root_dir }}/grafana"
+grafana_binary_install_dir: "/usr/local/sbin"
 
 # Grafana directories
-grafana_config_dir: /etc/grafana # Not configurable
+grafana_config_dir: "/etc/grafana" # Not configurable
 grafana_certs_dir: "{{ grafana_config_dir }}/certs"
 grafana_logs_dir: "/var/log/grafana"
 grafana_data_dir: "/var/lib/grafana"
+grafana_pid_dir: "/var/run/grafana"
+
+# Grafana config files samples
+grafana_config_files:
+  - src: "sample.ini"
+    dest: "grafana.ini"
+  - src: "ldap.toml"
+    dest: "ldap.toml"
+  - src: "provisioning/access-control/sample.yaml"
+    dest: "provisioning/access-control/sample.yaml"
+  - src: "provisioning/alerting/sample.yaml"
+    dest: "provisioning/alerting/sample.yaml"
+  - src: "provisioning/dashboards/sample.yaml"
+    dest: "provisioning/dashboards/sample.yaml"
+  - src: "provisioning/datasources/sample.yaml"
+    dest: "provisioning/datasources/sample.yaml"
+  - src: "provisioning/notifiers/sample.yaml"
+    dest: "provisioning/notifiers/sample.yaml"
+  - src: "provisioning/plugins/sample.yaml"
+    dest: "provisioning/plugins/sample.yaml"
 
 # Grafana security config
 grafana_security:
