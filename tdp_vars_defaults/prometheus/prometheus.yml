@@ -38,7 +38,12 @@ prometheus_web_config:
     "{{ prometheus_admin_user }}": "{{ prometheus_admin_password | password_hash('blowfish') }}"
 
 # Prometheus targets to generate from TDP components Ansible groups
-prometheus_tdp_components_targets:
+prometheus_tdp_targets:
+  exporter_node:
+    component: exporter_node
+    group: exporter_node
+    port: "{{ exporter_node_http_port }}"
+    service: node
   exporter_postgres:
     component: exporter_postgres
     group: exporter_postgres
@@ -141,7 +146,7 @@ prometheus_tdp_components_targets:
     service: Knox
 
 # Prometheus scrape jobs
-# Will be enriched with 1 job per component in 'prometheus_tdp_components_targets'
+# Will be enriched with 1 job per component in 'prometheus_tdp_targets'
 prometheus_scrape_configs:
   - job_name: prometheus
     static_configs:
