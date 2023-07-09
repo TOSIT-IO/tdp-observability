@@ -3,7 +3,7 @@
 
 ---
 - name: Stop loki
-  service:
+  ansible.builtin.service:
     name: loki
     state: stopped
     enabled: "{{ loki_start_on_boot }}"

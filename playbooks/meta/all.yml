@@ -2,36 +2,36 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-- import_playbook: ../exporter_node_install.yml
-- import_playbook: ../exporter_postgres_install.yml
-- import_playbook: ../grafana_server_install.yml
+- ansible.builtin.import_playbook: ../exporter_node_install.yml
+- ansible.builtin.import_playbook: ../exporter_postgres_install.yml
+- ansible.builtin.import_playbook: ../grafana_server_install.yml
 # grafana_install
-- import_playbook: ../loki_promtail_install.yml
-- import_playbook: ../loki_server_install.yml
+- ansible.builtin.import_playbook: ../loki_promtail_install.yml
+- ansible.builtin.import_playbook: ../loki_server_install.yml
 # loki_install
-- import_playbook: ../prometheus_server_install.yml
+- ansible.builtin.import_playbook: ../prometheus_server_install.yml
 # prometheus_install
 # exporter_node_config
-- import_playbook: ../exporter_node_start.yml
+- ansible.builtin.import_playbook: ../exporter_node_start.yml
 # exporter_postgres_config
-- import_playbook: ../exporter_postgres_start.yml
-- import_playbook: ../grafana_server_config.yml
+- ansible.builtin.import_playbook: ../exporter_postgres_start.yml
+- ansible.builtin.import_playbook: ../grafana_server_config.yml
 # grafana_config
-- import_playbook: ../grafana_server_start.yml
-- import_playbook: ../grafana_server_init.yml
+- ansible.builtin.import_playbook: ../grafana_server_start.yml
+- ansible.builtin.import_playbook: ../grafana_server_init.yml
 # grafana_start
 # grafana_init
-- import_playbook: ../loki_promtail_config.yml
-- import_playbook: ../loki_promtail_start.yml
+- ansible.builtin.import_playbook: ../loki_promtail_config.yml
+- ansible.builtin.import_playbook: ../loki_promtail_start.yml
 # loki_promtail_init
-- import_playbook: ../loki_server_config.yml
+- ansible.builtin.import_playbook: ../loki_server_config.yml
 # loki_config
-- import_playbook: ../loki_server_start.yml
+- ansible.builtin.import_playbook: ../loki_server_start.yml
 # loki_server_init
 # loki_start
 # loki_init
-- import_playbook: ../prometheus_server_config.yml
+- ansible.builtin.import_playbook: ../prometheus_server_config.yml
 # prometheus_config
-- import_playbook: ../prometheus_server_start.yml
+- ansible.builtin.import_playbook: ../prometheus_server_start.yml
 # prometheus_start
 # prometheus_init

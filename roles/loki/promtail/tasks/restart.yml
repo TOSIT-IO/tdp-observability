@@ -3,7 +3,7 @@
 
 ---
 - name: Restart promtail
-  service:
+  ansible.builtin.service:
     name: promtail
     state: restarted
     enabled: "{{ promtail_start_on_boot }}"

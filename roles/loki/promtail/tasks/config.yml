@@ -3,7 +3,7 @@
 
 ---
 - name: Backup configuration
-  copy:
+  ansible.builtin.copy:
     src: "{{ promtail_conf_dir }}/"
     dest: "{{ promtail_conf_dir }}.{{ ansible_date_time.epoch }}"
     owner: "{{ promtail_user }}"
@@ -14,7 +14,7 @@
     - backup
 
 - name: Render {{ promtail_conf_dir }}/config.yml
-  copy:
+  ansible.builtin.copy:
     dest: "{{ promtail_conf_dir }}/config.yml"
     content: "{{ promtail_configuration | to_nice_yaml(indent=1, sort_keys=False) }}"
     owner: "{{ promtail_user }}"

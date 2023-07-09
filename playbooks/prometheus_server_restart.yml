@@ -7,7 +7,7 @@
   tasks:
     - tosit.tdp.resolve:
         node_name: prometheus_server
-    - import_role:
+    - ansible.builtin.import_role:
         name: tosit.tdp_observability.prometheus.server
         tasks_from: restart
-    - meta: clear_facts
+    - ansible.builtin.meta: clear_facts

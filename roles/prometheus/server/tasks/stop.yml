@@ -3,6 +3,6 @@
 
 ---
 - name: Stop Prometheus server
-  service:
+  ansible.builtin.service:
     name: prometheus
     state: stopped

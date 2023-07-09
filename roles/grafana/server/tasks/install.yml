@@ -2,25 +2,25 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-- include_role:
+- ansible.builtin.include_role:
     name: cloudalchemy.grafana
     tasks_from: preflight
 
 - name: Ensure grafana's group exists
-  include_role:
+  ansible.builtin.include_role:
     name: tosit.tdp.utils.group
   vars:
     group: "{{ grafana_group }}"
 
 - name: Ensure grafana's user exists
-  include_role:
+  ansible.builtin.include_role:
     name: tosit.tdp.utils.user
   vars:
     user: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
 
 - name: Upload {{ grafana_dist_file }}
-  copy:
+  ansible.builtin.copy:
     src: "{{ binaries_local_dir }}/{{ grafana_dist_file }}"
     dest: "{{ binaries_upload_dir }}"
     owner: root
@@ -29,7 +29,7 @@
   diff: false
 
 - name: Ensure {{ grafana_root_dir }} exists
-  file:
+  ansible.builtin.file:
     path: "{{ grafana_root_dir }}"
     state: directory
     owner: root
@@ -37,7 +37,7 @@
     mode: "755"
 
 - name: Ensure {{ grafana_root_dir }}/{{ grafana_release }} exists
-  file:
+  ansible.builtin.file:
     path: "{{ grafana_root_dir }}/{{ grafana_release }}"
     state: directory
     owner: root
@@ -45,7 +45,7 @@
     mode: "755"
 
 - name: Extract {{ grafana_dist_file }}
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ binaries_upload_dir }}/{{ grafana_dist_file }}"
     dest: "{{ grafana_root_dir }}/{{ grafana_release }}"
     owner: root
@@ -55,13 +55,13 @@
     extra_opts: "--strip-components=1"
 
 - name: Create symbolic link to Grafana installation
-  file:
+  ansible.builtin.file:
     src: "{{ grafana_root_dir }}/{{ grafana_release }}"
     dest: "{{ grafana_install_dir }}"
     state: link
 
 - name: Symlink grafana-server and grafana-cli binaries
-  file:
+  ansible.builtin.file:
     src: "{{ grafana_install_dir }}/bin/{{ item }}"
     dest: "{{ grafana_binary_install_dir }}/{{ item }}"
     state: link
@@ -70,7 +70,7 @@
     - grafana-cli
 
 - name: Ensure {{ grafana_config_dir }} exists
-  file:
+  ansible.builtin.file:
     path: "{{ grafana_config_dir }}"
     state: directory
     group: "{{ grafana_group }}"
@@ -78,7 +78,7 @@
     mode: "770"
 
 - name: Ensure {{ grafana_config_dir }}/provisioning/* exists
-  file:
+  ansible.builtin.file:
     path: "{{ grafana_config_dir }}/{{ item }}"
     state: directory
     group: "{{ grafana_group }}"
@@ -93,7 +93,7 @@
     - provisioning/plugins
 
 - name: Copy user config files
-  copy:
+  ansible.builtin.copy:
     src: "{{ grafana_install_dir }}/conf/{{ item.src }}"
     dest: "{{ grafana_config_dir }}/{{ item.dest }}"
     group: "{{ grafana_group }}"
@@ -103,7 +103,7 @@
   with_items: "{{ grafana_config_files }}"
 
 - name: Ensure {{ grafana_data_dir }} exists
-  file:
+  ansible.builtin.file:
     path: "{{ grafana_data_dir }}"
     state: directory
     owner: "{{ grafana_user }}"
@@ -111,7 +111,7 @@
     mode: "750"
 
 - name: Ensure {{ grafana_logs_dir }} exists
-  file:
+  ansible.builtin.file:
     path: "{{ grafana_logs_dir }}"
     state: directory
     owner: "{{ grafana_user }}"
@@ -119,7 +119,7 @@
     mode: "755"
 
 - name: Template grafana-server sysconfig file
-  template:
+  ansible.builtin.template:
     src: grafana-server.sysconfig.j2
     dest: /etc/sysconfig/grafana-server
     group: root
@@ -127,7 +127,7 @@
     mode: "644"
 
 - name: Template grafana-server service file
-  template:
+  ansible.builtin.template:
     src: grafana-server.service.j2
     dest: /usr/lib/systemd/system/grafana-server.service
     group: root
