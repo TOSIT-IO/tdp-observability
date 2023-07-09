@@ -3,7 +3,7 @@
 
 ---
 - name: Backup configuration
-  copy:
+  ansible.builtin.copy:
     src: "{{ loki_conf_dir }}/"
     dest: "{{ loki_conf_dir }}.{{ ansible_date_time.epoch }}"
     owner: "{{ loki_user }}"
@@ -14,7 +14,7 @@
     - backup
 
 - name: Render {{ loki_conf_dir }}/config.yml
-  copy:
+  ansible.builtin.copy:
     dest: "{{ loki_conf_dir }}/config.yml"
     content: "{{ loki_configuration | to_nice_yaml(indent=1, sort_keys=False) }}"
     owner: "{{ loki_user }}"
@@ -22,7 +22,7 @@
     mode: "755"
 
 - name: Create Loki certs dir
-  file:
+  ansible.builtin.file:
     path: "{{ loki_certs_dir }}"
     state: directory
     owner: "{{ loki_user }}"
@@ -30,7 +30,7 @@
     mode: "0770"
 
 - name: Copy node certificates to Loki certs dir
-  copy:
+  ansible.builtin.copy:
     src: "/etc/ssl/certs/{{ ansible_fqdn }}.{{ item }}"
     dest: "{{ loki_certs_dir }}/{{ ansible_fqdn }}.{{ item }}"
     remote_src: yes

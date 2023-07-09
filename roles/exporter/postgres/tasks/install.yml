@@ -3,20 +3,20 @@
 
 ---
 - name: Ensure postgres exporter's group exists
-  include_role:
+  ansible.builtin.include_role:
     name: tosit.tdp.utils.group
   vars:
     group: "{{ postgres_exporter_group }}"
 
 - name: Ensure postgres exporter's user exists
-  include_role:
+  ansible.builtin.include_role:
     name: tosit.tdp.utils.user
   vars:
     user: "{{ postgres_exporter_user }}"
     group: "{{ postgres_exporter_group }}"
 
 - name: Upload {{ postgres_exporter_dist_file }}
-  copy:
+  ansible.builtin.copy:
     src: "{{ binaries_local_dir }}/{{ postgres_exporter_dist_file }}"
     dest: "{{ binaries_upload_dir }}"
     owner: root
@@ -25,7 +25,7 @@
   diff: false
 
 - name: Ensure {{ postgres_exporter_root_dir }} exists
-  file:
+  ansible.builtin.file:
     path: "{{ postgres_exporter_root_dir }}"
     state: directory
     owner: root
@@ -33,7 +33,7 @@
     mode: "755"
 
 - name: Extract {{ postgres_exporter_dist_file }}
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ binaries_upload_dir }}/{{ postgres_exporter_dist_file }}"
     dest: "{{ postgres_exporter_root_dir }}"
     group: root
@@ -43,19 +43,19 @@
     creates: "{{ postgres_exporter_root_dir }}/{{ postgres_exporter_release }}"
 
 - name: Create symbolic link to postgres-exporter installation
-  file:
+  ansible.builtin.file:
     src: "{{ postgres_exporter_root_dir }}/{{ postgres_exporter_release }}"
     dest: "{{ postgres_exporter_install_dir }}"
     state: link
 
 - name: Create symbolic link to postgres-exporter executable file
-  file:
+  ansible.builtin.file:
     src: "{{ postgres_exporter_install_dir }}/postgres_exporter"
     dest: "/usr/local/bin/postgres_exporter"
     state: link
 
 - name: Create working directory
-  file:
+  ansible.builtin.file:
     path: "{{ postgres_exporter_work_dir }}"
     state: directory
     group: "{{ postgres_exporter_group }}"
@@ -63,7 +63,7 @@
     mode: "750"
 
 - name: Create log directory
-  file:
+  ansible.builtin.file:
     path: "{{ postgres_exporter_log_dir }}"
     state: directory
     group: "{{ postgres_exporter_group }}"
@@ -71,7 +71,7 @@
     mode: "750"
 
 - name: Template postgres-exporter env file
-  template:
+  ansible.builtin.template:
     src: postgres-exporter.env.j2
     dest: "{{ postgres_exporter_install_dir }}/postgres-exporter.env"
     group: root
@@ -79,7 +79,7 @@
     mode: "640"
 
 - name: Template postgres-exporter logrotate file
-  template:
+  ansible.builtin.template:
     src: postgres-exporter.logrotate.j2
     dest: "/etc/logrotate.d/postgres-exporter"
     group: root
@@ -87,7 +87,7 @@
     mode: "644"
 
 - name: Template postgres-exporter service file
-  template:
+  ansible.builtin.template:
     src: postgres-exporter.service.j2
     dest: /usr/lib/systemd/system/postgres-exporter.service
     group: root

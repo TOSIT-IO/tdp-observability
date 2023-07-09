@@ -3,6 +3,6 @@
 
 ---
 - name: Restart Prometheus server
-  service:
+  ansible.builtin.service:
     name: prometheus
     state: restarted

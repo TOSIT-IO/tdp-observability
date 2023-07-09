@@ -2,11 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-- import_playbook: ../grafana_server_install.yml
+- ansible.builtin.import_playbook: ../grafana_server_install.yml
 # grafana_install
-- import_playbook: ../grafana_server_config.yml
+- ansible.builtin.import_playbook: ../grafana_server_config.yml
 # grafana_config
-- import_playbook: ../grafana_server_start.yml
-- import_playbook: ../grafana_server_init.yml
+- ansible.builtin.import_playbook: ../grafana_server_start.yml
+- ansible.builtin.import_playbook: ../grafana_server_init.yml
 # grafana_start
 # grafana_init

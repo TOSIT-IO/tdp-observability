@@ -3,7 +3,7 @@
 
 ---
 - name: Create Grafana certs dir
-  file:
+  ansible.builtin.file:
     path: "{{ grafana_certs_dir }}"
     state: directory
     owner: root
@@ -11,7 +11,7 @@
     mode: "0770"
 
 - name: Copy node certificates to Grafana certs dir
-  copy:
+  ansible.builtin.copy:
     src: "/etc/ssl/certs/{{ ansible_fqdn }}.{{ item }}"
     dest: "{{ grafana_certs_dir }}/{{ ansible_fqdn }}.{{ item }}"
     remote_src: yes
@@ -22,15 +22,15 @@
     - pem
     - key
 
-- include_role:
+- ansible.builtin.include_role:
     name: cloudalchemy.grafana
     tasks_from: preflight
 
-- include_role:
+- ansible.builtin.include_role:
     name: cloudalchemy.grafana
     tasks_from: configure
 
-- include_role:
+- ansible.builtin.include_role:
     name: cloudalchemy.grafana
     tasks_from: plugins
   when: (grafana_plugins | length)

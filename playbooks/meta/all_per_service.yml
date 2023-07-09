@@ -3,7 +3,7 @@
 
 ---
 # tdp-cluster
-- import_playbook: exporter.yml
-- import_playbook: grafana.yml
-- import_playbook: loki.yml
-- import_playbook: prometheus.yml
+- ansible.builtin.import_playbook: exporter.yml
+- ansible.builtin.import_playbook: grafana.yml
+- ansible.builtin.import_playbook: loki.yml
+- ansible.builtin.import_playbook: prometheus.yml

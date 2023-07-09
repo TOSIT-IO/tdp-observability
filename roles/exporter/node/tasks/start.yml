@@ -3,7 +3,7 @@
 
 ---
 - name: Start node-exporter
-  service:
+  ansible.builtin.service:
     name: node-exporter
     state: started
     enabled: "{{ node_exporter_start_on_boot }}"

@@ -2,12 +2,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-- include_role:
+- ansible.builtin.include_role:
     name: cloudalchemy.prometheus
     tasks_from: preflight
 
 - name: Upload {{ prometheus_dist_file }}
-  copy:
+  ansible.builtin.copy:
     src: "{{ binaries_local_dir }}/{{ prometheus_dist_file }}"
     dest: "{{ binaries_upload_dir }}"
     owner: root
@@ -16,7 +16,7 @@
   diff: false
 
 - name: Ensure {{ prometheus_root_dir }} exists
-  file:
+  ansible.builtin.file:
     path: "{{ prometheus_root_dir }}"
     state: directory
     owner: root
@@ -24,7 +24,7 @@
     mode: "755"
 
 - name: Extract {{ prometheus_dist_file }}
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ binaries_upload_dir }}/{{ prometheus_dist_file }}"
     dest: "{{ prometheus_root_dir }}"
     owner: root
@@ -34,7 +34,7 @@
     creates: "{{ prometheus_root_dir }}/{{ prometheus_release }}"
 
 - name: Create symbolic link to Prometheus installation
-  file:
+  ansible.builtin.file:
     src: "{{ prometheus_root_dir }}/{{ prometheus_release }}"
     dest: "{{ prometheus_install_dir }}"
     state: link
@@ -43,7 +43,7 @@
 # to define binaries install directory but "tdp_vars" can not override it because
 # the variable is located inside role "vars" directory
 - name: Symlink prometheus and promtool binaries
-  file:
+  ansible.builtin.file:
     src: "{{ prometheus_install_dir }}/{{ item }}"
     dest: "{{ prometheus_binary_install_dir }}/{{ item }}"
     state: link
@@ -51,6 +51,6 @@
     - prometheus
     - promtool
 
-- include_role:
+- ansible.builtin.include_role:
     name: cloudalchemy.prometheus
     tasks_from: install

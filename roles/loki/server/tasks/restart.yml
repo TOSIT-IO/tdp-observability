@@ -3,7 +3,7 @@
 
 ---
 - name: Restart loki
-  service:
+  ansible.builtin.service:
     name: loki
     state: restarted
     enabled: "{{ loki_start_on_boot }}"

@@ -3,7 +3,7 @@
 
 ---
 - name: Stop postgres-exporter
-  service:
+  ansible.builtin.service:
     name: postgres-exporter
     state: stopped
     enabled: "{{ postgres_exporter_start_on_boot }}"

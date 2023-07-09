@@ -3,20 +3,20 @@
 
 ---
 - name: Ensure loki's group exists
-  include_role:
+  ansible.builtin.include_role:
     name: tosit.tdp.utils.group
   vars:
     group: "{{ loki_group }}"
 
 - name: Ensure loki's user exists
-  include_role:
+  ansible.builtin.include_role:
     name: tosit.tdp.utils.user
   vars:
     user: "{{ loki_user }}"
     group: "{{ loki_group }}"
 
 - name: Upload {{ loki_dist_file }}
-  copy:
+  ansible.builtin.copy:
     src: "{{ binaries_local_dir }}/{{ loki_dist_file }}"
     dest: "{{ binaries_upload_dir }}"
     owner: root
@@ -25,7 +25,7 @@
   diff: false
 
 - name: Ensure {{ loki_root_dir }}/{{ loki_release }} exists
-  file:
+  ansible.builtin.file:
     path: "{{ loki_root_dir }}/{{ loki_release }}"
     state: directory
     owner: root
@@ -33,7 +33,7 @@
     mode: "755"
 
 - name: Extract {{ loki_dist_file }}
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ binaries_upload_dir }}/{{ loki_dist_file }}"
     dest: "{{ loki_root_dir }}/{{ loki_release }}"
     group: root
@@ -43,13 +43,13 @@
     creates: "{{ loki_root_dir }}/{{ loki_release }}/loki-linux-amd64"
 
 - name: Create symbolic link to loki installation
-  file:
+  ansible.builtin.file:
     src: "{{ loki_root_dir }}/{{ loki_release }}"
     dest: "{{ loki_install_dir }}"
     state: link
 
 - name: Ensure {{ loki_data_dir }} exists
-  file:
+  ansible.builtin.file:
     path: "{{ loki_data_dir }}"
     state: directory
     owner: "{{ loki_user }}"
@@ -57,7 +57,7 @@
     mode: "750"
 
 - name: Ensure {{ loki_conf_dir }} exists
-  file:
+  ansible.builtin.file:
     path: "{{ loki_conf_dir }}"
     state: directory
     owner: "{{ loki_user }}"
@@ -65,7 +65,7 @@
     mode: "755"
 
 - name: Template loki service file
-  template:
+  ansible.builtin.template:
     src: loki.service.j2
     dest: /usr/lib/systemd/system/loki.service
     group: root

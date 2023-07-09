@@ -3,20 +3,20 @@
 
 ---
 - name: Ensure promtail's group exists
-  include_role:
+  ansible.builtin.include_role:
     name: tosit.tdp.utils.group
   vars:
     group: "{{ promtail_group }}"
 
 - name: Ensure promtail's user exists
-  include_role:
+  ansible.builtin.include_role:
     name: tosit.tdp.utils.user
   vars:
     user: "{{ promtail_user }}"
     group: "{{ promtail_group }}"
 
 - name: Upload {{ promtail_dist_file }}
-  copy:
+  ansible.builtin.copy:
     src: "{{ binaries_local_dir }}/{{ promtail_dist_file }}"
     dest: "{{ binaries_upload_dir }}"
     owner: root
@@ -25,7 +25,7 @@
   diff: false
 
 - name: Ensure {{ promtail_root_dir }}/{{ promtail_release }} exists
-  file:
+  ansible.builtin.file:
     path: "{{ promtail_root_dir }}/{{ promtail_release }}"
     state: directory
     owner: root
@@ -33,7 +33,7 @@
     mode: "755"
 
 - name: Extract {{ promtail_dist_file }}
-  unarchive:
+  ansible.builtin.unarchive:
     src: "{{ binaries_upload_dir }}/{{ promtail_dist_file }}"
     dest: "{{ promtail_root_dir }}/{{ promtail_release }}"
     group: root
@@ -43,13 +43,13 @@
     creates: "{{ promtail_root_dir }}/{{ promtail_release }}/promtail-linux-amd64"
 
 - name: Create symbolic link to promtail installation
-  file:
+  ansible.builtin.file:
     src: "{{ promtail_root_dir }}/{{ promtail_release }}"
     dest: "{{ promtail_install_dir }}"
     state: link
 
 - name: Ensure {{ promtail_data_dir }} exists
-  file:
+  ansible.builtin.file:
     path: "{{ promtail_data_dir }}"
     state: directory
     owner: "{{ promtail_user }}"
@@ -57,7 +57,7 @@
     mode: "750"
 
 - name: Ensure {{ promtail_conf_dir }} exists
-  file:
+  ansible.builtin.file:
     path: "{{ promtail_conf_dir }}"
     state: directory
     owner: "{{ promtail_user }}"
@@ -65,7 +65,7 @@
     mode: "755"
 
 - name: Template promtail service file
-  template:
+  ansible.builtin.template:
     src: promtail.service.j2
     dest: /usr/lib/systemd/system/promtail.service
     group: root

@@ -3,7 +3,7 @@
 
 ---
 - name: Start Grafana server
-  service:
+  ansible.builtin.service:
     name: grafana-server
     state: started
     enabled: "{{ grafana_start_on_boot }}"

@@ -3,7 +3,7 @@
 
 ---
 - name: Create Prometheus certs and static targets dirs
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: root
@@ -14,7 +14,7 @@
     - "{{ prometheus_static_targets_dir }}"
 
 - name: Copy node certificates to Prometheus certs dir
-  copy:
+  ansible.builtin.copy:
     src: "/etc/ssl/certs/{{ ansible_fqdn }}.{{ item }}"
     dest: "{{ prometheus_certs_dir }}/{{ ansible_fqdn }}.{{ item }}"
     remote_src: yes
@@ -26,7 +26,7 @@
     - key
 
 - name: Template Prometheus file_sd targets for TDP components
-  template:
+  ansible.builtin.template:
     src: file_sd.yml.j2
     dest: "{{ prometheus_static_targets_dir }}/{{ item.value.component }}.yml"
     owner: root
@@ -43,7 +43,7 @@
   loop: "{{ prometheus_tdp_targets | dict2items }}"
 
 - name: Enrich prometheus_scrape_configs var with TDP components targets
-  set_fact:
+  ansible.builtin.set_fact:
     prometheus_scrape_configs: |
       {{ prometheus_scrape_configs
          + [{
@@ -57,10 +57,10 @@
   when: item.value.group in groups.keys()
   loop: "{{ prometheus_tdp_targets | dict2items }}"
 
-- include_role:
+- ansible.builtin.include_role:
     name: cloudalchemy.prometheus
     tasks_from: preflight
 
-- include_role:
+- ansible.builtin.include_role:
     name: cloudalchemy.prometheus
     tasks_from: configure
