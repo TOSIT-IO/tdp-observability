@@ -6,10 +6,10 @@
 # The namespace of the collection. This can be a company/brand/organization or product namespace under which all
 # content lives. May only contain alphanumeric lowercase characters and underscores. Namespaces cannot start with
 # underscores or numbers and cannot contain consecutive underscores
-namespace: alliage
+namespace: tosit
 
 # The name of the collection. Has the same character restrictions as 'namespace'
-name: tdp_monitoring
+name: tdp_observability
 
 # The version of the collection. Must be compatible with semantic versioning
 version: 0.1.0
@@ -24,7 +24,7 @@ authors: []
 ### OPTIONAL but strongly recommended
 
 # A short summary description of the collection
-description: Tosit Data Platform (TDP) monitoring collection
+description: Tosit Data Platform (TDP) observability collection
 
 # Either a single license or a list of licenses for content inside of a collection. Ansible Galaxy currently only
 # accepts L(SPDX,https://spdx.org/licenses/) licenses. This key is mutually exclusive with 'license_file'
@@ -46,7 +46,7 @@ dependencies:
   tosit.tdp: 0.0.1
 
 # The URL of the originating SCM repository
-repository: "https://github.com/alliage-io/tdp-monitoring"
+repository: "https://github.com/TOSIT-IO/tdp-observability"
 
 # The URL to any online docs
 documentation: ""
