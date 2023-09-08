@@ -13,6 +13,36 @@
   tags:
     - backup
 
+- name: Build promtail_scrape_configs
+  ansible.builtin.set_fact: 
+    promtail_scrape_configs: |
+      {{ promtail_scrape_configs | default([]) 
+        + [{
+          'job_name': item.key,
+          'static_configs': [{
+            'targets': [ 'localhost' ],
+            'labels': {
+              'instance': inventory_hostname,
+              'job': item.key + 'logs',
+              '__path__': lookup('ansible.builtin.vars', item.key + '_log_dir' ) + '/*.log'
+            }
+          }]
+        }]
+      }}
+  when: item.value | intersect(group_names) | length > 0
+  loop: "{{ promtail_log_groups | dict2items }}"
+  loop_control:
+    label: "{{item.key}}"
+
+- name: Build promtail configuration
+  ansible.builtin.set_fact: 
+    promtail_configuration: |
+      {{ promtail_configuration | 
+         combine({
+           'scrape_configs': promtail_scrape_configs
+         })
+      }}
+
 - name: Render {{ promtail_conf_dir }}/config.yml
   ansible.builtin.copy:
     dest: "{{ promtail_conf_dir }}/config.yml"
@@ -20,3 +50,4 @@
     owner: "{{ promtail_user }}"
     group: "{{ promtail_group }}"
     mode: "755"
+

@@ -30,14 +30,22 @@ promtail_configuration:
     filename: "{{ promtail_data_dir }}/positions.yaml"
   clients:
     - url: "https://{{ loki_server }}:3100/loki/api/v1/push"
-  scrape_configs:
-  - job_name: system
-    static_configs:
-    - targets:
-        - localhost
-      labels:
-        job: varlogs
-        __path__: /var/log/*log
+
+promtail_scrape_configs: []
+
+promtail_log_groups:
+  hadoop: [ 'hadoop_client' , 'hadoop_master' ]
+  hdfs: [ 'hdfs_dn', 'hdfs_httpfs', 'hdfs_jn', 'hdfs_nn' ]
+  yarn: [ 'yarn_ats', 'yarn_nm', 'yarn_rm']
+  mapred: [ 'mapred_jhs']
+  hbase: [ 'hbase_client', 'hbase_master', 'hbase_rest', 'hbase_rs']
+  phoenix: [ 'phoenix_queryserver_client', 'phoenix_queryserver_daemon']
+  hive: [ 'hive_client', 'hive_ms', 'hive_s2']
+  knox: [ 'knox' ]
+  ranger: [ 'ranger_admin', 'ranger_solr', 'ranger_kms', 'ranger_usersync']
+  spark2: [ 'spark_client', 'spark_hs']
+  spark3: ['spark3_client', 'spark3_hs']
+  zookeeper: [ 'zk', 'sk_client']
 
 # promtail service start on boot policies
 promtail_start_on_boot: false
