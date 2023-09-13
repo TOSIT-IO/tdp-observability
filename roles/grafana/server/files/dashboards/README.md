@@ -11,3 +11,4 @@ Grafana dashboards to monitor a TDP cluster.
 - YARN metrics: [TDP YARN (v1)](./tdp-yarn.v1.json)
 - HBase metrics: [TDP HBase (v1)](./tdp-hbase.v1.json)
 - Hive metrics: [TDP Hive (v1)](./tdp-hive.v1.json)
+- TDP cluster logs: [TDP Cluster logs (v1)](./tdp-logs.v1.json)
