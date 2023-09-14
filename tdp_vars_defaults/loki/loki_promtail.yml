@@ -55,7 +55,7 @@ promtail_log_jobs:
     groups: [ 'hue_server' ]
     directory: '/var/log/hue'
   jupiterhub: 
-    groups: [ 'jupiterhub_edge', 'jupiterhub_server' ]
+    groups: [ 'jupyterhub_edge', 'jupyterhub_server' ]
   kafka: 
     groups: [ 'kafka_broker', 'kafka_client' ]
   knox: 
