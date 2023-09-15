@@ -6,4 +6,4 @@
   ansible.builtin.service:
     name: prometheus
     state: started
-    enabled: "{{ prometheus_start_on_boot }}"
+    enabled: "{{ prometheus_server_start_on_boot }}"

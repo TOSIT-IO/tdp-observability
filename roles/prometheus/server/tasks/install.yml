@@ -2,9 +2,42 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-- ansible.builtin.include_role:
-    name: cloudalchemy.prometheus
-    tasks_from: preflight
+- name: Preflight
+  ansible.builtin.include_tasks:
+    file: preflight.yml
+
+- name: Ensure prometheus group exists
+  ansible.builtin.group:
+    name: "{{ prometheus_group }}"
+    system: true
+
+- name: Ensure prometheus user exists
+  ansible.builtin.user:
+    name: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    shell: "/usr/sbin/nologin"
+    home: "{{ prometheus_db_dir }}"
+    system: true
+    createhome: false
+
+- name: Create data directory
+  ansible.builtin.file:
+    path: "{{ prometheus_db_dir }}"
+    state: directory
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: "755"
+
+- name: Create configuration directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: "{{ prometheus_group }}"
+    mode: "750"
+  loop:
+    - "{{ prometheus_config_dir }}"
+    - "{{ prometheus_config_dir }}/rules"
 
 - name: Upload {{ prometheus_dist_file }}
   ansible.builtin.copy:
@@ -15,7 +48,7 @@
     mode: "644"
   diff: false
 
-- name: Ensure {{ prometheus_root_dir }} exists
+- name: "Ensure directory exists: {{ prometheus_root_dir }}"
   ansible.builtin.file:
     path: "{{ prometheus_root_dir }}"
     state: directory
@@ -27,8 +60,8 @@
   ansible.builtin.unarchive:
     src: "{{ binaries_upload_dir }}/{{ prometheus_dist_file }}"
     dest: "{{ prometheus_root_dir }}"
-    owner: root
     group: root
+    owner: root
     mode: "755"
     remote_src: true
     creates: "{{ prometheus_root_dir }}/{{ prometheus_release }}"
@@ -39,18 +72,20 @@
     dest: "{{ prometheus_install_dir }}"
     state: link
 
-# In role cloudalchemy.prometheus, a variable "_prometheus_binary_install_dir" is used
-# to define binaries install directory but "tdp_vars" can not override it because
-# the variable is located inside role "vars" directory
 - name: Symlink prometheus and promtool binaries
   ansible.builtin.file:
     src: "{{ prometheus_install_dir }}/{{ item }}"
-    dest: "{{ prometheus_binary_install_dir }}/{{ item }}"
+    dest: "{{ _prometheus_binary_install_dir }}/{{ item }}"
     state: link
   loop:
     - prometheus
     - promtool
 
-- ansible.builtin.include_role:
-    name: cloudalchemy.prometheus
-    tasks_from: install
+- name: Template Prometheus service file
+  ansible.builtin.template:
+    src: prometheus.service.j2
+    dest: /usr/lib/systemd/system/prometheus.service
+    owner: root
+    group: root
+    mode: "644"
+  notify: systemctl daemon-reload

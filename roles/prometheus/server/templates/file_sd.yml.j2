@@ -1,7 +1,11 @@
+{#
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+#}
 ---
 - targets:
-{% for host in hosts %}
-    - {{ host }}:{{ port }}
+{% for host_name in hosts_list %}
+    - {{ host_name }}:{{ port_num }}
 {% endfor %}
   labels:
 {% for name, value in labels.items() %}
