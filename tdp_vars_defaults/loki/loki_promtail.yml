@@ -66,9 +66,6 @@ promtail_log_jobs:
     groups: [ 'mapred_jhs']
   phoenix: 
     groups: [ 'phoenix_queryserver_client', 'phoenix_queryserver_daemon']
-  postgresql: 
-    groups: [ 'postgresql', 'postgresql_server' ]
-    directory: '/var/log/postgresql'
   ranger: 
     groups: [ 'ranger_admin', 'ranger_solr', 'ranger_kms', 'ranger_usersync']
   spark2: 
