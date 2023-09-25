@@ -121,12 +121,12 @@ prometheus_relabels:
 # Alternative config file name, searched in ansible templates path.
 prometheus_config_file: 'prometheus.yml.j2'
 
-prometheus_alert_rules_files:
-  - prometheus/rules/*.rules
+prometheus_alert_rules_files: []
+#  - prometheus/rules/*.rules
 
-prometheus_static_targets_files:
-  - prometheus/targets/*.yml
-  - prometheus/targets/*.json
+prometheus_static_targets_files: []
+#  - prometheus/targets/*.yml
+#  - prometheus/targets/*.json
 
 prometheus_alert_rules: []
   # - alert: InstanceDown
@@ -139,111 +139,3 @@ prometheus_alert_rules: []
   #     summary: '{% raw %}Instance {{ $labels.instance }} down{% endraw %}'
 
 prometheus_stop_timeout: '600s'
-
-# Prometheus targets to generate from TDP components Ansible groups
-prometheus_tdp_targets:
-  exporter_node:
-    component: exporter_node
-    group: exporter_node
-    port: "{{ exporter_node_http_port }}"
-    service: node
-  exporter_postgres:
-    component: exporter_postgres
-    group: exporter_postgres
-    port: "{{ exporter_postgres_http_port }}"
-    service: node
-  zk_server:
-    component: zk_server
-    group: zk
-    port: "{{ exporter_zookeeper_server_http_port }}"
-    service: ZooKeeper
-  hdfs_nn:
-    component: hdfs_nn
-    group: hdfs_nn
-    port: "{{ exporter_hdfs_nn_http_port }}"
-    service: HDFS
-  hdfs_zkfc:
-    component: hdfs_zkfc
-    group: hdfs_nn
-    port: "{{ exporter_hdfs_zkfc_http_port }}"
-    service: HDFS
-  hdfs_dn:
-    component: hdfs_dn
-    group: hdfs_dn
-    port: "{{ exporter_hdfs_dn_http_port }}"
-    service: HDFS
-  hdfs_jn:
-    component: hdfs_jn
-    group: hdfs_jn
-    port: "{{ exporter_hdfs_jn_http_port }}"
-    service: HDFS
-  yarn_rm:
-    component: yarn_rm
-    group: yarn_rm
-    port: "{{ exporter_yarn_rm_http_port }}"
-    service: YARN
-  yarn_nm:
-    component: yarn_nm
-    group: yarn_nm
-    port: "{{ exporter_yarn_nm_http_port }}"
-    service: YARN
-  yarn_ats:
-    component: yarn_ats
-    group: yarn_ats
-    port: "{{ exporter_yarn_ats_http_port }}"
-    service: YARN
-  mapred_jhs:
-    component: mapred_jhs
-    group: mapred_jhs
-    port: "{{ exporter_mapred_jhs_http_port }}"
-    service: YARN
-  hbase_master:
-    component: hbase_master
-    group: hbase_master
-    port: "{{ exporter_hbase_hm_http_port }}"
-    service: HBase
-  hbase_rs:
-    component: hbase_rs
-    group: hbase_rs
-    port: "{{ exporter_hbase_hrs_http_port }}"
-    service: HBase
-  hbase_rest:
-    component: hbase_rest
-    group: hbase_rest
-    port: "{{ exporter_hbase_hr_http_port }}"
-    service: HBase
-  phoenix_queryserver:
-    component: phoenix_queryserver
-    group: phoenix_queryserver_daemon
-    port: "{{ exporter_hbase_pqs_http_port }}"
-    service: HBase
-  hive_ms:
-    component: hive_ms
-    group: hive_ms
-    port: "{{ exporter_hive_hms_http_port }}"
-    service: Hive
-  hive_s2:
-    component: hive_s2
-    group: hive_s2
-    port: "{{ exporter_hive_hs2_http_port }}"
-    service: Hive
-  ranger_admin:
-    component: ranger_admin
-    group: ranger_admin
-    port: "{{ exporter_ranger_ra_http_port }}"
-    service: Ranger
-  ranger_usersync:
-    component: ranger_usersync
-    group: ranger_usersync
-    port: "{{ exporter_ranger_ru_http_port }}"
-    service: Ranger
-  ranger_kms:
-    component: ranger_kms
-    group: ranger_kms
-    port: "{{ exporter_ranger_kms_http_port }}"
-    service: Ranger
-  knox_gateway:
-    component: knox_gateway
-    group: knox
-    port: "{{ exporter_knox_gateway_http_port }}"
-    service: Knox

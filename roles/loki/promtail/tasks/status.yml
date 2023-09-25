@@ -5,7 +5,7 @@
 - name: Populate service facts
   ansible.builtin.service_facts:
 
-- name: Assert promtail is running 
+- name: Assert promtail is running
   ansible.builtin.assert:
     that:
       - ansible_facts.services['promtail.service'].state == "running"

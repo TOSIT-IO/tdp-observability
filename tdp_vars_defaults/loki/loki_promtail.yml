@@ -42,37 +42,5 @@ promtail_scrape_configs: []
 # - this default directory may be overriden by specifying a 'directory' value
 # - default file patern may be overriden by specifying a 'files' value
 #
-promtail_log_jobs:
-  hadoop: 
-    groups: [ 'hadoop_client' , 'hadoop_master' ]
-  hbase: 
-    groups: [ 'hbase_client', 'hbase_master', 'hbase_rest', 'hbase_rs']
-  hdfs: 
-    groups: [ 'hdfs_dn', 'hdfs_httpfs', 'hdfs_jn', 'hdfs_nn' ]
-  hive: 
-    groups: [ 'hive_client', 'hive_ms', 'hive_s2']
-  hue: 
-    groups: [ 'hue_server' ]
-    directory: '/var/log/hue'
-  jupyterhub: 
-    groups: [ 'jupyterhub_edge', 'jupyterhub_server' ]
-  kafka: 
-    groups: [ 'kafka_broker', 'kafka_client' ]
-  knox: 
-    groups: [ 'knox' ]
-  livy: 
-    groups: [ 'livy_server', 'livy_spark_server' ]
-  mapred: 
-    groups: [ 'mapred_jhs']
-  phoenix: 
-    groups: [ 'phoenix_queryserver_client', 'phoenix_queryserver_daemon']
-  ranger: 
-    groups: [ 'ranger_admin', 'ranger_solr', 'ranger_kms', 'ranger_usersync']
-  spark2: 
-    groups: [ 'spark_client', 'spark_hs']
-  spark3: 
-    groups: ['spark3_client', 'spark3_hs']
-  yarn: 
-    groups: [ 'yarn_ats', 'yarn_nm', 'yarn_rm']
-  zookeeper: 
-    groups: [ 'zk', 'zk_client' , 'zk_kafka', 'zk_kafka_client', 'zk_kafka_edge' ]
+promtail_date_regex: '^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}[.,]\d{3}'
+promtail_log_analyser_regex: '^(?P<datetime>.*?) - (?P<level>[A-Z]+)\s*[[](?P<unit>.+)] - .*'

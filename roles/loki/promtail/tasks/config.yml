@@ -10,48 +10,28 @@
     group: "{{ promtail_group }}"
     mode: "755"
     remote_src: true
-  tags:
-    - backup
-   
+  tags: ['backup', 'never']
+
 - name: Build promtail_scrape_configs
-  ansible.builtin.set_fact: 
-    promtail_scrape_configs: |
-      {{ promtail_scrape_configs | default([]) 
-        + [{
-          'job_name': item.key,
-          'static_configs': [{
-            'targets': [ 'localhost' ],
-            'labels': {
-              'instance': inventory_hostname,
-              'job': item.key + 'logs',
-              '__path__': 
-                  item.value.directory | 
-                    default(lookup('ansible.builtin.vars', item.key + '_log_dir', default='/var/log/'+item.key ))  
-                  + '/'
-                  + item.value.files | default('*.log')
-            }
-          }]
-        }]
-      }}
-  when: item.value.groups | intersect(group_names) | length > 0
-  loop: "{{ promtail_log_jobs | dict2items }}"
+  ansible.builtin.include_tasks: config_components_loop.yml
+  loop: "{{ observability_tdp_targets | dict2items }}"
   loop_control:
-    label: "{{item.key}}"
+    label: "{{ service.key }}"
+    loop_var: service
 
 - name: Build promtail configuration
-  ansible.builtin.set_fact: 
+  ansible.builtin.set_fact:
     promtail_configuration: |
-      {{ promtail_configuration | 
+      {{ promtail_configuration |
          combine({
            'scrape_configs': promtail_scrape_configs
          })
       }}
 
-- name: Render {{ promtail_conf_dir }}/config.yml
+- name: "Render config.yml"
   ansible.builtin.copy:
     dest: "{{ promtail_conf_dir }}/config.yml"
     content: "{{ promtail_configuration | to_nice_yaml(indent=1, sort_keys=False) }}"
     owner: "{{ promtail_user }}"
     group: "{{ promtail_group }}"
     mode: "755"
-

@@ -33,37 +33,12 @@
   ansible.builtin.include_tasks:
     file: config_set_web_config.yml
 
-- name: Template Prometheus file_sd targets for TDP components
-  ansible.builtin.template:
-    src: file_sd.yml.j2
-    dest: "{{ prometheus_static_targets_dir }}/{{ item.value.component }}.yml"
-    owner: root
-    group: "{{ prometheus_group }}"
-    mode: "0640"
-  vars:
-    hosts_list: "{{ groups[item.value.group] | map('tosit.tdp.access_fqdn', hostvars) | list }}"
-    port_num: "{{ item.value.port }}"
-    labels:
-      component: "{{ item.value.component }}"
-      cluster: "{{ cluster_name }}"
-      service: "{{ item.value.service }}"
-  when: item.value.group in groups.keys()
-  loop: "{{ prometheus_tdp_targets | dict2items }}"
-
-- name: Enrich prometheus_scrape_configs var with TDP components targets
-  ansible.builtin.set_fact:
-    prometheus_scrape_configs: |
-      {{ prometheus_scrape_configs
-         + [{
-               'job_name': item.value.component,
-               'file_sd_configs': [
-                 {'files': [prometheus_static_targets_dir + '/' + item.value.component + '.yml']}
-                 ],
-               'relabel_configs': prometheus_relabels
-           }]
-      }}
-  when: item.value.group in groups.keys()
-  loop: "{{ prometheus_tdp_targets | dict2items }}"
+- name: Build prometheus scrape config and file_sd targets
+  ansible.builtin.include_tasks: config_components_loop.yml
+  loop: "{{ observability_tdp_targets | dict2items }}"
+  loop_control:
+    label: "{{ service.key }}"
+    loop_var: service
 
 - name: Configure prometheus
   ansible.builtin.include_tasks:

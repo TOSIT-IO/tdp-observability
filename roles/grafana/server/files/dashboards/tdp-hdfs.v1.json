@@ -119,7 +119,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{cluster=\"$cluster\",job=\"hdfs_nn\"}",
+          "expr": "up{job=\"hdfs_namenode\"}",
           "hide": false,
           "instant": true,
           "legendFormat": "{{ instance }}",
@@ -185,7 +185,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{cluster=\"$cluster\",job=\"hdfs_jn\"}",
+          "expr": "up{job=\"hdfs_journal_node\"}",
           "hide": false,
           "instant": true,
           "legendFormat": "{{ instance }}",
@@ -251,7 +251,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{cluster=\"$cluster\",job=\"hdfs_zkfc\"}",
+          "expr": "up{job=\"hdfs_namenode_zkfc\"}",
           "hide": false,
           "instant": true,
           "legendFormat": "{{ instance }}",
@@ -317,7 +317,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{cluster=\"$cluster\",job=\"hdfs_dn\"}",
+          "expr": "up{job=\"hdfs_datanode\"}",
           "hide": false,
           "instant": true,
           "legendFormat": "{{ instance }}",
@@ -389,7 +389,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_NameNode_NumOpenConnections{cluster=\"$cluster\",job=~\"hdfs_nn\"}",
+          "expr": "Hadoop_NameNode_NumOpenConnections{job=~\"hdfs_namenode\"}",
           "format": "time_series",
           "instant": false,
           "intervalFactor": 2,
@@ -463,7 +463,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_NameNode_MillisSinceLastLoadedEdits{cluster=\"$cluster\", job=\"hdfs_nn\"} == 0",
+          "expr": "Hadoop_NameNode_MillisSinceLastLoadedEdits{ job=\"hdfs_namenode\"} == 0",
           "hide": false,
           "legendFormat": "{{instance}}",
           "range": true,
@@ -580,7 +580,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_NameNode_MemHeapUsedM{cluster=\"$cluster\", job=\"hdfs_nn\"}",
+          "expr": "Hadoop_NameNode_MemHeapUsedM{ job=\"hdfs_namenode\"}",
           "hide": false,
           "legendFormat": "{{ instance }} heap used",
           "range": true,
@@ -592,7 +592,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_NameNode_MemHeapMaxM{cluster=\"$cluster\", job=\"hdfs_nn\"})",
+          "expr": "avg(Hadoop_NameNode_MemHeapMaxM{ job=\"hdfs_namenode\"})",
           "hide": false,
           "legendFormat": "Max heap",
           "range": true,
@@ -604,7 +604,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_NameNode_MemHeapMaxM{cluster=\"$cluster\", job=\"hdfs_nn\"})*1.1",
+          "expr": "avg(Hadoop_NameNode_MemHeapMaxM{ job=\"hdfs_namenode\"})*1.1",
           "hide": false,
           "legendFormat": "MaxGraph",
           "range": true,
@@ -694,7 +694,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "java_lang_Runtime_Uptime{cluster=\"$cluster\",instance=~\"$ActiveNameNode\",job=~\"hdfs_nn\"}",
+          "expr": "java_lang_Runtime_Uptime{instance=~\"$ActiveNameNode\",job=~\"hdfs_namenode\"}",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{instance}} Uptime",
@@ -778,7 +778,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "100*(Hadoop_NameNode_CapacityUsed{cluster=\"$cluster\",job=~\"hdfs_nn\",name=\"FSNamesystem\"}/Hadoop_NameNode_CapacityTotal{cluster=\"$cluster\",job=~\"hdfs_nn\",name=\"FSNamesystem\"})",
+          "expr": "100*(Hadoop_NameNode_CapacityUsed{job=~\"hdfs_namenode\",name=\"FSNamesystem\"}/Hadoop_NameNode_CapacityTotal{job=~\"hdfs_namenode\",name=\"FSNamesystem\"})",
           "format": "time_series",
           "instant": false,
           "intervalFactor": 2,
@@ -840,7 +840,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "Hadoop_NameNode_BlocksTotal{cluster=\"$cluster\",job=~\"hdfs_nn\",name=\"FSNamesystemState\"}",
+          "expr": "Hadoop_NameNode_BlocksTotal{job=~\"hdfs_namenode\",name=\"FSNamesystemState\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{instance}} Blocks",
@@ -968,7 +968,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_NameNode_CapacityUsed{cluster=\"$cluster\",job=~\"hdfs_nn\",name=\"FSNamesystem\"}/(1024*1024)",
+          "expr": "Hadoop_NameNode_CapacityUsed{job=~\"hdfs_namenode\",name=\"FSNamesystem\"}/(1024*1024)",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
@@ -1027,7 +1027,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_NameNode_CorruptBlocks{cluster=\"$cluster\",job=~\"hdfs_nn\"}",
+          "expr": "Hadoop_NameNode_CorruptBlocks{job=~\"hdfs_namenode\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
@@ -1040,7 +1040,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_NameNode_UnderReplicatedBlocks{cluster=\"$cluster\",job=~\"hdfs_nn\", name=\"FSNamesystem\",}",
+          "expr": "Hadoop_NameNode_UnderReplicatedBlocks{job=~\"hdfs_namenode\", name=\"FSNamesystem\",}",
           "format": "time_series",
           "hide": false,
           "intervalFactor": 2,
@@ -1149,7 +1149,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "java_lang_OperatingSystem_OpenFileDescriptorCount{cluster=\"$cluster\",job=~\"hdfs_nn\"}",
+              "expr": "java_lang_OperatingSystem_OpenFileDescriptorCount{job=~\"hdfs_namenode\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
@@ -1226,7 +1226,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "max(jvm_classes_loaded{cluster=\"$cluster\",job=~\"hdfs_nn\"})",
+              "expr": "max(jvm_classes_loaded{job=~\"hdfs_namenode\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "",
@@ -1303,7 +1303,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "max(jvm_threads_current{cluster=\"$cluster\",job=~\"hdfs_nn\"})",
+              "expr": "max(jvm_threads_current{job=~\"hdfs_namenode\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "",
@@ -1380,7 +1380,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "max(jvm_threads_deadlocked{cluster=\"$cluster\",job=~\"hdfs_nn\"})",
+              "expr": "max(jvm_threads_deadlocked{job=~\"hdfs_namenode\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "",
@@ -1441,7 +1441,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "jvm_memory_pool_bytes_used{cluster=\"$cluster\",job=~\"hdfs_nn\"}",
+              "expr": "jvm_memory_pool_bytes_used{job=~\"hdfs_namenode\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}} pool:{{pool}}",
@@ -1531,7 +1531,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "rate(jvm_gc_collection_seconds_sum{cluster=\"$cluster\",job=~\"hdfs_nn\"}[5m])",
+              "expr": "rate(jvm_gc_collection_seconds_sum{job=~\"hdfs_namenode\"}[5m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}} gc:{{gc}}",
@@ -1621,7 +1621,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "jvm_threads_state{cluster=\"$cluster\",job=~\"hdfs_nn\"}",
+              "expr": "jvm_threads_state{job=~\"hdfs_namenode\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}} state:{{state}}",
@@ -1735,7 +1735,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "Hadoop_JournalNode_NumOpenConnections{cluster=\"$cluster\",job=~\"hdfs_jn\"}",
+              "expr": "Hadoop_JournalNode_NumOpenConnections{job=~\"hdfs_journal_node\"}",
               "format": "time_series",
               "instant": false,
               "intervalFactor": 2,
@@ -1802,7 +1802,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "rate(Hadoop_JournalNode_JournalNumOps{cluster=\"$cluster\",job=~\"hdfs_jn\"}[1m])",
+              "expr": "rate(Hadoop_JournalNode_JournalNumOps{job=~\"hdfs_journal_node\"}[1m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}} ops",
@@ -1898,7 +1898,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "rate(Hadoop_JournalNode_BatchesWritten{cluster=\"$cluster\",job=~\"hdfs_jn\"}[1m])",
+              "expr": "rate(Hadoop_JournalNode_BatchesWritten{job=~\"hdfs_journal_node\"}[1m])",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{instance}} batches",
@@ -1988,7 +1988,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "Hadoop_JournalNode_CallQueueLength{cluster=\"$cluster\",job=~\"hdfs_jn\"}",
+              "expr": "Hadoop_JournalNode_CallQueueLength{job=~\"hdfs_journal_node\"}",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{instance}} queue",
@@ -2078,7 +2078,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "Hadoop_JournalNode_JournalAvgTime{cluster=\"$cluster\",job=~\"hdfs_jn\"}",
+              "expr": "Hadoop_JournalNode_JournalAvgTime{job=~\"hdfs_journal_node\"}",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{instance}} latency",
@@ -2174,7 +2174,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "Hadoop_JournalNode_BatchesWrittenWhileLagging{cluster=\"$cluster\",job=~\"hdfs_jn\"}",
+              "expr": "Hadoop_JournalNode_BatchesWrittenWhileLagging{job=~\"hdfs_journal_node\"}",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{instance}}",
@@ -2285,7 +2285,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "java_lang_OperatingSystem_OpenFileDescriptorCount{cluster=\"$cluster\",job=~\"hdfs_jn\"}",
+              "expr": "java_lang_OperatingSystem_OpenFileDescriptorCount{job=~\"hdfs_journal_node\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}}",
@@ -2362,7 +2362,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "max(jvm_classes_loaded{cluster=\"$cluster\",job=~\"hdfs_jn\"})",
+              "expr": "max(jvm_classes_loaded{job=~\"hdfs_journal_node\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "",
@@ -2439,7 +2439,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "max(jvm_threads_current{cluster=\"$cluster\",job=~\"hdfs_jn\"})",
+              "expr": "max(jvm_threads_current{job=~\"hdfs_journal_node\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "",
@@ -2516,7 +2516,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "max(jvm_threads_deadlocked{cluster=\"$cluster\",job=~\"hdfs_jn\"})",
+              "expr": "max(jvm_threads_deadlocked{job=~\"hdfs_journal_node\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "",
@@ -2577,7 +2577,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "jvm_memory_pool_bytes_used{cluster=\"$cluster\",job=~\"hdfs_jn\"}",
+              "expr": "jvm_memory_pool_bytes_used{job=~\"hdfs_journal_node\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}} pool:{{pool}}",
@@ -2667,7 +2667,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "rate(jvm_gc_collection_seconds_sum{cluster=\"$cluster\",job=~\"hdfs_jn\"}[5m])",
+              "expr": "rate(jvm_gc_collection_seconds_sum{job=~\"hdfs_journal_node\"}[5m])",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}} gc:{{gc}}",
@@ -2757,7 +2757,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "jvm_threads_state{cluster=\"$cluster\",job=~\"hdfs_jn\"}",
+              "expr": "jvm_threads_state{job=~\"hdfs_journal_node\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "{{instance}} state:{{state}}",
@@ -2868,7 +2868,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "100*(Hadoop_DataNode_DfsUsed{cluster=\"$cluster\", job=\"hdfs_dn\",name=\"FSDatasetState\",}/Hadoop_DataNode_Capacity{cluster=\"$cluster\", job=\"hdfs_dn\",name=\"FSDatasetState\"})",
+              "expr": "100*(Hadoop_DataNode_DfsUsed{ job=\"hdfs_datanode\",name=\"FSDatasetState\",}/Hadoop_DataNode_Capacity{ job=\"hdfs_datanode\",name=\"FSDatasetState\"})",
               "legendFormat": "{{instance}}",
               "range": true,
               "refId": "A"
@@ -2961,7 +2961,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "Hadoop_DataNode_ReadIoRateNumOps{cluster=\"$cluster\", job=\"hdfs_dn\"}",
+              "expr": "Hadoop_DataNode_ReadIoRateNumOps{ job=\"hdfs_datanode\"}",
               "legendFormat": "{{instance}}",
               "range": true,
               "refId": "A"
@@ -3054,7 +3054,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "Hadoop_DataNode_WriteIoRateNumOps{cluster=\"$cluster\", job=\"hdfs_dn\"}",
+              "expr": "Hadoop_DataNode_WriteIoRateNumOps{ job=\"hdfs_datanode\"}",
               "legendFormat": "{{instance}}",
               "range": true,
               "refId": "A"
@@ -3174,7 +3174,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "Hadoop_DataNode_DfsUsed{cluster=\"$cluster\", job=\"hdfs_dn\",name=\"FSDatasetState\",}/(1024*1024)",
+              "expr": "Hadoop_DataNode_DfsUsed{ job=\"hdfs_datanode\",name=\"FSDatasetState\",}/(1024*1024)",
               "legendFormat": "{{instance}}",
               "range": true,
               "refId": "A"
@@ -3267,7 +3267,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "Hadoop_DataNode_ReadIoRateAvgTime{cluster=\"$cluster\", job=\"hdfs_dn\"}",
+              "expr": "Hadoop_DataNode_ReadIoRateAvgTime{ job=\"hdfs_datanode\"}",
               "legendFormat": "{{instance}}",
               "range": true,
               "refId": "A"
@@ -3360,7 +3360,7 @@
                 "uid": "${DS_PROMETHEUS}"
               },
               "editorMode": "code",
-              "expr": "Hadoop_DataNode_WriteIoRateAvgTime{cluster=\"$cluster\",job=\"hdfs_dn\"}",
+              "expr": "Hadoop_DataNode_WriteIoRateAvgTime{job=\"hdfs_datanode\"}",
               "legendFormat": "{{instance}}",
               "range": true,
               "refId": "A"
@@ -3443,7 +3443,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "java_lang_OperatingSystem_OpenFileDescriptorCount{cluster=\"$cluster\",job=~\"hdfs_dn\"}",
+          "expr": "java_lang_OperatingSystem_OpenFileDescriptorCount{job=~\"hdfs_datanode\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{instance}}",
@@ -3520,7 +3520,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(jvm_classes_loaded{cluster=\"$cluster\",instance=~\"$instance\",job=~\"hdfs_dn\"})",
+          "expr": "max(jvm_classes_loaded{instance=~\"$instance\",job=~\"hdfs_datanode\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -3597,7 +3597,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(jvm_threads_current{cluster=\"$cluster\",job=~\"hdfs_dn\"})",
+          "expr": "max(jvm_threads_current{job=~\"hdfs_datanode\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -3674,7 +3674,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(jvm_threads_deadlocked{cluster=\"$cluster\",job=~\"hdfs_dn\"})",
+          "expr": "max(jvm_threads_deadlocked{job=~\"hdfs_datanode\"})",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -3735,7 +3735,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "jvm_memory_pool_bytes_used{cluster=\"$cluster\",job=~\"hdfs_dn\"}",
+          "expr": "jvm_memory_pool_bytes_used{job=~\"hdfs_datanode\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{instance}} pool:{{pool}}",
@@ -3825,7 +3825,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "jvm_threads_state{cluster=\"$cluster\",job=~\"hdfs_dn\"}",
+          "expr": "jvm_threads_state{job=~\"hdfs_datanode\"}",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{instance}} state:{{state}}",
@@ -3915,7 +3915,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "rate(jvm_gc_collection_seconds_sum{cluster=\"$cluster\",job=~\"hdfs_dn\"}[5m])",
+          "expr": "rate(jvm_gc_collection_seconds_sum{job=~\"hdfs_datanode\"}[5m])",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{instance}} gc:{{gc}}",
@@ -3983,33 +3983,6 @@
       },
       {
         "current": {
-          "selected": false,
-          "text": "mycluster",
-          "value": "mycluster"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
-        },
-        "definition": "label_values(cluster)",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Cluster",
-        "multi": false,
-        "name": "cluster",
-        "options": [],
-        "query": {
-          "query": "label_values(cluster)",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "current": {
           "selected": true,
           "text": ["All"],
           "value": ["$__all"]
@@ -4018,7 +3991,7 @@
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "label_values({job=~\"hdfs.*\",cluster=\"$cluster\"}, instance)",
+        "definition": "label_values({job=~\"hdfs.*\"}, instance)",
         "hide": 2,
         "includeAll": true,
         "label": "Instance",
@@ -4026,7 +3999,7 @@
         "name": "instance",
         "options": [],
         "query": {
-          "query": "label_values({job=~\"hdfs.*\",cluster=\"$cluster\"}, instance)",
+          "query": "label_values({job=~\"hdfs.*\"}, instance)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -4036,23 +4009,18 @@
         "type": "query"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "master-01.tdp",
-          "value": "master-01.tdp"
-        },
         "datasource": {
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "query_result(Hadoop_NameNode_MillisSinceLastLoadedEdits{cluster=\"$cluster\", job=\"hdfs_nn\"} == 0) ",
+        "definition": "query_result(Hadoop_NameNode_MillisSinceLastLoadedEdits{ job=\"hdfs_namenode\"} == 0) ",
         "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "ActiveNameNode",
         "options": [],
         "query": {
-          "query": "query_result(Hadoop_NameNode_MillisSinceLastLoadedEdits{cluster=\"$cluster\", job=\"hdfs_nn\"} == 0) ",
+          "query": "query_result(Hadoop_NameNode_MillisSinceLastLoadedEdits{ job=\"hdfs_namenode\"} == 0) ",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,

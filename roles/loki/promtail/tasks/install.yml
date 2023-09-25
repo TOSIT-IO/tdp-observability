@@ -2,20 +2,20 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-- name: Ensure promtail's group exists
+- name: Ensure promtail's group exists  # noqa var-naming[no-role-prefix]
   ansible.builtin.include_role:
     name: tosit.tdp.utils.group
   vars:
     group: "{{ promtail_group }}"
 
-- name: Ensure promtail's user exists
+- name: Ensure promtail's user exists   # noqa var-naming[no-role-prefix]
   ansible.builtin.include_role:
     name: tosit.tdp.utils.user
   vars:
     user: "{{ promtail_user }}"
     group: "{{ promtail_group }}"
 
-- name: Upload {{ promtail_dist_file }}
+- name: "Upload {{ promtail_dist_file }}"
   ansible.builtin.copy:
     src: "{{ binaries_local_dir }}/{{ promtail_dist_file }}"
     dest: "{{ binaries_upload_dir }}"
@@ -24,7 +24,7 @@
     mode: "644"
   diff: false
 
-- name: Ensure {{ promtail_root_dir }}/{{ promtail_release }} exists
+- name: "Ensure directory exists : {{ promtail_release }}"
   ansible.builtin.file:
     path: "{{ promtail_root_dir }}/{{ promtail_release }}"
     state: directory
@@ -32,7 +32,7 @@
     group: root
     mode: "755"
 
-- name: Extract {{ promtail_dist_file }}
+- name: "Extract {{ promtail_dist_file }}"
   ansible.builtin.unarchive:
     src: "{{ binaries_upload_dir }}/{{ promtail_dist_file }}"
     dest: "{{ promtail_root_dir }}/{{ promtail_release }}"
@@ -48,7 +48,7 @@
     dest: "{{ promtail_install_dir }}"
     state: link
 
-- name: Ensure {{ promtail_data_dir }} exists
+- name: "Ensure directory exists: {{ promtail_data_dir }}"
   ansible.builtin.file:
     path: "{{ promtail_data_dir }}"
     state: directory
@@ -56,7 +56,7 @@
     group: "{{ promtail_group }}"
     mode: "750"
 
-- name: Ensure {{ promtail_conf_dir }} exists
+- name: "Ensure directory exists: {{ promtail_conf_dir }}"
   ansible.builtin.file:
     path: "{{ promtail_conf_dir }}"
     state: directory
@@ -71,5 +71,4 @@
     group: root
     owner: root
     mode: "644"
-  notify:
-  - systemctl daemon-reload
+  notify: systemctl daemon-reload

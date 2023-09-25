@@ -82,15 +82,16 @@
             "uid": "${DS_LOKI}"
           },
           "editorMode": "builder",
-          "expr": "{job=~\"$job\", instance=~\"$instance\", filename=~\"$filename\"} |= `$text`",
+          "expr": "{service=~\"$service\", component=~\"$component\", instance=~\"$host\", level=~\"$level\", filename=~\"$filename\"} |= `$text`",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Job: ${job} - host: ${instance} - file : ${filename}",
+      "title": "${service}-${component} on ${host} host(s)",
       "type": "logs"
     }
   ],
+  "refresh": "",
   "schemaVersion": 37,
   "style": "dark",
   "tags": [
@@ -107,7 +108,7 @@
           "text": "TDP Loki",
           "value": "TDP Loki"
         },
-        "hide": 0,
+        "hide": 2,
         "includeAll": false,
         "label": "Datasource",
         "multi": false,
@@ -121,7 +122,7 @@
         "type": "datasource"
       },
       {
-        "allValue": ".*logs$",
+        "allValue": ".+",
         "current": {
           "selected": true,
           "text": "All",
@@ -134,44 +135,13 @@
         "definition": "",
         "hide": 0,
         "includeAll": true,
-        "label": "Application",
         "multi": false,
-        "name": "job",
+        "name": "service",
         "options": [],
         "query": {
-          "label": "job",
+          "label": "service",
           "refId": "LokiVariableQueryEditor-VariableQuery",
           "stream": "",
-          "type": 1
-        },
-        "refresh": 1,
-        "regex": "/.*logs$/",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "allValue": ".+",
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
-        "datasource": {
-          "type": "loki",
-          "uid": "${DS_LOKI}"
-        },
-        "definition": "",
-        "hide": 0,
-        "includeAll": true,
-        "label": "Host",
-        "multi": false,
-        "name": "instance",
-        "options": [],
-        "query": {
-          "label": "instance",
-          "refId": "LokiVariableQueryEditor-VariableQuery",
-          "stream": "{job=~\"$job\"}",
           "type": 1
         },
         "refresh": 1,
@@ -194,14 +164,100 @@
         "definition": "",
         "hide": 0,
         "includeAll": true,
-        "label": "Log file",
+        "multi": false,
+        "name": "component",
+        "options": [],
+        "query": {
+          "label": "component",
+          "refId": "LokiVariableQueryEditor-VariableQuery",
+          "stream": "{service=~\"$service\"}",
+          "type": 1
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".+",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "loki",
+          "uid": "${DS_LOKI}"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
+        "multi": false,
+        "name": "host",
+        "options": [],
+        "query": {
+          "label": "instance",
+          "refId": "LokiVariableQueryEditor-VariableQuery",
+          "stream": "{service=~\"$service\", component=~\"$component\"}",
+          "type": 1
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".+",
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "loki",
+          "uid": "${DS_LOKI}"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
         "multi": false,
         "name": "filename",
         "options": [],
         "query": {
           "label": "filename",
           "refId": "LokiVariableQueryEditor-VariableQuery",
-          "stream": "{job=~\"$job\", instance=~\"$instance\"}",
+          "stream": "{service=~\"$service\", component=~\"$component\", instance=~\"$host\"}",
+          "type": 1
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".+",
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "loki",
+          "uid": "${DS_LOKI}"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
+        "multi": false,
+        "name": "level",
+        "options": [],
+        "query": {
+          "label": "level",
+          "refId": "LokiVariableQueryEditor-VariableQuery",
+          "stream": "",
           "type": 1
         },
         "refresh": 1,
@@ -212,12 +268,12 @@
       },
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "",
           "value": ""
         },
         "hide": 0,
-        "label": "Search text",
+        "label": "Search",
         "name": "text",
         "options": [
           {

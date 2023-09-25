@@ -122,7 +122,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{cluster=\"$cluster\",job=\"yarn_rm\"}",
+          "expr": "up{job=\"yarn_ressource_manager\"}",
           "hide": false,
           "instant": true,
           "legendFormat": "{{ instance }}",
@@ -188,7 +188,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{cluster=\"$cluster\",job=\"yarn_rm\"}",
+          "expr": "up{job=\"yarn_ressource_manager\"}",
           "hide": false,
           "instant": true,
           "legendFormat": "{{ instance }}",
@@ -254,7 +254,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{cluster=\"$cluster\",job=\"mapred_jhs\"}",
+          "expr": "up{job=\"yarn_mapred_history_server\"}",
           "hide": false,
           "instant": true,
           "legendFormat": "{{ instance }}",
@@ -320,7 +320,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{cluster=\"$cluster\",job=\"yarn_nm\"}",
+          "expr": "up{job=\"yarn_node_manager\"}",
           "hide": false,
           "instant": true,
           "legendFormat": "{{ instance }}",
@@ -499,7 +499,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_ResourceManager_MemHeapUsedM{cluster=\"$cluster\", job=\"yarn_rm\"}",
+          "expr": "Hadoop_ResourceManager_MemHeapUsedM{ job=\"yarn_ressource_manager\"}",
           "hide": false,
           "legendFormat": "{{ instance }} heap used",
           "range": true,
@@ -511,7 +511,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_ResourceManager_MemHeapMaxM{cluster=\"$cluster\", job=\"yarn_rm\"})",
+          "expr": "avg(Hadoop_ResourceManager_MemHeapMaxM{ job=\"yarn_ressource_manager\"})",
           "legendFormat": "Max heap",
           "range": true,
           "refId": "MaxHeap"
@@ -522,7 +522,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_ResourceManager_MemHeapMaxM{cluster=\"$cluster\", job=\"yarn_rm\"})*1.1",
+          "expr": "avg(Hadoop_ResourceManager_MemHeapMaxM{ job=\"yarn_ressource_manager\"})*1.1",
           "hide": false,
           "legendFormat": "MaxGraph",
           "range": true,
@@ -623,7 +623,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_NumActiveNMs{cluster=\"$cluster\", job=\"yarn_rm\"})",
+          "expr": "max(Hadoop_ResourceManager_NumActiveNMs{ job=\"yarn_ressource_manager\"})",
           "legendFormat": "Active",
           "range": true,
           "refId": "ActiveNMs"
@@ -634,7 +634,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_NumUnhealthyNMs{cluster=\"$cluster\", job=\"yarn_rm\"})",
+          "expr": "max(Hadoop_ResourceManager_NumUnhealthyNMs{ job=\"yarn_ressource_manager\"})",
           "hide": false,
           "legendFormat": "Unhealthy",
           "range": true,
@@ -646,7 +646,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_NumShutdownNMs{cluster=\"$cluster\", job=\"yarn_rm\"})",
+          "expr": "max(Hadoop_ResourceManager_NumShutdownNMs{ job=\"yarn_ressource_manager\"})",
           "hide": false,
           "legendFormat": "Shutdown",
           "range": true,
@@ -658,7 +658,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_NumLostNMs{cluster=\"$cluster\", job=\"yarn_rm\"})",
+          "expr": "max(Hadoop_ResourceManager_NumLostNMs{ job=\"yarn_ressource_manager\"})",
           "hide": false,
           "legendFormat": "Lost",
           "range": true,
@@ -737,7 +737,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AvailableMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_AvailableMB{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "legendFormat": "Available",
           "range": true,
           "refId": "AvailableMemory"
@@ -748,7 +748,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_PendingMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_PendingMB{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Pending",
           "range": true,
@@ -760,7 +760,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AllocatedMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_AllocatedMB{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Allocated",
           "range": true,
@@ -772,7 +772,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_ReservedMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_ReservedMB{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Reserved",
           "range": true,
@@ -867,7 +867,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_PendingMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_PendingMB{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Pending",
           "range": true,
@@ -879,7 +879,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_ReservedMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_ReservedMB{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Reserved",
           "range": true,
@@ -891,7 +891,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AllocatedMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_AllocatedMB{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Allocated",
           "range": true,
@@ -903,7 +903,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AvailableMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_AvailableMB{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "legendFormat": "Available",
           "range": true,
           "refId": "AvailableMemory"
@@ -968,7 +968,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AvailableVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_AvailableVCores{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "legendFormat": "Available",
           "range": true,
           "refId": "AvailableVCores"
@@ -979,7 +979,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_PendingVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_PendingVCores{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Pending",
           "range": true,
@@ -991,7 +991,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AllocatedVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_AllocatedVCores{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Allocated",
           "range": true,
@@ -1003,7 +1003,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_ReservedVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_ReservedVCores{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Reserved",
           "range": true,
@@ -1098,7 +1098,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_PendingVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_PendingVCores{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Pending",
           "range": true,
@@ -1110,7 +1110,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_ReservedVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_ReservedVCores{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Reserved",
           "range": true,
@@ -1122,7 +1122,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AllocatedVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_AllocatedVCores{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Allocated",
           "range": true,
@@ -1134,7 +1134,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AvailableVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_AvailableVCores{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "legendFormat": "Available",
           "range": true,
           "refId": "AvailableVCores"
@@ -1201,7 +1201,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(Hadoop_ResourceManager_AppsCompleted{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_AppsCompleted{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "instant": true,
           "legendFormat": "Completed",
@@ -1215,7 +1215,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(Hadoop_ResourceManager_AppsFailed{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_AppsFailed{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "instant": true,
           "legendFormat": "Failed",
@@ -1229,7 +1229,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(Hadoop_ResourceManager_AppsKilled{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_AppsKilled{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "instant": true,
           "legendFormat": "Killed",
@@ -1325,7 +1325,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AppsPending{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_AppsPending{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Pending",
           "range": true,
@@ -1337,7 +1337,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AppsRunning{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_AppsRunning{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Running",
           "range": true,
@@ -1432,7 +1432,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_PendingContainers{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_PendingContainers{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Pending",
           "range": true,
@@ -1444,7 +1444,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_ReservedContainers{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_ReservedContainers{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Reserved",
           "range": true,
@@ -1456,7 +1456,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AllocatedContainers{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"\"})",
+          "expr": "max(Hadoop_ResourceManager_AllocatedContainers{ job=\"yarn_ressource_manager\", q1=\"\"})",
           "hide": false,
           "legendFormat": "Allocated",
           "range": true,
@@ -1535,7 +1535,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AvailableMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_AvailableMB{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "legendFormat": "Available",
           "range": true,
           "refId": "AvailableMemory"
@@ -1546,7 +1546,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_PendingMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_PendingMB{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Pending",
           "range": true,
@@ -1558,7 +1558,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AllocatedMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_AllocatedMB{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Allocated",
           "range": true,
@@ -1570,7 +1570,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_ReservedMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_ReservedMB{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Reserved",
           "range": true,
@@ -1665,7 +1665,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_PendingMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_PendingMB{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Pending",
           "range": true,
@@ -1677,7 +1677,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_ReservedMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_ReservedMB{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Reserved",
           "range": true,
@@ -1689,7 +1689,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AllocatedMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_AllocatedMB{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Allocated",
           "range": true,
@@ -1701,7 +1701,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AvailableMB{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_AvailableMB{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "legendFormat": "Available",
           "range": true,
           "refId": "AvailableMemory"
@@ -1766,7 +1766,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AvailableVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_AvailableVCores{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "legendFormat": "Available",
           "range": true,
           "refId": "AvailableVCores"
@@ -1777,7 +1777,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_PendingVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_PendingVCores{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Pending",
           "range": true,
@@ -1789,7 +1789,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AllocatedVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_AllocatedVCores{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Allocated",
           "range": true,
@@ -1801,7 +1801,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_ReservedVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_ReservedVCores{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Reserved",
           "range": true,
@@ -1896,7 +1896,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_PendingVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_PendingVCores{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Pending",
           "range": true,
@@ -1908,7 +1908,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_ReservedVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_ReservedVCores{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Reserved",
           "range": true,
@@ -1920,7 +1920,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AllocatedVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_AllocatedVCores{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Allocated",
           "range": true,
@@ -1932,7 +1932,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AvailableVCores{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_AvailableVCores{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "legendFormat": "Available",
           "range": true,
           "refId": "AvailableVCores"
@@ -1999,7 +1999,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(Hadoop_ResourceManager_AppsCompleted{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_AppsCompleted{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "instant": true,
           "legendFormat": "Completed",
@@ -2013,7 +2013,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(Hadoop_ResourceManager_AppsFailed{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_AppsFailed{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "instant": true,
           "legendFormat": "Failed",
@@ -2027,7 +2027,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "max(Hadoop_ResourceManager_AppsKilled{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_AppsKilled{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "instant": true,
           "legendFormat": "Killed",
@@ -2123,7 +2123,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AppsPending{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_AppsPending{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Pending",
           "range": true,
@@ -2135,7 +2135,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AppsRunning{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_AppsRunning{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Running",
           "range": true,
@@ -2231,7 +2231,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_PendingContainers{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_PendingContainers{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Pending",
           "range": true,
@@ -2243,7 +2243,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_ReservedContainers{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_ReservedContainers{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Reserved",
           "range": true,
@@ -2255,7 +2255,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(Hadoop_ResourceManager_AllocatedContainers{cluster=\"$cluster\", job=\"yarn_rm\", q1=\"$queue\"})",
+          "expr": "max(Hadoop_ResourceManager_AllocatedContainers{ job=\"yarn_ressource_manager\", q1=\"$queue\"})",
           "hide": false,
           "legendFormat": "Allocated",
           "range": true,
@@ -2294,37 +2294,9 @@
       },
       {
         "allFormat": "glob",
-        "current": {
-          "selected": false,
-          "text": "mycluster",
-          "value": "mycluster"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
-        },
-        "definition": "label_values(cluster)",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Cluster",
-        "multi": false,
-        "name": "cluster",
-        "options": [],
-        "query": {
-          "query": "label_values(cluster)",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "allFormat": "glob",
         "hide": 2,
         "name": "service",
-        "query": "YARN",
+        "query": "yarn",
         "skipUrlSync": false,
         "type": "constant"
       },
@@ -2339,7 +2311,7 @@
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "label_values({cluster=\"$cluster\", service=\"$service\"}, q1)",
+        "definition": "label_values({ service=\"$service\"}, q1)",
         "hide": 0,
         "includeAll": false,
         "label": "Queue",
@@ -2347,7 +2319,7 @@
         "name": "queue",
         "options": [],
         "query": {
-          "query": "label_values({cluster=\"$cluster\", service=\"$service\"}, q1)",
+          "query": "label_values({ service=\"$service\"}, q1)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -2358,23 +2330,18 @@
       },
       {
         "allFormat": "glob",
-        "current": {
-          "selected": false,
-          "text": "master-02.tdp",
-          "value": "master-02.tdp"
-        },
         "datasource": {
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "query_result(Hadoop_ResourceManager_NumActiveNMs{cluster=\"$cluster\", service=\"$service\"} > 0)",
+        "definition": "query_result(Hadoop_ResourceManager_NumActiveNMs{ service=\"$service\"} > 0)",
         "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "activeRM",
         "options": [],
         "query": {
-          "query": "query_result(Hadoop_ResourceManager_NumActiveNMs{cluster=\"$cluster\", service=\"$service\"} > 0)",
+          "query": "query_result(Hadoop_ResourceManager_NumActiveNMs{ service=\"$service\"} > 0)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
