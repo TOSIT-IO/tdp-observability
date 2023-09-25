@@ -1990,36 +1990,9 @@
         "hide": 2,
         "label": "Job",
         "name": "job",
-        "query": "zk_server",
+        "query": "zookeeper_server",
         "skipUrlSync": false,
         "type": "constant"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "mycluster",
-          "value": "mycluster"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
-        },
-        "definition": "label_values(cluster)",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Cluster",
-        "multi": false,
-        "name": "cluster",
-        "options": [],
-        "query": {
-          "query": "label_values(cluster)",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
       },
       {
         "current": {
@@ -2031,7 +2004,7 @@
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "label_values({job=~\"$job\",cluster=\"$cluster\"}, instance)",
+        "definition": "label_values({job=~\"$job\"}, instance)",
         "hide": 0,
         "includeAll": true,
         "label": "Instance",
@@ -2039,7 +2012,7 @@
         "name": "instance",
         "options": [],
         "query": {
-          "query": "label_values({job=~\"$job\",cluster=\"$cluster\"}, instance)",
+          "query": "label_values({job=~\"$job\"}, instance)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -2052,23 +2025,18 @@
         "useTags": false
       },
       {
-        "current": {
-          "selected": false,
-          "text": "master-02.tdp",
-          "value": "master-02.tdp"
-        },
         "datasource": {
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "{__name__=~\"org_apache_ZooKeeperService_ReplicatedServer_.*_MaxSessionTimeout\",job=~\"$job\",cluster=\"$cluster\",name2=\"Leader\"}",
+        "definition": "{__name__=~\"org_apache_ZooKeeperService_ReplicatedServer_.*_MaxSessionTimeout\",job=~\"$job\",name2=\"Leader\"}",
         "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "leader",
         "options": [],
         "query": {
-          "query": "{__name__=~\"org_apache_ZooKeeperService_ReplicatedServer_.*_MaxSessionTimeout\",job=~\"$job\",cluster=\"$cluster\",name2=\"Leader\"}",
+          "query": "{__name__=~\"org_apache_ZooKeeperService_ReplicatedServer_.*_MaxSessionTimeout\",job=~\"$job\",name2=\"Leader\"}",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,

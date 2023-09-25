@@ -1,0 +1,12 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Loop through each component in observability_tdp_targets[service]
+  ansible.builtin.include_tasks: config_jobs_loop.yml
+  loop: "{{ service.value | dict2items }}"
+  # ansible group is equal to <service>_<component> unless specified by 'group' key
+  when: component.value.group | default(service.key + '_' + component.key) in groups.keys()
+  loop_control:
+    loop_var: component
+    label: "{{ service.key }}_{{ component.key }}"

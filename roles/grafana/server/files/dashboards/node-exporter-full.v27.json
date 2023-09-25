@@ -13981,43 +13981,11 @@
         "type": "constant"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "mycluster",
-          "value": "mycluster"
-        },
         "datasource": {
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "label_values(cluster)",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Cluster",
-        "multi": false,
-        "name": "cluster",
-        "options": [],
-        "query": {
-          "query": "label_values(cluster)",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "current": {
-          "selected": true,
-          "text": "master-01.tdp",
-          "value": "master-01.tdp"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
-        },
-        "definition": "label_values({job=~\"$job\",cluster=\"$cluster\"}, instance)",
+        "definition": "label_values({job=~\"$job\"}, instance)",
         "hide": 0,
         "includeAll": false,
         "label": "Instance",
@@ -14025,7 +13993,7 @@
         "name": "node",
         "options": [],
         "query": {
-          "query": "label_values({job=~\"$job\",cluster=\"$cluster\"}, instance)",
+          "query": "label_values({job=~\"$job\"}, instance)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,

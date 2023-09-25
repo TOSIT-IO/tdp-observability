@@ -122,7 +122,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{cluster=\"$cluster\",job=\"hbase_master\"}",
+          "expr": "up{job=\"hbase_master\"}",
           "hide": false,
           "instant": true,
           "legendFormat": "{{ instance }}",
@@ -188,7 +188,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{cluster=\"$cluster\",job=\"hbase_rest\"}",
+          "expr": "up{job=\"hbase_rest\"}",
           "hide": false,
           "instant": true,
           "legendFormat": "{{ instance }}",
@@ -254,7 +254,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{cluster=\"$cluster\",job=\"phoenix_queryserver\"}",
+          "expr": "up{job=\"hbase_phoenix_queryserver_daemon\"}",
           "hide": false,
           "instant": true,
           "legendFormat": "{{ instance }}",
@@ -320,7 +320,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{cluster=\"$cluster\",job=\"hbase_rs\"}",
+          "expr": "up{job=\"hbase_region_server\"}",
           "hide": false,
           "instant": true,
           "legendFormat": "{{ instance }}",
@@ -499,7 +499,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_HBase_MemHeapUsedM{cluster=\"$cluster\", job=\"hbase_master\"}",
+          "expr": "Hadoop_HBase_MemHeapUsedM{job=\"hbase_master\"}",
           "hide": false,
           "legendFormat": "{{ instance }} heap used",
           "range": true,
@@ -511,7 +511,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_HBase_MemHeapMaxM{cluster=\"$cluster\", job=\"hbase_master\"})",
+          "expr": "avg(Hadoop_HBase_MemHeapMaxM{job=\"hbase_master\"})",
           "legendFormat": "Max heap",
           "range": true,
           "refId": "MaxHeap"
@@ -522,7 +522,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_HBase_MemHeapMaxM{cluster=\"$cluster\", job=\"hbase_master\"})*1.1",
+          "expr": "avg(Hadoop_HBase_MemHeapMaxM{ job=\"hbase_master\"})*1.1",
           "hide": false,
           "legendFormat": "MaxGraph",
           "range": true,
@@ -623,7 +623,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_HBase_numRegionServers{cluster=\"$cluster\", job=\"hbase_master\", instance=\"$activeHM\"}-Hadoop_HBase_numDeadRegionServers{cluster=\"$cluster\", job=\"hbase_master\", instance=\"$activeHM\"}",
+          "expr": "Hadoop_HBase_numRegionServers{ job=\"hbase_master\", instance=\"$activeHM\"}-Hadoop_HBase_numDeadRegionServers{ job=\"hbase_master\", instance=\"$activeHM\"}",
           "legendFormat": "Live",
           "range": true,
           "refId": "LiveRSs"
@@ -634,7 +634,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_HBase_numDeadRegionServers{cluster=\"$cluster\", job=\"hbase_master\", instance=\"$activeHM\"}",
+          "expr": "Hadoop_HBase_numDeadRegionServers{ job=\"hbase_master\", instance=\"$activeHM\"}",
           "hide": false,
           "legendFormat": "Dead",
           "range": true,
@@ -742,7 +742,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_HBase_regionCount{cluster=\"$cluster\", job=\"hbase_rs\"}",
+          "expr": "Hadoop_HBase_regionCount{ job=\"hbase_region_server\"}",
           "legendFormat": "{{ instance }}",
           "range": true,
           "refId": "regionCount"
@@ -830,7 +830,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_HBase_ritCount{cluster=\"$cluster\", job=\"hbase_master\"}",
+          "expr": "Hadoop_HBase_ritCount{ job=\"hbase_master\"}",
           "legendFormat": "Regions in transit",
           "range": true,
           "refId": "rit"
@@ -841,7 +841,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_HBase_ritCountOverThreshold{cluster=\"$cluster\", job=\"hbase_master\"}",
+          "expr": "Hadoop_HBase_ritCountOverThreshold{ job=\"hbase_master\"}",
           "hide": false,
           "legendFormat": "Regions in transit over duration threshold",
           "range": true,
@@ -935,7 +935,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_HBase_RitDuration_mean{cluster=\"$cluster\", job=\"hbase_master\"}",
+          "expr": "Hadoop_HBase_RitDuration_mean{ job=\"hbase_master\"}",
           "legendFormat": "Avg transit duration",
           "range": true,
           "refId": "ritDurationMean"
@@ -946,7 +946,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_HBase_RitDuration_max{cluster=\"$cluster\", job=\"hbase_master\"}",
+          "expr": "Hadoop_HBase_RitDuration_max{ job=\"hbase_master\"}",
           "hide": false,
           "legendFormat": "Max transit duration",
           "range": true,
@@ -958,7 +958,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_HBase_RitDuration_min{cluster=\"$cluster\", job=\"hbase_master\"}",
+          "expr": "Hadoop_HBase_RitDuration_min{ job=\"hbase_master\"}",
           "hide": false,
           "legendFormat": "Min transit duration",
           "range": true,
@@ -1052,7 +1052,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "Hadoop_HBase_numOpenConnections{cluster=\"$cluster\", job=\"hbase_rs\"}",
+          "expr": "Hadoop_HBase_numOpenConnections{ job=\"hbase_region_server\"}",
           "legendFormat": "{{ instance }}",
           "range": true,
           "refId": "regionCount"
@@ -1145,7 +1145,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(increase(Hadoop_HBase_readRequestCount{cluster=\"$cluster\", job=\"hbase_rs\"}[1m]))",
+          "expr": "sum(increase(Hadoop_HBase_readRequestCount{ job=\"hbase_region_server\"}[1m]))",
           "hide": false,
           "legendFormat": "Read requests / sec",
           "range": true,
@@ -1157,7 +1157,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(increase(Hadoop_HBase_writeRequestCount{cluster=\"$cluster\", job=\"hbase_rs\"}[1m]))",
+          "expr": "sum(increase(Hadoop_HBase_writeRequestCount{ job=\"hbase_region_server\"}[1m]))",
           "hide": false,
           "legendFormat": "Write requests / sec",
           "range": true,
@@ -1252,7 +1252,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_HBase_blockCacheExpressHitPercent{cluster=\"$cluster\", job=\"hbase_rs\"})",
+          "expr": "avg(Hadoop_HBase_blockCacheExpressHitPercent{ job=\"hbase_region_server\"})",
           "hide": false,
           "legendFormat": "Read requests",
           "range": true,
@@ -1346,7 +1346,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_HBase_Append_mean{cluster=\"$cluster\", job=\"hbase_rs\"})",
+          "expr": "avg(Hadoop_HBase_Append_mean{ job=\"hbase_region_server\"})",
           "legendFormat": "Append",
           "range": true,
           "refId": "appendLatency"
@@ -1357,7 +1357,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_HBase_Delete_mean{cluster=\"$cluster\", job=\"hbase_rs\"})",
+          "expr": "avg(Hadoop_HBase_Delete_mean{ job=\"hbase_region_server\"})",
           "hide": false,
           "legendFormat": "Delete",
           "range": true,
@@ -1369,7 +1369,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_HBase_Get_mean{cluster=\"$cluster\", job=\"hbase_rs\"})",
+          "expr": "avg(Hadoop_HBase_Get_mean{ job=\"hbase_region_server\"})",
           "hide": false,
           "legendFormat": "Get",
           "range": true,
@@ -1381,7 +1381,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_HBase_Replay_mean{cluster=\"$cluster\", job=\"hbase_rs\"})",
+          "expr": "avg(Hadoop_HBase_Replay_mean{ job=\"hbase_region_server\"})",
           "hide": false,
           "legendFormat": "Replay",
           "range": true,
@@ -1393,7 +1393,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_HBase_Increment_mean{cluster=\"$cluster\", job=\"hbase_rs\"})",
+          "expr": "avg(Hadoop_HBase_Increment_mean{ job=\"hbase_region_server\"})",
           "hide": false,
           "legendFormat": "Increment",
           "range": true,
@@ -1487,7 +1487,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_HBase_Append_99th_percentile{cluster=\"$cluster\", job=\"hbase_rs\"})",
+          "expr": "avg(Hadoop_HBase_Append_99th_percentile{ job=\"hbase_region_server\"})",
           "legendFormat": "Append",
           "range": true,
           "refId": "appendLatency"
@@ -1498,7 +1498,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_HBase_Delete_99th_percentile{cluster=\"$cluster\", job=\"hbase_rs\"})",
+          "expr": "avg(Hadoop_HBase_Delete_99th_percentile{ job=\"hbase_region_server\"})",
           "hide": false,
           "legendFormat": "Delete",
           "range": true,
@@ -1510,7 +1510,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_HBase_Get_99th_percentile{cluster=\"$cluster\", job=\"hbase_rs\"})",
+          "expr": "avg(Hadoop_HBase_Get_99th_percentile{ job=\"hbase_region_server\"})",
           "hide": false,
           "legendFormat": "Get",
           "range": true,
@@ -1522,7 +1522,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_HBase_Replay_99th_percentile{cluster=\"$cluster\", job=\"hbase_rs\"})",
+          "expr": "avg(Hadoop_HBase_Replay_99th_percentile{ job=\"hbase_region_server\"})",
           "hide": false,
           "legendFormat": "Replay",
           "range": true,
@@ -1534,7 +1534,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_HBase_Increment_99th_percentile{cluster=\"$cluster\", job=\"hbase_rs\"})",
+          "expr": "avg(Hadoop_HBase_Increment_99th_percentile{ job=\"hbase_region_server\"})",
           "hide": false,
           "legendFormat": "Increment",
           "range": true,
@@ -1628,7 +1628,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(increase(Hadoop_HBase_slowAppendCount{cluster=\"$cluster\", job=\"hbase_rs\"}[1m]))",
+          "expr": "avg(increase(Hadoop_HBase_slowAppendCount{ job=\"hbase_region_server\"}[1m]))",
           "legendFormat": "Append",
           "range": true,
           "refId": "appendLatency"
@@ -1639,7 +1639,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(increase(Hadoop_HBase_slowDeleteCount{cluster=\"$cluster\", job=\"hbase_rs\"}[1m]))",
+          "expr": "avg(increase(Hadoop_HBase_slowDeleteCount{ job=\"hbase_region_server\"}[1m]))",
           "hide": false,
           "legendFormat": "Delete",
           "range": true,
@@ -1651,7 +1651,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(increase(Hadoop_HBase_slowGetCount{cluster=\"$cluster\", job=\"hbase_rs\"}[1m]))",
+          "expr": "avg(increase(Hadoop_HBase_slowGetCount{ job=\"hbase_region_server\"}[1m]))",
           "hide": false,
           "legendFormat": "Get",
           "range": true,
@@ -1663,7 +1663,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(increase(Hadoop_HBase_slowReplayCount{cluster=\"$cluster\", job=\"hbase_rs\"}[1m]))",
+          "expr": "avg(increase(Hadoop_HBase_slowReplayCount{ job=\"hbase_region_server\"}[1m]))",
           "hide": false,
           "legendFormat": "Replay",
           "range": true,
@@ -1675,7 +1675,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(increase(Hadoop_HBase_slowIncrementCount{cluster=\"$cluster\", job=\"hbase_rs\"}[1m]))",
+          "expr": "avg(increase(Hadoop_HBase_slowIncrementCount{ job=\"hbase_region_server\"}[1m]))",
           "hide": false,
           "legendFormat": "Increment",
           "range": true,
@@ -1769,7 +1769,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(Hadoop_HBase_compactionQueueLength{cluster=\"$cluster\", job=\"hbase_rs\"})",
+          "expr": "avg(Hadoop_HBase_compactionQueueLength{ job=\"hbase_region_server\"})",
           "legendFormat": "Compactions",
           "range": true,
           "refId": "compactionQueue"
@@ -1863,7 +1863,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(increase(Hadoop_HBase_CompactionTime_num_ops{cluster=\"$cluster\", job=\"hbase_rs\"}[1m]))",
+          "expr": "sum(increase(Hadoop_HBase_CompactionTime_num_ops{ job=\"hbase_region_server\"}[1m]))",
           "legendFormat": "Compactions",
           "range": true,
           "refId": "compactionQueue"
@@ -1957,7 +1957,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum(increase(Hadoop_HBase_MajorCompactionTime_num_ops{cluster=\"$cluster\", job=\"hbase_rs\"}[1m]))",
+          "expr": "sum(increase(Hadoop_HBase_MajorCompactionTime_num_ops{ job=\"hbase_region_server\"}[1m]))",
           "legendFormat": "Compactions",
           "range": true,
           "refId": "compactionQueue"
@@ -1994,37 +1994,9 @@
       },
       {
         "allFormat": "glob",
-        "current": {
-          "selected": false,
-          "text": "mycluster",
-          "value": "mycluster"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
-        },
-        "definition": "label_values(cluster)",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Cluster",
-        "multi": false,
-        "name": "cluster",
-        "options": [],
-        "query": {
-          "query": "label_values(cluster)",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "allFormat": "glob",
         "hide": 2,
         "name": "service",
-        "query": "HBase",
+        "query": "hbase",
         "skipUrlSync": false,
         "type": "constant"
       },
@@ -2038,14 +2010,14 @@
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "query_result(Hadoop_HBase_masterActiveTime{cluster=\"$cluster\", service=\"$service\"} > 0)",
+        "definition": "query_result(Hadoop_HBase_masterActiveTime{ service=\"$service\"} > 0)",
         "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "activeHM",
         "options": [],
         "query": {
-          "query": "query_result(Hadoop_HBase_masterActiveTime{cluster=\"$cluster\", service=\"$service\"} > 0)",
+          "query": "query_result(Hadoop_HBase_masterActiveTime{ service=\"$service\"} > 0)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,

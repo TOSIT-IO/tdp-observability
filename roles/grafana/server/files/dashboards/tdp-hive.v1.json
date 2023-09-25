@@ -122,7 +122,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{cluster=\"$cluster\",job=\"hive_ms\"}",
+          "expr": "up{job=\"hive_metastore\"}",
           "hide": false,
           "instant": true,
           "legendFormat": "{{ instance }}",
@@ -188,7 +188,7 @@
           },
           "editorMode": "code",
           "exemplar": false,
-          "expr": "up{cluster=\"$cluster\",job=\"hive_s2\"}",
+          "expr": "up{job=\"hive_server2s\"}",
           "hide": false,
           "instant": true,
           "legendFormat": "{{ instance }}",
@@ -307,7 +307,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "metrics_heap_used_Value{cluster=\"$cluster\", job=\"hive_ms\"}",
+          "expr": "metrics_heap_used_Value{ job=\"hive_metastore\"}",
           "hide": false,
           "legendFormat": "{{ instance }} heap used",
           "range": true,
@@ -319,7 +319,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(metrics_heap_max_Value{cluster=\"$cluster\", job=\"hive_ms\"})",
+          "expr": "avg(metrics_heap_max_Value{ job=\"hive_metastore\"})",
           "hide": false,
           "legendFormat": "Max heap",
           "range": true,
@@ -331,7 +331,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(metrics_heap_max_Value{cluster=\"$cluster\", job=\"hive_ms\"})*1.1",
+          "expr": "avg(metrics_heap_max_Value{ job=\"hive_metastore\"})*1.1",
           "hide": false,
           "legendFormat": "MaxGraph",
           "range": true,
@@ -466,7 +466,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "metrics_memory_heap_used_Value{cluster=\"$cluster\", job=\"hive_s2\"}",
+          "expr": "metrics_memory_heap_used_Value{ job=\"hive_server2s\"}",
           "hide": false,
           "legendFormat": "{{ instance }} heap used",
           "range": true,
@@ -478,7 +478,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(metrics_memory_heap_max_Value{cluster=\"$cluster\", job=\"hive_s2\"})",
+          "expr": "avg(metrics_memory_heap_max_Value{ job=\"hive_server2s\"})",
           "hide": false,
           "legendFormat": "Max heap",
           "range": true,
@@ -490,7 +490,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(metrics_memory_heap_max_Value{cluster=\"$cluster\", job=\"hive_s2\"})*1.1",
+          "expr": "avg(metrics_memory_heap_max_Value{ job=\"hive_server2s\"})*1.1",
           "hide": false,
           "legendFormat": "MaxGraph",
           "range": true,
@@ -614,7 +614,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(metrics_total_count_dbs_Value{cluster=\"$cluster\", job=\"hive_ms\"})",
+          "expr": "max(metrics_total_count_dbs_Value{ job=\"hive_metastore\"})",
           "legendFormat": "Databases",
           "range": true,
           "refId": "A"
@@ -706,7 +706,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(metrics_total_count_tables_Value{cluster=\"$cluster\", job=\"hive_ms\"})",
+          "expr": "max(metrics_total_count_tables_Value{ job=\"hive_metastore\"})",
           "legendFormat": "Tables",
           "range": true,
           "refId": "A"
@@ -798,7 +798,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "max(metrics_total_count_partitions_Value{cluster=\"$cluster\", job=\"hive_ms\"})",
+          "expr": "max(metrics_total_count_partitions_Value{ job=\"hive_metastore\"})",
           "legendFormat": "Tables",
           "range": true,
           "refId": "A"
@@ -903,7 +903,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "metrics_hs2_open_sessions_Value{cluster=\"$cluster\", job=\"hive_s2\"}",
+          "expr": "metrics_hs2_open_sessions_Value{ job=\"hive_server2s\"}",
           "legendFormat": "Open on {{ instance }}",
           "range": true,
           "refId": "A"
@@ -914,7 +914,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "metrics_hs2_active_sessions_Value{cluster=\"$cluster\", job=\"hive_s2\"}",
+          "expr": "metrics_hs2_active_sessions_Value{ job=\"hive_server2s\"}",
           "hide": false,
           "legendFormat": "Active on {{ instance }}",
           "range": true,
@@ -1008,7 +1008,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "metrics_open_connections_Count{cluster=\"$cluster\", job=\"hive_s2\"}",
+          "expr": "metrics_open_connections_Count{ job=\"hive_server2s\"}",
           "legendFormat": "Open on {{ instance }}",
           "range": true,
           "refId": "A"
@@ -1101,7 +1101,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "metrics_open_connections_Value{cluster=\"$cluster\", job=\"hive_ms\"}",
+          "expr": "metrics_open_connections_Value{ job=\"hive_metastore\"}",
           "legendFormat": "Open on {{ instance }}",
           "range": true,
           "refId": "A"
@@ -1134,33 +1134,6 @@
         "regex": "",
         "skipUrlSync": false,
         "type": "datasource"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "mycluster",
-          "value": "mycluster"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
-        },
-        "definition": "label_values(cluster)",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Cluster",
-        "multi": false,
-        "name": "cluster",
-        "options": [],
-        "query": {
-          "query": "label_values(cluster)",
-          "refId": "StandardVariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
       }
     ]
   },

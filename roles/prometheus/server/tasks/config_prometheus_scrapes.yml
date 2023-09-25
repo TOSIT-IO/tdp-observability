@@ -1,0 +1,62 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Configure labels
+  ansible.builtin.set_fact:
+    all_labels: |
+      {{ {
+           'instance': inventory_hostname,
+           'service' : service.key,
+           'component': component.key
+         } |
+         combine(observability_common_labels | default({})) |
+         combine(job.common_labels           | default({})) |
+         combine(job.prometheus_labels       | default({}))
+      }}
+
+- name: Determine job_name
+  ansible.builtin.set_fact:
+    job_name: "{{ service.key }}_{{ component.key }}"
+
+- name: Add suffix to job_name when specified
+  ansible.builtin.set_fact:
+    job_name: "{{ job_name }}_{{ job.name_suffix }}"
+  when: job.name_suffix is defined and job.name_suffix | length > 0
+
+- name: Fail when job_name duplicates a previous job
+  ansible.builtin.fail:
+    msg: >
+      Whooops. job name {{ job_name }} duplicates another scrape config.
+      You should use 'name_suffix' when several jobs are configured on the
+      same component
+  when: job_name in job_list | default([])
+
+- name: Add job_name to job_list
+  ansible.builtin.set_fact:
+    job_list: "{{ job_list | default([]) + [job_name] }}"
+
+- name: Template Prometheus file_sd targets for TDP components
+  ansible.builtin.template:
+    src: file_sd.yml.j2
+    dest: "{{ prometheus_static_targets_dir }}/{{ job_name }}.yml"
+    owner: root
+    group: "{{ prometheus_group }}"
+    mode: "0640"
+  vars:
+    hosts_list: "{{ groups[group_name] | map('tosit.tdp.access_fqdn', hostvars) | list }}"
+    port_num: "{{ job.exporter_port }}"
+    labels: "{{  all_labels }}"
+
+- name: Enrich prometheus_scrape_configs var with TDP components targets
+  ansible.builtin.set_fact:
+    prometheus_scrape_configs: |
+      {{ prometheus_scrape_configs
+         + [{
+               'job_name': job_name,
+               'file_sd_configs': [
+                 {'files': [prometheus_static_targets_dir + '/' + job_name + '.yml']}
+                 ],
+               'relabel_configs': prometheus_relabels
+           }]
+      }}
