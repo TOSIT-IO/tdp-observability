@@ -1,7 +1,5 @@
 name: Ansible Lint
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
   push
 jobs:
   ansible-lint:
