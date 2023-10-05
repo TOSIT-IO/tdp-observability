@@ -5,7 +5,7 @@ jobs:
   ansible-lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
+      - name: Check out TOSIT-IO/tdp-collection
         uses: actions/checkout@v3
         with:
           repository: TOSIT-IO/tdp-collection
@@ -14,4 +14,5 @@ jobs:
       - run: |
           dev/setup.sh
           source venv/bin/activate
+          export ANSIBLE_COLLECTIONS_PATH=$PWD
           ansible-lint
