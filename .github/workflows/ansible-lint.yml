@@ -10,9 +10,14 @@ jobs:
         with:
           repository: TOSIT-IO/tdp-collection
           path: ansible_collections/tosit/tdp
-      - uses: actions/checkout@v3
+      - name: Checkout 
+        uses: actions/checkout@v3
+        with:
+          path: ansible_collections/tosit/tdp_observability
       - run: |
           dev/setup.sh
           source venv/bin/activate
-          export ANSIBLE_COLLECTIONS_PATH=$PWD
+          export ANSIBLE_COLLECTIONS_PATH=$PWD/ansible_collections
+          echo $ANSIBLE_COLLECTIONS_PATH
+          cd ANSIBLE_COLLECTIONS_PATH/tosit/tdp_observability
           ansible-lint
