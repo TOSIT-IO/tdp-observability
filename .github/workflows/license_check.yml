@@ -1,0 +1,10 @@
+name: Check License Headers
+on:
+  push
+jobs:
+  check-license-headers:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Check license headers
+      uses: kt3k/license_checker@v1.0.6

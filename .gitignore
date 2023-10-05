@@ -1,2 +1,4 @@
 # Visual Studio Code
 .vscode
+venv
+__pycache__

@@ -1,0 +1,26 @@
+name: Ansible Lint
+on:
+  push
+env:
+  NAMESPACE: tosit
+  COLLECTION_NAME: tdp_observability
+  ANSIBLE_COLLECTIONS_PATH: ${{ github.workspace }}
+jobs:
+  ansible-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out TOSIT-IO/tdp-collection
+        uses: actions/checkout@v3
+        with:
+          repository: giem-git/tdp-collection
+          path: ansible_collections/${{env.NAMESPACE}}/tdp
+      - name: Checkout 
+        uses: actions/checkout@v3
+        with:
+          path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      - name: Setup testing environment
+        run: dev/setup.sh
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
+      - name: Run ansible-lint
+        run: source venv/bin/activate && dev/ansiblelinter
+        working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}

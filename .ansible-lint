@@ -1,0 +1,13 @@
+offline: true
+exclude_paths:
+  - .github/
+  - dev/
+  - docs/
+  - tdp_lib_dag/
+  - tdp_vars_defaults/
+  - tdp_vars_schema/
+  - venv
+
+warn_list: [] # or 'skip_list' to silence them completely
+
+skip_list: []

@@ -1,5 +1,8 @@
-# Copyright 2022 TOSIT.IO
-# SPDX-License-Identifier: Apache-2.0
+# # Copyright 2022 TOSIT.IO
+# # Copyright Ansible Project
+# # Copyright Prometheus.Prometheus Contributors
+# # SPDX-License-Identifier: Apache-2.0
+# # Copied and adapted roles/prometheus/default/main.yml from prometheus-community/ansible (https://github.com/prometheus-community/ansible)
 
 ---
 # Prometheus version
