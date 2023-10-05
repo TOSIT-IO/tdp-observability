@@ -1,0 +1,19 @@
+name: Ansible Lint
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  push
+jobs:
+  ansible-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          repository: TOSIT-IO/tdp-collection
+          path: ansible_collections/tosit/tdp
+      - uses: actions/checkout@v3
+      - run: |
+          dev/setup.sh
+          source venv/bin/activate
+          ansible-lint
