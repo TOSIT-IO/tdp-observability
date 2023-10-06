@@ -4,6 +4,7 @@ on:
 env:
   NAMESPACE: tosit
   COLLECTION_NAME: tdp_observability
+  ANSIBLE_COLLECTIONS_PATH: ${{ github.workspace }}
 jobs:
   ansible-lint:
     runs-on: ubuntu-latest
