@@ -1,0 +1,8 @@
+# Copyright 2022 Adaltas
+# SPDX-License-Identifier: MIT
+
+---
+- name: Stop Grafana server
+  ansible.builtin.service:
+    name: grafana-server
+    state: stopped
