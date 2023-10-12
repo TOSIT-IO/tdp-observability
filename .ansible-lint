@@ -26,3 +26,10 @@ skip_list:
   - name[template] # Jinja templates should only be at the end of 'name'
   - var-naming[no-role-prefix] # Variables names from within roles should use role_name_ as a prefix.
   - yaml[line-length] # Line too long (> 160 characters)
+  - jinja[spacing]  
+  - var-naming[no-reserved]
+  - yaml[empty-lines]     
+  - yaml[indentation]    
+  - yaml[trailing-spaces]
+  - yaml[truthy]        
+

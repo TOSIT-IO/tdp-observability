@@ -1,7 +1,6 @@
 name: Check License Headers
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
+  push
 jobs:
   check-license-headers:
     runs-on: ubuntu-latest
