@@ -1,6 +1,9 @@
 name: Conventional Commits
 on: 
-  push
+  push:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
 jobs:
   check-conventional-commits:
     runs-on: ubuntu-latest
