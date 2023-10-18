@@ -7,7 +7,8 @@ jobs:
     steps:
       - shell: bash
         run: |
-          echo ${{ github.base_ref }}
-          echo ${{ join(github.event.commits, ' ') }}
+          echo ${{ github.event_name }}
+          echo ${{ github.event.before }}
+          echo ${{ github.event.base_ref }}
       - uses: actions/checkout@v2
       - uses: webiny/action-conventional-commits@v1.0.3
