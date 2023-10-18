@@ -6,5 +6,9 @@ jobs:
   check-conventional-commits:
     runs-on: ubuntu-latest
     steps:
+      - shell: bash
+        run: |
+          echo {{ github.base_ref }}
+          echo {{ github.event }}
       - uses: actions/checkout@v2
       - uses: webiny/action-conventional-commits@v1.0.3
