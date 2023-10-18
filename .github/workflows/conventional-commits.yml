@@ -8,7 +8,11 @@ jobs:
   check-conventional-commits:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - checkout:
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+        
       - name: Setup testing environment
         run: dev/setup.sh
       - shell: bash
