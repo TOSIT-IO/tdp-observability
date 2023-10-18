@@ -8,6 +8,6 @@ jobs:
       - shell: bash
         run: |
           echo ${{ github.base_ref }}
-          echo ${{ github.event }}
+          echo ${{ github.event.commits }}
       - uses: actions/checkout@v2
       - uses: webiny/action-conventional-commits@v1.0.3
