@@ -12,12 +12,11 @@ jobs:
       - name: Setup testing environment
         run: dev/setup.sh
       - shell: bash
-        run: |
-          echo ${{ github.event_name }}
+        run: echo ${{ github.event_name }}
       - if: github.event_name == 'push' && startsWith(github.event.before, '0000000')
-        run: source venv/bin/activate && python3 dev/commit_messages.py HEAD~..
+        run: source venv/bin/activate && dev/commit_messages.py HEAD~..
       - if: github.event_name == 'push' && ! startsWith(github.event.before, '0000000')
-        run: source venv/bin/activate && python3 dev/commit_messages.py ${{ format('{0}..{1}', github.event.before, github.event.after) }}
+        run: source venv/bin/activate && dev/commit_messages.py ${{ format('{0}..{1}', github.event.before, github.event.after) }}
       - if: github.event_name == 'pull-request'
-        run: source venv/bin/activate && python3 dev/commit_messages.py ${{ format('{0}..{1}', github.event.pull_request.base.sha,github.event.pull_request.head.sha) }}
+        run: source venv/bin/activate && dev/commit_messages.py ${{ format('{0}..{1}', github.event.pull_request.base.sha,github.event.pull_request.head.sha) }}
       - uses: webiny/action-conventional-commits@v1.0.3
