@@ -2,8 +2,6 @@
 # Copyright 2022 TOSIT.IO
 # SPDX-License-Identifier: Apache-2.0
 #}
-{{ ansible_managed | comment }}
-
 [Unit]
 Description=Grafana instance
 Documentation=http://docs.grafana.org
@@ -12,6 +10,7 @@ After=network-online.target
 #After=postgresql.service mariadb.service mysqld.service
 
 [Service]
+EnvironmentFile=/etc/sysconfig/grafana-server
 User={{ grafana_user }}
 Group={{ grafana_group }}
 Type=notify
@@ -19,14 +18,15 @@ Restart=on-failure
 WorkingDirectory={{ grafana_install_dir }}  
 RuntimeDirectory=grafana
 RuntimeDirectoryMode=0750
-ExecStart={{ grafana_binary_install_dir }}/grafana-server \
-    --config=/etc/grafana/grafana.ini \
-    --pidfile={{ grafana_pid_dir }}/grafana-server.pid \
-    --packaging=rpm \
-    cfg:default.paths.logs={{ grafana_logs_dir }} \
-    cfg:default.paths.data={{ grafana_data_dir }} \
-    cfg:default.paths.plugins={{ grafana_data_dir }}/plugins \
-    cfg:default.paths.provisioning=/etc/grafana/provisioning
+ExecStart={{ grafana_binary_install_dir }}/grafana-server                                                  \
+                            --config=${CONF_FILE}                                   \
+                            --pidfile=${PID_FILE_DIR}/grafana-server.pid            \
+                            --packaging=rpm                                         \
+                            cfg:default.paths.logs=${LOG_DIR}                       \
+                            cfg:default.paths.data=${DATA_DIR}                      \
+                            cfg:default.paths.plugins=${PLUGINS_DIR}                \
+                            cfg:default.paths.provisioning=${PROVISIONING_CFG_DIR}  
+
 LimitNOFILE=10000
 TimeoutStopSec=20
 CapabilityBoundingSet=
