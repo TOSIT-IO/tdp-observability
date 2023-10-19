@@ -19,6 +19,7 @@ def linter():
     collection_path=find_file_path('ansible_collections')
     if collection_path is None:
         print(colored("Can't find collection path",'yellow'))
+    print("Setting collection path to", collection_path)
     my_env = os.environ.copy()
     my_env["ANSIBLE_COLLECTIONS_PATH"] = collection_path
     command = sys.executable+ " -m ansiblelint "+' '.join(sys.argv[1:])
