@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
 import sys, os, re
 from git import Repo
 from tdp_utils import tdp_banner
