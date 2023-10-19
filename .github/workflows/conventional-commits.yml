@@ -1,6 +1,5 @@
 name: Conventional Commits
 on: 
-  push:
   pull_request:
     types: [opened, reopened, synchronize]
 

@@ -1,6 +1,7 @@
 name: Ansible Lint
 on:
-  push
+  pull_request:
+    types: [opened, reopened, synchronize]
 
 env:
   FORCE_COLOR: true
