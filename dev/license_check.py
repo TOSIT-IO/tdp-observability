@@ -70,9 +70,10 @@ def license_check(files):
             file_list.sort()
         for file in file_list:
             if not file_ok(file, list(config[matcher])):
-                print(colored("Copyright block missing or invalid.",'red'))
-                print(colored(file.relative_to(p), 'blue')+':1')
-                print()
+                print(colored(file.relative_to(p), 'blue')+':1', colored("Copyright block missing or invalid.",'red'))
+                if "GITHUB_ACTION" in os.environ:
+                  print("::error file="+str(file.relative_to(p))+",line=1,col=0::Copyright block missing or invalid.")
+
                 ret=1
     if ret == 0:
         print(colored("All files checked OK",'green'))
