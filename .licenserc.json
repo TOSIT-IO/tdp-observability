@@ -1,5 +1,5 @@
 {
-  "**/*.{py,yml}": [
+  "**/*.{py,yml,j2}": [
     "# Copyright 2022 TOSIT.IO",
     "# SPDX-License-Identifier: Apache-2.0"
   ],

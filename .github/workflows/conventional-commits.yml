@@ -1,14 +1,31 @@
 name: Conventional Commits
 on: 
-  push
+  push:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+env:
+  FORCE_COLOR: true
+  COMMITRANGE: >-
+    ${{ 
+      github.event_name == 'pull_request' 
+          && format('{0}..{1}', github.event.pull_request.base.sha,github.event.pull_request.head.sha) 
+          || ( github.event_name == 'push' 
+             && ( startsWith(github.event.before, '0000000') && 'HEAD~..' 
+             || format('{0}..{1}', github.event.before, github.event.after) 
+             )
+          ) 
+    }}
+
 jobs:
   check-conventional-commits:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - shell: bash
-        run: |
-          echo ${{ github.event_name == 'push' && format('{0}..{1}', github.event.before, github.event.after) || format('{0}..{1}', github.event.pull_request.base.sha,github.event.pull_request.head.sha)  }}
-          echo ${{ github.event.before }}
-          echo ${{ github.event.base_ref }}
-      - uses: webiny/action-conventional-commits@v1.0.3
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup testing environment 
+        run: dev/setup.sh
+      - name: Check commit messages
+        run: source venv/bin/activate && dev/commit_messages.py ${{ env.COMMITRANGE }}

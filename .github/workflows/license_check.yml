@@ -1,0 +1,17 @@
+name: Check License Headers
+on:
+  push
+
+env:
+  FORCE_COLOR: true
+
+jobs:
+  check-license-headers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Setup testing environment 
+        run: dev/setup.sh
+      - name: Check License Headers
+        run: source venv/bin/activate && dev/license_check.py

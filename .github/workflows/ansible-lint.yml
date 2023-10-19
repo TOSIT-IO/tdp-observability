@@ -1,10 +1,13 @@
 name: Ansible Lint
 on:
   push
+
 env:
+  FORCE_COLOR: true
   NAMESPACE: tosit
   COLLECTION_NAME: tdp_observability
   ANSIBLE_COLLECTIONS_PATH: ${{ github.workspace }}
+
 jobs:
   ansible-lint:
     runs-on: ubuntu-latest
@@ -22,5 +25,5 @@ jobs:
         run: dev/setup.sh
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
       - name: Run ansible-lint
-        run: source venv/bin/activate && ANSIBLE_COLLECTION_PATH=${{ github.workspace }} ansible-lint
+        run: source venv/bin/activate && dev/ansiblelinter
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}

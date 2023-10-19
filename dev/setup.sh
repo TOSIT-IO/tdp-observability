@@ -10,7 +10,6 @@ setup_python_venv() {
     echo "Create python venv with '${PYTHON_BIN}' to '${PYTHON_VENV}' and update pip to latest version"
     "$PYTHON_BIN" -m venv "$PYTHON_VENV"
     (
-      # shellcheck source=/dev/null
       source "${PYTHON_VENV}/bin/activate"
       pip install -U pip
     )
@@ -19,7 +18,6 @@ setup_python_venv() {
   fi
   echo "Install python dependencies"
   (
-    # shellcheck source=/dev/null
     source "${PYTHON_VENV}/bin/activate"
     pip install -r dev/requirements.txt
   )
