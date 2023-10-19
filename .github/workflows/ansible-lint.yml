@@ -26,5 +26,5 @@ jobs:
         run: dev/setup.sh
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
       - name: Run ansible-lint
-        run: source venv/bin/activate && dev/ansiblelinter
+        run: source venv/bin/activate && dev/ansiblelinter.py
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
