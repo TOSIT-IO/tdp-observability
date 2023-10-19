@@ -72,6 +72,7 @@ def license_check(files):
             if not file_ok(file, list(config[matcher])):
                 print(colored("Copyright block missing or invalid.",'red'))
                 print(colored(file.relative_to(p), 'blue')+':1')
+                print()
                 ret=1
     if ret == 0:
         print(colored("All files checked OK",'green'))
