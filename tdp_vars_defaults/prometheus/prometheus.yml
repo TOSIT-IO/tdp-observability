@@ -1,41 +1,144 @@
 # Copyright 2022 TOSIT.IO
+# Copyright Ansible Project
+# Copyright Prometheus.Prometheus Contributors
 # SPDX-License-Identifier: Apache-2.0
-
+# Copied and adapted from https://github.com/prometheus-community/ansible
 ---
 # Prometheus version
 prometheus_version: 2.37.6
+prometheus_binary_local_dir: ''
 prometheus_release: "prometheus-{{ prometheus_version }}.linux-amd64"
 prometheus_dist_file: "{{ prometheus_release }}.tar.gz"
-
-# Prometheus installation directory
-prometheus_root_dir: /opt/tdp_observability
-prometheus_install_dir: "{{ prometheus_root_dir }}/prometheus"
-# _prometheus_binary_install_dir is used inside cloudalchemy.prometheus
-# but with "tdp_vars" we can not override it
-prometheus_binary_install_dir: "/usr/local/bin"
-
-# Skip cloudalchemy.prometheus install, we perform air-gap installation ourself
 prometheus_skip_install: true
 
-# Prometheus configuration directories
+# Prometheus user and group
+prometheus_user: prometheus
+prometheus_group: prometheus
+
+# Service start on boot policies
+prometheus_server_start_on_boot: false
+# Service restart policies
+prometheus_server_restart: "no"
+prometheus_max_procs: "{{ ansible_processor_vcpus | default(ansible_processor_count) }}"
+
+# Prometheus directories
+prometheus_root_dir: /opt/tdp_observability
+prometheus_install_dir: "{{ prometheus_root_dir }}/prometheus"
+_prometheus_binary_install_dir: "/usr/local/bin"
 prometheus_config_dir: /etc/prometheus
 prometheus_certs_dir: "{{ prometheus_config_dir }}/certs"
 prometheus_static_targets_dir: "{{ prometheus_config_dir }}/file_sd"
-
-# Prometheus data directory
 prometheus_db_dir: /var/lib/prometheus
-
-# Selinux packages are not needed, prometheus is unconfined
-prometheus_selinux_packages: []
+prometheus_read_only_dirs: []
 
 # Prometheus web configuration
 prometheus_web_listen_address: "0.0.0.0:{{ prometheus_web_port }}"
+prometheus_web_external_url: ''
+prometheus_metrics_path: "/{{ (prometheus_web_external_url + '/metrics') | regex_replace('^(.*://)?(.*?)/') }}"
+# See https://github.com/prometheus/exporter-toolkit/blob/master/docs/web-configuration.md
 prometheus_web_config:
-  tls_server_config:
-    cert_file: "{{ prometheus_certs_dir }}/{{ ansible_fqdn }}.pem"
-    key_file: "{{ prometheus_certs_dir }}/{{ ansible_fqdn }}.key"
-  basic_auth_users:
-    "{{ prometheus_admin_user }}": "{{ prometheus_admin_password | password_hash('blowfish') }}"
+  tls_server_config: {}
+  http_server_config: {}
+  basic_auth_users: {}
+
+prometheus_storage_retention: "30d"
+# Available since Prometheus 2.7.0
+# [EXPERIMENTAL] Maximum number of bytes that can be stored for blocks. Units
+# supported: KB, MB, GB, TB, PB.
+prometheus_storage_retention_size: "0"
+
+# The Agent mode optimizes Prometheus for the remote write use case: https://prometheus.io/blog/2021/11/16/agent/
+prometheus_agent_mode: false
+
+prometheus_config_flags_extra: {}
+# prometheus_config_flags_extra:
+#   storage.tsdb.retention: 15d
+#   alertmanager.timeout: 10s
+
+prometheus_alertmanager_config: []
+# prometheus_alertmanager_config:
+#   - scheme: https
+#     path_prefix: alertmanager/
+#     basic_auth:
+#       username: user
+#       password: pass
+#     static_configs:
+#       - targets: ["127.0.0.1:9093"]
+#     proxy_url: "127.0.0.2"
+
+prometheus_alert_relabel_configs: []
+# prometheus_alert_relabel_configs:
+#   - action: labeldrop
+#     regex: replica
+
+prometheus_global:
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  evaluation_interval: 15s
+
+prometheus_remote_write: []
+# prometheus_remote_write:
+#   - url: https://dev.kausal.co/prom/push
+#     basic_auth:
+#       password: FOO
+
+prometheus_remote_read: []
+# prometheus_remote_read:
+#   - url: https://prometheus.demo.do.prometheus.io:9201/read
+#     basic_auth:
+#       password: FOO
+
+prometheus_external_labels:
+  environment: "{{ ansible_fqdn | default(ansible_host) | default(inventory_hostname) }}"
+
+prometheus_targets: {}
+#  node:
+#    - targets:
+#        - localhost:9100
+#      labels:
+#        env: test
+
+prometheus_scrape_configs:
+  - job_name: "prometheus"
+    metrics_path: "{{ prometheus_metrics_path }}"
+    static_configs:
+      - targets:
+          - "{{ ansible_fqdn | default(ansible_host) | default('localhost') }}:9090"
+    scheme: https
+    basic_auth:
+      username: "{{ prometheus_admin_user }}"
+      password: "{{ prometheus_admin_password }}"
+    relabel_configs: "{{ prometheus_relabels }}"
+
+# Relabel jobs
+prometheus_relabels:
+  # Relabeling of 'instance' from 'host:port' to 'host'
+  - source_labels: ["__address__"]
+    regex: "(.*):.*"
+    target_label: "instance"
+    replacement: "${1}"
+
+# Alternative config file name, searched in ansible templates path.
+prometheus_config_file: 'prometheus.yml.j2'
+
+prometheus_alert_rules_files:
+  - prometheus/rules/*.rules
+
+prometheus_static_targets_files:
+  - prometheus/targets/*.yml
+  - prometheus/targets/*.json
+
+prometheus_alert_rules: []
+  # - alert: InstanceDown
+  #   expr: 'up == 0'
+  #   for: 5m
+  #   labels:
+  #     severity: critical
+  #   annotations:
+  #     description: '{% raw %}{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.{% endraw %}'
+  #     summary: '{% raw %}Instance {{ $labels.instance }} down{% endraw %}'
+
+prometheus_stop_timeout: '600s'
 
 # Prometheus targets to generate from TDP components Ansible groups
 prometheus_tdp_targets:
@@ -144,27 +247,3 @@ prometheus_tdp_targets:
     group: knox
     port: "{{ exporter_knox_gateway_http_port }}"
     service: Knox
-
-# Prometheus scrape jobs
-# Will be enriched with 1 job per component in 'prometheus_tdp_targets'
-prometheus_scrape_configs:
-  - job_name: prometheus
-    static_configs:
-      - targets:
-          - "{{ ansible_fqdn }}:9090"
-    scheme: https
-    basic_auth:
-      username: "{{ prometheus_admin_user }}"
-      password: "{{ prometheus_admin_password }}"
-    relabel_configs: "{{ prometheus_relabels }}"
-
-# Relabel jobs
-prometheus_relabels:
-  # Relabeling of 'instance' from 'host:port' to 'host'
-  - source_labels: ["__address__"]
-    regex: "(.*):.*"
-    target_label: "instance"
-    replacement: "${1}"
-
-# Prometheus service start on boot policies
-prometheus_start_on_boot: false

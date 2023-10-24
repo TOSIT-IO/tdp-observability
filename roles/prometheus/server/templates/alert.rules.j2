@@ -1,0 +1,13 @@
+{#
+# Copyright 2022 TOSIT.IO
+# Copyright Ansible Project
+# Copyright Prometheus.Prometheus Contributors
+# SPDX-License-Identifier: Apache-2.0
+# Copied and adapted from https://github.com/prometheus-community/ansible
+#}
+{{ ansible_managed | comment }}
+
+groups:
+- name: ansible managed alert rules
+  rules:
+  {{ prometheus_alert_rules | to_nice_yaml(indent=2,sort_keys=False) | indent(2,False) }}
