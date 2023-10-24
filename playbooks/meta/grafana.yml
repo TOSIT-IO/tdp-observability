@@ -7,6 +7,5 @@
 - ansible.builtin.import_playbook: ../grafana_server_config.yml
 # grafana_config
 - ansible.builtin.import_playbook: ../grafana_server_start.yml
-- ansible.builtin.import_playbook: ../grafana_server_init.yml
 # grafana_start
 # grafana_init
