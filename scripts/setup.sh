@@ -52,8 +52,7 @@ tdp_observability_path='ansible_collections/tosit/tdp_observability'
 # Add tdp_observability topology to inventory
 create_symlink_if_needed "../../$tdp_observability_path/topology.ini" "inventory/topologies/observability"
 
-# Install Ansible roles and Python packages
-ansible-galaxy install -r "$tdp_observability_path/requirements.yml"
+# Install Python packages
 pip install -r "ansible_collections/tosit/tdp_observability/requirements.txt"
 
 # Add tdp_observability path to TDP_COLLECTION_PATH

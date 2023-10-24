@@ -1,94 +1,278 @@
 # Copyright 2022 TOSIT.IO
-# SPDX-License-Identifier: Apache-2.0
+# Copyright 2017-2018 Pawel Krupa, Roman Demachkovych
+# SPDX-License-Identifier: Apache-2.0 AND MIT
 
 ---
-grafana_start_on_boot: no
-
-# grafana users and group
-grafana_user: grafana
-grafana_group: grafana
-
 grafana_version: 9.2.0
 grafana_package: "grafana-{{ grafana_version }}"
 grafana_release: "{{ grafana_package }}.linux-amd64"
 grafana_dist_file: "{{ grafana_release }}.tar.gz"
-
 # Grafana installation directory
 grafana_root_dir: /opt/tdp_observability
 grafana_install_dir: "{{ grafana_root_dir }}/grafana"
 grafana_binary_install_dir: "/usr/local/sbin"
 
+grafana_start_on_boot: false
+
+# grafana users and group
+grafana_user: grafana
+grafana_group: grafana
+
+# Should we use the provisioning capability when possible (provisioning require grafana >= 5.0)
+grafana_use_provisioning: true
+
+# Should the provisioning be kept synced. If true, previous provisioned objects will be removed if not referenced anymore.
+grafana_provisioning_synced: false
+
+grafana_instance: "{{ ansible_fqdn | default(ansible_host) | default(inventory_hostname) }}"
+
 # Grafana directories
-grafana_config_dir: "/etc/grafana" # Not configurable
-grafana_certs_dir: "{{ grafana_config_dir }}/certs"
+grafana_certs_dir: "/etc/grafana/certs"
+grafana_pid_dir: "/var/run/grafana"
 grafana_logs_dir: "/var/log/grafana"
 grafana_data_dir: "/var/lib/grafana"
-grafana_pid_dir: "/var/run/grafana"
 
-# Grafana config files samples
-grafana_config_files:
-  - src: "sample.ini"
-    dest: "grafana.ini"
-  - src: "ldap.toml"
-    dest: "ldap.toml"
-  - src: "provisioning/access-control/sample.yaml"
-    dest: "provisioning/access-control/sample.yaml"
-  - src: "provisioning/alerting/sample.yaml"
-    dest: "provisioning/alerting/sample.yaml"
-  - src: "provisioning/dashboards/sample.yaml"
-    dest: "provisioning/dashboards/sample.yaml"
-  - src: "provisioning/datasources/sample.yaml"
-    dest: "provisioning/datasources/sample.yaml"
-  - src: "provisioning/notifiers/sample.yaml"
-    dest: "provisioning/notifiers/sample.yaml"
-  - src: "provisioning/plugins/sample.yaml"
-    dest: "provisioning/plugins/sample.yaml"
+grafana_address: "{{ ansible_fqdn }}"
+grafana_port: "{{ grafana_web_port }}"
+grafana_protocol: "https"
+# To enable the use of ports below 1024 for unprivileged processes linux needs to set CAP_NET_BIND_SERVICE.
+# This has some security implications, and should be a conscious choice.
+# Get informed by reading: http://man7.org/linux/man-pages/man7/capabilities.7.html
+grafana_cap_net_bind_service: false
 
-# Grafana security config
+# External Grafana address. Variable maps to "root_url" in grafana server section
+grafana_url: "{{ grafana_protocol }}://{{ grafana_address }}:{{ grafana_port }}"
+grafana_api_url: "{{ grafana_url }}"
+grafana_domain: "{{ ansible_fqdn | default(ansible_host) | default('localhost') }}"
+
+# Additional options for grafana "server" section
+# This section WILL omit options for: http_addr, http_port, domain, and root_url, as those settings are set by variables listed before
+grafana_server:
+  protocol: "{{ grafana_protocol }}"
+  enforce_domain: false
+  socket: ""
+  cert_key: "{{ grafana_certs_dir }}/{{ ansible_fqdn }}.key"
+  cert_file: "{{ grafana_certs_dir }}/{{ ansible_fqdn }}.pem"
+  enable_gzip: false
+  static_root_path: public
+  router_logging: false
+  serve_from_sub_path: false
+
+# Variables correspond to ones in grafana.ini configuration file
+# Security
 grafana_security:
   admin_user: admin
   admin_password: GrafanaAdmin123
+#  secret_key: ""
+#  login_remember_days: 7
+#  cookie_username: grafana_user
+#  cookie_remember_name: grafana_remember
+#  disable_gravatar: true
+#  data_source_proxy_whitelist:
 
-# Grafana server config
-grafana_address: "{{ ansible_fqdn }}"
-grafana_port: "{{ grafana_web_port }}"
-grafana_server:
-  protocol: https
-  http_port: "{{ grafana_port }}"
-  cert_file: "{{ grafana_certs_dir }}/{{ ansible_fqdn }}.pem"
-  cert_key: "{{ grafana_certs_dir }}/{{ ansible_fqdn }}.key"
-grafana_url: "{{ grafana_server.protocol }}://{{ grafana_address }}:{{ grafana_port }}"
-
-# Grafana database
+# Database setup
 grafana_database:
   type: sqlite3
+#  host: 127.0.0.1:3306
+#  name: grafana
+#  user: root
+#  password: ""
+#  url: ""
+#  ssl_mode: disable
+#  path: grafana.db
+#  max_idle_conn: 2
+#  max_open_conn: ""
+#  log_queries: ""
 
-# Grafana plugins
+# Remote cache
+grafana_remote_cache: {}
+
+# User management and registration
+grafana_welcome_email_on_sign_up: false
+grafana_users:
+  allow_sign_up: false
+  # allow_org_create: true
+  # auto_assign_org: true
+  auto_assign_org_role: Viewer
+  # login_hint: "email or username"
+  default_theme: dark
+  # external_manage_link_url: ""
+  # external_manage_link_name: ""
+  # external_manage_info: ""
+
+# grafana authentication mechanisms
+grafana_auth: {}
+#  disable_login_form: false
+#  oauth_auto_login: false
+#  disable_signout_menu: false
+#  signout_redirect_url: ""
+#  anonymous:
+#    org_name: "Main Organization"
+#    org_role: Viewer
+#  ldap:
+#    config_file: "/etc/grafana/ldap.toml"
+#    allow_sign_up: false
+#  basic:
+#    enabled: true
+
+grafana_ldap: {}
+#  verbose_logging: false
+#  servers:
+#    host: 127.0.0.1
+#    port: 389 # 636 for SSL
+#    use_ssl: false
+#    start_tls: false
+#    ssl_skip_verify: false
+#    root_ca_cert: /path/to/certificate.crt
+#    bind_dn: "cn=admin,dc=grafana,dc=org"
+#    bind_password: grafana
+#    search_filter: "(cn=%s)" # "(sAMAccountName=%s)" on AD
+#    search_base_dns:
+#      - "dc=grafana,dc=org"
+#    group_search_filter: "(&(objectClass=posixGroup)(memberUid=%s))"
+#    group_search_base_dns:
+#      - "ou=groups,dc=grafana,dc=org"
+#    attributes:
+#      name: givenName
+#      surname: sn
+#      username: sAMAccountName
+#      member_of: memberOf
+#      email: mail
+#  group_mappings:
+#    - name: Main Org.
+#      id: 1
+#      groups:
+#        - group_dn: "cn=admins,ou=groups,dc=grafana,dc=org"
+#          org_role: Admin
+#        - group_dn: "cn=editors,ou=groups,dc=grafana,dc=org"
+#          org_role: Editor
+#        - group_dn: "*"
+#          org_role: Viewer
+#    - name: Alternative Org
+#      id: 2
+#      groups:
+#        - group_dn: "cn=alternative_admins,ou=groups,dc=grafana,dc=org"
+#          org_role: Admin
+
+grafana_session: {}
+#  provider: file
+#  provider_config: "sessions"
+
+grafana_analytics: {}
+#  reporting_enabled: true
+#  google_analytics_ua_id: ""
+
+# Set this for mail notifications
+grafana_smtp: {}
+#  host:
+#  user:
+#  password:
+#  from_address:
+
+# Enable grafana alerting mechanism
+grafana_alerting:
+  execute_alerts: true
+#  error_or_timeout: 'alerting'
+#  nodata_or_nullvalues: 'no_data'
+#  concurrent_render_limit: 5
+
+# Grafana logging configuration
+grafana_log:
+# mode: 'console file'
+# level: info
+
+# Internal grafana metrics system
+grafana_metrics: {}
+#  interval_seconds: 10
+#  graphite:
+#    address: "localhost:2003"
+#    prefix: "prod.grafana.%(instance_name)s"
+
+# Distributed tracing options
+grafana_tracing: {}
+#  address: "localhost:6831"
+#  always_included_tag: "tag1:value1,tag2:value2"
+#  sampler_type: const
+#  sampler_param: 1
+
+grafana_snapshots: {}
+#  external_enabled: true
+#  external_snapshot_url: "https://snapshots-origin.raintank.io"
+#  external_snapshot_name: "Publish to snapshot.raintank.io"
+#  snapshot_remove_expired: true
+#  snapshot_TTL_days: 90
+
+# External image store
+grafana_image_storage: {}
+#  provider: gcs
+#  key_file:
+#  bucket:
+#  path:
+
+
+#######
+# Plugins from https://grafana.com/plugins
 grafana_plugins: []
+#  - raintank-worldping-app
 
-# Grafana datasources
+# Dashboards from https://grafana.com/dashboards
+grafana_dashboards: []
+#  - dashboard_id: '4271'
+#    revision_id: '3'
+#    datasource: 'Prometheus'
+#  - dashboard_id: '1860'
+#    revision_id: '4'
+#    datasource: 'Prometheus'
+#  - dashboard_id: '358'
+#    revision_id: '1'
+#    datasource: 'Prometheus'
+
+grafana_dashboards_dir: "dashboards"
+
+# Alert notification channels to configure
+grafana_alert_notifications: []
+#  - name: "Email Alert"
+#    type: "email"
+#    uid: channel1
+#    is_default: true
+#    settings:
+#      addresses: "example@example.com"
+
+# Datasources to configure
 prometheus_server: "{{ groups['prometheus'][0] | tosit.tdp.access_fqdn(hostvars) }}"
 loki_server: "{{ groups['loki'][0] | tosit.tdp.access_fqdn(hostvars) }}"
 grafana_datasources:
   - name: TDP Prometheus
     type: prometheus
-    default: yes
+    default: true
     access: proxy
     url: "https://{{ prometheus_server }}:{{ prometheus_web_port }}"
-    basicAuth: yes
+    basicAuth: true
     basicAuthUser: "{{ prometheus_admin_user }}"
     secureJsonData:
       basicAuthPassword: "{{ prometheus_admin_password }}"
   - name: TDP Loki
     type: loki
-    default: no
+    default: false
     access: proxy
     url: "https://{{ loki_server }}:{{ loki_web_port }}"
-    basicAuth: no
+    basicAuth: false
 
-# Grafana alerts
-grafana_alert_notifications: []
+# API keys to configure
+grafana_api_keys: []
+#  - name: "admin"
+#    role: "Admin"
+#  - name: "viewer"
+#    role: "Viewer"
+#  - name: "editor"
+#    role: "Editor"
 
-# Grafana dashboards
-grafana_dashboards_dir: dashboards
-grafana_dashboards: []
+# The location where the keys should be stored.
+grafana_api_keys_dir: "{{ lookup('env', 'HOME') }}/grafana/keys"
+
+grafana_environment: {}
+
+# Panels configurations
+grafana_panels: {}
+#  disable_sanitize_html: false
+#  enable_alpha: false
