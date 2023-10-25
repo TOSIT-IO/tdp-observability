@@ -1,7 +1,6 @@
 #!/bin/bash
-
-# Copyright 2022 Adaltas
-# SPDX-License-Identifier: MIT
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
 
 CLEAN="false"
 
