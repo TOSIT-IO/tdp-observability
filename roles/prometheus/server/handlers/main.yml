@@ -1,7 +1,6 @@
 # Copyright 2022 TOSIT.IO
 # SPDX-License-Identifier: Apache-2.0
 ---
-- name: Run systemctl daemon-reload
+- name: systemctl daemon-reload # noqa name[casing]
   ansible.builtin.systemd:
     daemon_reload: true
-  listen: systemctl daemon-reload

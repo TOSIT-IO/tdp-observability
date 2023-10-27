@@ -5,9 +5,10 @@
 - name: Prometheus Server Install
   hosts: prometheus
   tasks:
-    - tosit.tdp.resolve:
+    - tosit.tdp.resolve:                # noqa name[missing]
         node_name: prometheus_server
-    - ansible.builtin.import_role:
+    - name: Install prometheus server
+      ansible.builtin.import_role:
         name: tosit.tdp_observability.prometheus.server
         tasks_from: install
-    - ansible.builtin.meta: clear_facts
+    - ansible.builtin.meta: clear_facts # noqa name[missing]

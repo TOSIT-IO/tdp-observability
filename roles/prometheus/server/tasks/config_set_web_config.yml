@@ -1,0 +1,78 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+# These tasks generate the 'prometheus_web_config' fact
+# ----------------------------------------------------------------
+# 'ansible.builtin.password_hash' filter hashes the password with a random salt,
+# which makes it change on every run.
+# For the prometheus role to be idempotent, hashed password must not change if
+# 'prometheus_admin_password' has not been changed.
+# In order to do so, the following code  :
+# - extract the hashed password from web.yml
+# - extract salt from hashed password
+# - re-hash 'prometheus_admin_password' with same salt.
+# If error occurs or old password can't be found or hashes differently
+# let 'ansible.builtin.password_hash' filter use another random salt
+#
+- name: "Check that web.yml exists"
+  ansible.builtin.stat:
+    path: "{{ prometheus_config_dir }}/web.yml"
+  register: web_cfg
+
+- name: "File does not exists : old password is empty"
+  ansible.builtin.set_fact:
+    old_hashed_password: ''
+  when: not web_cfg.stat.exists
+
+- name: "File exists, try to read old password"
+  when: web_cfg.stat.exists
+  block:
+    - name: Read prometheus web config file
+      ansible.builtin.slurp:
+        src: "{{ prometheus_config_dir }}/web.yml"
+      register: web_yml
+    - name: Get old hash password from web config
+      ansible.builtin.set_fact:
+        old_hashed_password: "{{ (web_yml.content | b64decode | from_yaml).basic_auth_users[prometheus_admin_user] | default('') }}"
+
+- name: Generate new hashed password if we don't have one
+  ansible.builtin.set_fact:
+    prometheus_admin_hashed_password: "{{ prometheus_admin_password | password_hash('blowfish') }}"
+  when: old_hashed_password == ''
+
+- name: Compute hashed password based on old salt if a password already exists
+  when: old_hashed_password != ''
+  block:
+    - name: Get salt from old password
+      ansible.builtin.set_fact:
+        salt: "{{ old_hashed_password | regex_replace('^.{7}(.{22}).*$', '\\1') }}"
+    - name: And generate a new password
+      ansible.builtin.set_fact:
+        new_password: "{{ prometheus_admin_password | password_hash('blowfish', salt) }}"
+      register: salted_pwd
+      # we don't want to fail in case salt is not usable.
+      ignore_errors: true
+    - name: "Password has changed : regenerate it"
+      ansible.builtin.set_fact:
+        prometheus_admin_hashed_password: "{{ prometheus_admin_password | password_hash('blowfish') }}"
+      when: salted_pwd.failed or old_hashed_password != new_password
+    - name: "Password not changed - keep old one"
+      ansible.builtin.set_fact:
+        prometheus_admin_hashed_password: "{{ old_hashed_password }}"
+      when: not salted_pwd.failed and old_hashed_password == new_password
+
+- name: Build prometheus_web_config
+  ansible.builtin.set_fact:
+    prometheus_web_config: |
+      {{ prometheus_web_config | combine(
+        {
+          'basic_auth_users': {
+              prometheus_admin_user: prometheus_admin_hashed_password
+            },
+          'tls_server_config': {
+              'cert_file': prometheus_certs_dir+'/'+ansible_fqdn+'.pem',
+              'key_file':  prometheus_certs_dir+'/'+ansible_fqdn+'.key'
+            }
+        }
+      ) }}

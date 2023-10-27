@@ -2,8 +2,6 @@
 
 Ansible collection to deploy a monitoring stack on top of a [TDP](https://github.com/TOSIT-IO/TDP) cluster.
 
-For now, relies on [cloudalchemy.prometheus](https://github.com/cloudalchemy/ansible-prometheus) and [cloudalchemy.grafana](https://github.com/cloudalchemy/ansible-grafana) to deploy Prometheus and Grafana.
-
 ## Download binaries
 
 Binaries must be present inside `files` directory located next to launched playbooks. They can be found here:
