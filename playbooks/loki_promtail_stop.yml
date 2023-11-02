@@ -5,9 +5,10 @@
 - name: Loki Promtail stop
   hosts: promtail
   tasks:
-    - tosit.tdp.resolve:
+    - tosit.tdp.resolve:                # noqa name[missing]
         node_name: loki_promtail
-    - ansible.builtin.import_role:
+    - name: Stop promtail
+      ansible.builtin.import_role:
         name: tosit.tdp_observability.loki.promtail
         tasks_from: stop
-    - ansible.builtin.meta: clear_facts
+    - ansible.builtin.meta: clear_facts # noqa name[missing]

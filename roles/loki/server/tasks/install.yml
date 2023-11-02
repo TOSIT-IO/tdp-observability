@@ -2,20 +2,20 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-- name: Ensure loki's group exists
+- name: "Ensure loki's group exists"   # noqa var-naming[no-role-prefix]
   ansible.builtin.include_role:
     name: tosit.tdp.utils.group
   vars:
     group: "{{ loki_group }}"
 
-- name: Ensure loki's user exists
+- name: "Ensure loki's user exists"    # noqa var-naming[no-role-prefix]
   ansible.builtin.include_role:
     name: tosit.tdp.utils.user
   vars:
     user: "{{ loki_user }}"
     group: "{{ loki_group }}"
 
-- name: Upload {{ loki_dist_file }}
+- name: "Upload {{ loki_dist_file }}"
   ansible.builtin.copy:
     src: "{{ binaries_local_dir }}/{{ loki_dist_file }}"
     dest: "{{ binaries_upload_dir }}"
@@ -24,7 +24,7 @@
     mode: "644"
   diff: false
 
-- name: Ensure {{ loki_root_dir }}/{{ loki_release }} exists
+- name: "Ensure directory loki_release exists"
   ansible.builtin.file:
     path: "{{ loki_root_dir }}/{{ loki_release }}"
     state: directory
@@ -32,7 +32,7 @@
     group: root
     mode: "755"
 
-- name: Extract {{ loki_dist_file }}
+- name: "Extract {{ loki_dist_file }}"
   ansible.builtin.unarchive:
     src: "{{ binaries_upload_dir }}/{{ loki_dist_file }}"
     dest: "{{ loki_root_dir }}/{{ loki_release }}"
@@ -48,7 +48,7 @@
     dest: "{{ loki_install_dir }}"
     state: link
 
-- name: Ensure {{ loki_data_dir }} exists
+- name: "Ensure directory exists: {{ loki_data_dir }}"
   ansible.builtin.file:
     path: "{{ loki_data_dir }}"
     state: directory
@@ -56,7 +56,7 @@
     group: "{{ loki_group }}"
     mode: "750"
 
-- name: Ensure {{ loki_conf_dir }} exists
+- name: "Ensure directory exists : {{ loki_conf_dir }}"
   ansible.builtin.file:
     path: "{{ loki_conf_dir }}"
     state: directory
@@ -71,5 +71,4 @@
     group: root
     owner: root
     mode: "644"
-  notify:
-  - systemctl daemon-reload
+  notify: systemctl daemon-reload

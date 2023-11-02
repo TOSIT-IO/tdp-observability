@@ -2,29 +2,20 @@ name: Ansible Lint
 on:
   pull_request:
     types: [opened, reopened, synchronize]
-
 env:
-  FORCE_COLOR: true
   NAMESPACE: tosit
-  COLLECTION_NAME: tdp_observability
+  COLLECTION_NAME: tdp
   ANSIBLE_COLLECTIONS_PATH: ${{ github.workspace }}
-
 jobs:
   ansible-lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out TOSIT-IO/tdp-collection
-        uses: actions/checkout@v3
-        with:
-          repository: giem-git/tdp-collection
-          path: ansible_collections/${{env.NAMESPACE}}/tdp
-      - name: Checkout 
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           path: ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
-      - name: Setup testing environment
+      - name: Setup venv for linting
         run: dev/setup.sh
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
       - name: Run ansible-lint
-        run: source venv/bin/activate && dev/ansiblelinter.py
+        run: source venv/bin/activate && ansible-lint
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}

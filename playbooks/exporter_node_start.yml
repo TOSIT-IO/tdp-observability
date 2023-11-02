@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-- name: node-exporter start
+- name: Node exporter start
   hosts: exporter_node
   tasks:
-    - tosit.tdp.resolve: # noqa name[missing]
+    - tosit.tdp.resolve:                # noqa name[missing]
         node_name: exporter_node
     - name: Start node exporter
       ansible.builtin.import_role:

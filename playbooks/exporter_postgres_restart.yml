@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-- name: postgres-exporter restart
+- name: Postgres exporter restart
   hosts: exporter_postgres
   tasks:
-    - tosit.tdp.resolve: # noqa name[missing]
+    - tosit.tdp.resolve:                # noqa name[missing]
         node_name: exporter_postgres
     - name: Restart postgres exporter
       ansible.builtin.import_role:

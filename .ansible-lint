@@ -4,26 +4,11 @@ exclude_paths:
   - dev/
   - docs/
   - venv
+  - playbooks/meta
+  - tdp_lib_dag
+  - galaxy.yml
 
 warn_list: []
 
-skip_list: 
-  - jinja[spacing]
-  - name[missing]
-  - name[play]
-  - var-naming[no-reserved]
-  - var-naming[no-role-prefix]
-  - yaml[brackets]
-  - yaml[commas]
-  - yaml[comments]
-  - yaml[empty-lines]
-  - yaml[indentation]
-  - yaml[trailing-spaces]
-  - yaml[truthy]
-  - name[template]
-  - name[casing]
-  - galaxy[no-changelog]
-  - galaxy[no-runtime]
-  - galaxy[tags]
-  - galaxy[version-incorrect]
-
+skip_list:
+  - yaml[octal-values]

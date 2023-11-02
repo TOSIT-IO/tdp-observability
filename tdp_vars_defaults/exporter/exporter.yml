@@ -2,9 +2,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-##############
-#node-exporter#
-##############
+#################
+# node-exporter #
+#################
 # node-exporter users and group
 node_exporter_user: node-exporter
 node_exporter_group: node-exporter

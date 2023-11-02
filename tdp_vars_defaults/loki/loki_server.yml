@@ -30,6 +30,8 @@ loki_configuration:
     http_tls_config:
       cert_file: "{{ loki_certs_dir }}/{{ ansible_fqdn }}.pem"
       key_file: "{{ loki_certs_dir }}/{{ ansible_fqdn }}.key"
+  limits_config:
+    max_global_streams_per_user: 50000
   common:
     path_prefix: "{{ loki_data_dir }}"
     storage:
