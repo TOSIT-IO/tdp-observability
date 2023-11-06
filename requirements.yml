@@ -1,6 +1,0 @@
-# Copyright 2022 TOSIT.IO
-# SPDX-License-Identifier: Apache-2.0
----
-roles:
-  - name: cloudalchemy.grafana
-    version: 0.18.0

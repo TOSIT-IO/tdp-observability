@@ -5,9 +5,10 @@
 - name: Grafana Server Stop
   hosts: grafana
   tasks:
-    - tosit.tdp.resolve:
+    - tosit.tdp.resolve:                # noqa name[missing]
         node_name: grafana_server
-    - ansible.builtin.import_role:
+    - name: Stop grafana server
+      ansible.builtin.import_role:
         name: tosit.tdp_observability.grafana.server
         tasks_from: stop
-    - ansible.builtin.meta: clear_facts
+    - ansible.builtin.meta: clear_facts # noqa name[missing]

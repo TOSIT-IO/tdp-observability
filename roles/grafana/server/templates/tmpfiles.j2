@@ -1,0 +1,8 @@
+{#
+# Copyright 2022 TOSIT.IO
+# Copyright 2017-2018 Pawel Krupa, Roman Demachkovych
+# SPDX-License-Identifier: Apache-2.0 AND MIT
+# Copied and adapted from https://github.com/cloudalchemy/ansible-grafana.git
+#}
+{{ ansible_managed | comment }}
+d {{ grafana_server.socket | dirname }} 0775 grafana grafana

@@ -1,8 +1,7 @@
 # Copyright 2022 TOSIT.IO
 # SPDX-License-Identifier: Apache-2.0
 ---
-- name: Restart Grafana server
+- name: Stop Grafana server
   ansible.builtin.service:
     name: grafana-server
-    state: restarted
-    enabled: "{{ grafana_start_on_boot }}"
+    state: stopped

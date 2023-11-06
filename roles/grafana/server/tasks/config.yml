@@ -2,35 +2,55 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
+- name: Run preflight checks
+  ansible.builtin.include_tasks:
+    file: preflight.yml
+
 - name: Create Grafana certs dir
   ansible.builtin.file:
     path: "{{ grafana_certs_dir }}"
     state: directory
     owner: root
-    group: grafana
+    group: "{{ grafana_group }}"
     mode: "0770"
 
 - name: Copy node certificates to Grafana certs dir
   ansible.builtin.copy:
     src: "/etc/ssl/certs/{{ ansible_fqdn }}.{{ item }}"
     dest: "{{ grafana_certs_dir }}/{{ ansible_fqdn }}.{{ item }}"
-    remote_src: yes
+    remote_src: true
     owner: root
-    group: grafana
+    group: "{{ grafana_group }}"
     mode: "0640"
   loop:
     - pem
     - key
 
-- ansible.builtin.include_role:
-    name: cloudalchemy.grafana
-    tasks_from: preflight
+- name: Configure grafana
+  ansible.builtin.include_tasks:
+    file: configure.yml
 
-- ansible.builtin.include_role:
-    name: cloudalchemy.grafana
-    tasks_from: configure
-
-- ansible.builtin.include_role:
-    name: cloudalchemy.grafana
-    tasks_from: plugins
+- name: Install plugins
+  ansible.builtin.include_tasks:
+    file: plugins.yml
   when: (grafana_plugins | length)
+
+- name: Install datasources
+  ansible.builtin.include_tasks:
+    file: datasources.yml
+  when: (grafana_datasources | length)
+
+- name: Install notifications
+  ansible.builtin.include_tasks:
+    file: notifications.yml
+  when: (grafana_alert_notifications | length)
+
+- name: "Check if there are any dashboards in local {{ grafana_dashboards_dir }}"
+  become: false
+  ansible.builtin.set_fact:
+    found_dashboards: "{{ lookup('fileglob', grafana_dashboards_dir + '/*.json', wantlist=True) }}"
+
+- name: Install dashbords
+  ansible.builtin.include_tasks:
+    file: dashboards.yml
+  when: (grafana_dashboards | length) or (found_dashboards | length)

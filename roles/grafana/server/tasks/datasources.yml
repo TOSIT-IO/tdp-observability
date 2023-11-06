@@ -1,0 +1,19 @@
+# Copyright 2022 TOSIT.IO
+# Copyright 2017-2018 Pawel Krupa, Roman Demachkovych
+# SPDX-License-Identifier: Apache-2.0 AND MIT
+# Copied and adapted from https://github.com/cloudalchemy/ansible-grafana.git
+---
+- name: Create/Update datasources file (provisioning)
+  become: true
+  ansible.builtin.copy:
+    dest: "/etc/grafana/provisioning/datasources/ansible.yml"
+    content: |
+      apiVersion: 1
+      deleteDatasources: []
+      datasources:
+      {{ grafana_datasources | to_nice_yaml }}
+    backup: false
+    owner: root
+    group: "{{ grafana_group }}"
+    mode: "640"
+  when: grafana_use_provisioning
