@@ -1,0 +1,14 @@
+{#
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+#}
+{{ alertmanager_log_dir }}/{{ alertmanager_log_file }} {
+  compress
+  delaycompress
+  daily
+  rotate 31
+  create 0640 {{ alertmanager_user }} {{ alertmanager_group }}
+  postrotate
+    /bin/systemctl restart alertmanager.service 2> /dev/null || true
+  endscript
+}

@@ -2,8 +2,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
+- ansible.builtin.import_playbook: ../prometheus_alertmanager_install.yml
 - ansible.builtin.import_playbook: ../prometheus_server_install.yml
 # prometheus_install
+- ansible.builtin.import_playbook: ../prometheus_alertmanager_config.yml
+- ansible.builtin.import_playbook: ../prometheus_alertmanager_start.yml
 - ansible.builtin.import_playbook: ../prometheus_server_config.yml
 # prometheus_config
 - ansible.builtin.import_playbook: ../prometheus_server_start.yml

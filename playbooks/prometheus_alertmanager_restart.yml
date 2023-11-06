@@ -1,0 +1,14 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Alert Manager Restart
+  hosts: alertmanager
+  tasks:
+    - tosit.tdp.resolve:                # noqa name[missing]
+        node_name: alertmanager
+    - name: Restart alert manager
+      ansible.builtin.import_role:
+        name: tosit.tdp_observability.prometheus.alertmanager
+        tasks_from: restart
+    - ansible.builtin.meta: clear_facts # noqa name[missing]

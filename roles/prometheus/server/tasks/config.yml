@@ -48,6 +48,10 @@
     label: "{{ service.key }}"
     loop_var: service
 
+- name: Build alert rules
+  ansible.builtin.set_fact:
+    prometheus_alert_rules: "{{ prometheus_generated_alert_rules | default([]) + prometheus_additional_alert_rules | default([]) }}"
+
 - name: Configure prometheus
   ansible.builtin.include_tasks:
     file: configure.yml

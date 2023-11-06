@@ -1,0 +1,100 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Preflight
+  ansible.builtin.include_tasks:
+    file: preflight.yml
+
+- name: Ensure alertmanager group exists
+  ansible.builtin.group:
+    name: "{{ alertmanager_group }}"
+    system: true
+
+- name: Ensure alertmanager user exists
+  ansible.builtin.user:
+    name: "{{ alertmanager_user }}"
+    group: "{{ alertmanager_group }}"
+    shell: "/usr/sbin/nologin"
+    createhome: false
+    system: true
+
+- name: Create alertmanager directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ alertmanager_user }}"
+    group: "{{ alertmanager_group }}"
+    mode: "755"
+  with_items:
+    - "{{ alertmanager_config_dir }}"
+    - "{{ alertmanager_config_dir }}/templates"
+    - "{{ alertmanager_db_dir }}"
+    - "{{ _alertmanager_amtool_config_dir }}"
+
+- name: Create log directory
+  ansible.builtin.file:
+    path: "{{ alertmanager_log_dir }}"
+    state: directory
+    owner: "{{ alertmanager_user }}"
+    group: "{{ alertmanager_group }}"
+    mode: "750"
+
+- name: Upload {{ alertmanager_dist_file }}
+  ansible.builtin.copy:
+    src: "{{ binaries_local_dir }}/{{ alertmanager_dist_file }}"
+    dest: "{{ binaries_upload_dir }}"
+    owner: root
+    group: root
+    mode: "644"
+  diff: false
+
+- name: "Ensure directory exists: {{ alertmanager_root_dir }}"
+  ansible.builtin.file:
+    path: "{{ alertmanager_root_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "755"
+
+- name: Extract {{ alertmanager_dist_file }}
+  ansible.builtin.unarchive:
+    src: "{{ binaries_upload_dir }}/{{ alertmanager_dist_file }}"
+    dest: "{{ alertmanager_root_dir }}"
+    group: root
+    owner: root
+    mode: "755"
+    remote_src: true
+    creates: "{{ alertmanager_root_dir }}/{{ alertmanager_release }}"
+
+- name: Create symbolic link to alertmanager installation
+  ansible.builtin.file:
+    src: "{{ alertmanager_root_dir }}/{{ alertmanager_release }}"
+    dest: "{{ alertmanager_install_dir }}"
+    state: link
+
+- name: Symlink alertmanager binaries
+  ansible.builtin.file:
+    src: "{{ alertmanager_install_dir }}/{{ item }}"
+    dest: "{{ _alertmanager_binary_install_dir }}/{{ item }}"
+    state: link
+  loop:
+    - alertmanager
+    - amtool
+
+- name: Template alertmanager logrotate file
+  ansible.builtin.template:
+    src: alertmanager.logrotate.j2
+    dest: "/etc/logrotate.d/alertmanager"
+    group: root
+    owner: root
+    mode: "644"
+
+- name: Template alertmanager service file
+  ansible.builtin.template:
+    src: alertmanager.service.j2
+    dest: /usr/lib/systemd/system/alertmanager.service
+    owner: root
+    group: root
+    mode: "644"
+  notify: systemctl daemon-reload

@@ -1,0 +1,35 @@
+# Copyright 2022 TOSIT.IO
+# Copyright Ansible Project
+# Copyright Prometheus.Prometheus Contributors
+# SPDX-License-Identifier: Apache-2.0
+# Copied and adapted from https://github.com/prometheus-community/ansible
+---
+- name: Copy amtool config
+  ansible.builtin.template:
+    force: true
+    src: "{{ alertmanager_amtool_config_file }}"
+    dest: "{{ _alertmanager_amtool_config_dir }}/config.yml"
+    owner: "{{ alertmanager_user }}"
+    group: "{{ alertmanager_group }}"
+    mode: 0644
+
+- name: Copy alertmanager config
+  ansible.builtin.template:
+    force: true
+    src: "{{ alertmanager_config_file }}"
+    dest: "{{ alertmanager_config_dir }}/alertmanager.yml"
+    owner: "{{ alertmanager_user }}"
+    group: "{{ alertmanager_group }}"
+    mode: 0644
+    validate: "{{ _alertmanager_binary_install_dir }}/amtool check-config %s"
+  no_log: "{{ false if (lookup('env', 'CI')) or (lookup('env', 'MOLECULE_PROVISIONER_NAME')) else true }}"
+
+- name: Copy alertmanager template files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ alertmanager_config_dir }}/templates/"
+    force: true
+    owner: "{{ alertmanager_user }}"
+    group: "{{ alertmanager_group }}"
+    mode: 0644
+  with_fileglob: "{{ alertmanager_template_files }}"

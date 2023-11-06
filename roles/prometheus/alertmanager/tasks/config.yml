@@ -1,0 +1,57 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Preflight
+  ansible.builtin.include_tasks:
+    file: preflight.yml
+
+- name: Create Alertmanager certs dir
+  ansible.builtin.file:
+    path: "{{ alertmanager_certs_dir }}"
+    state: directory
+    owner: root
+    group: "{{ alertmanager_group }}"
+    mode: "0770"
+
+- name: Copy node certificates to alertmanager certs dir
+  ansible.builtin.copy:
+    src: "/etc/ssl/certs/{{ ansible_fqdn }}.{{ item }}"
+    dest: "{{ alertmanager_certs_dir }}/{{ ansible_fqdn }}.{{ item }}"
+    remote_src: true
+    owner: root
+    group: "{{ alertmanager_group }}"
+    mode: "0640"
+  loop:
+    - pem
+    - key
+
+- name: Compute 'alertmanager_web_config' fact
+  ansible.builtin.include_tasks:
+    file: config_set_web_config.yml
+
+- name: Configure alertmanager web
+  ansible.builtin.copy:
+    content: "{{ alertmanager_web_config | to_nice_yaml(indent=2, sort_keys=False) }}"
+    dest: "{{ alertmanager_config_dir }}/web.yml"
+    force: true
+    owner: root
+    group: "{{ alertmanager_group }}"
+    mode: 0640
+
+- name: SELinux
+  ansible.builtin.include_tasks:
+    file: selinux.yml
+  when: ansible_selinux.status == "enabled"
+
+- name: Configure alertmanager options
+  ansible.builtin.template:
+    src: alertmanager.env.j2
+    dest: "/etc/sysconfig/alertmanager"
+    owner: root
+    group: root
+    mode: "644"
+
+- name: Configure alertmanager
+  ansible.builtin.include_tasks:
+    file: configure.yml

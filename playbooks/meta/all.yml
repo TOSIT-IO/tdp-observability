@@ -8,6 +8,7 @@
 - ansible.builtin.import_playbook: ../loki_promtail_install.yml
 - ansible.builtin.import_playbook: ../loki_server_install.yml
 # loki_install
+- ansible.builtin.import_playbook: ../prometheus_alertmanager_install.yml
 - ansible.builtin.import_playbook: ../prometheus_server_install.yml
 # prometheus_install
 - ansible.builtin.import_playbook: ../exporter_node_config.yml
@@ -26,6 +27,8 @@
 # loki_server_init
 # loki_start
 # loki_init
+- ansible.builtin.import_playbook: ../prometheus_alertmanager_config.yml
+- ansible.builtin.import_playbook: ../prometheus_alertmanager_start.yml
 - ansible.builtin.import_playbook: ../prometheus_server_config.yml
 # prometheus_config
 - ansible.builtin.import_playbook: ../prometheus_server_start.yml
