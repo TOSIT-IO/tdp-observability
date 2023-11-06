@@ -25,6 +25,11 @@ prometheus_web_port: 9090
 prometheus_admin_user: admin
 prometheus_admin_password: PrometheusAdmin123
 
+# Alertmanager basicAuth
+alertmanager_admin_user: admin
+alertmanager_admin_password: AlertAdmin123
+
+
 # Promtail ports
 promtail_web_port: 9080
 promtail_grpc_port: 9095
@@ -53,6 +58,9 @@ loki_log_file: loki.log
 
 prometheus_log_dir: /var/log/prometheus
 prometheus_log_file: prometheus.log
+
+alertmanager_log_dir: /var/log/alertmanager
+alertmanager_log_file: alertmanager.log
 
 observability_common_labels: {}
 #  cluster: "{{ cluster_name }}"

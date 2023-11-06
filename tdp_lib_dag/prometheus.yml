@@ -14,24 +14,40 @@
   depends_on:
     - prometheus_server_config
 
+- name: prometheus_alertmanager_install
+  depends_on: []
+
+- name: prometheus_alertmanager_config
+  depends_on:
+    - tdp-cluster_config
+    - prometheus_alertmanager_install
+
+- name: prometheus_alertmanager_start
+  depends_on:
+    - prometheus_alertmanager_config
+
 - name: prometheus_install
   noop: yes
   depends_on:
     - prometheus_server_install
+    - prometheus_alertmanager_install
 
 - name: prometheus_config
   noop: yes
   depends_on:
     - prometheus_install
     - prometheus_server_config
+    - prometheus_alertmanager_config
 
 - name: prometheus_start
   noop: yes
   depends_on:
     - prometheus_config
     - prometheus_server_start
+    - prometheus_alertmanager_start
 
 - name: prometheus_init
   noop: yes
   depends_on:
     - prometheus_start
+

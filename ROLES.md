@@ -17,6 +17,27 @@ List of adaptations :
 | templates/alert.rules.j2                   | copied from community file                                                                   |
 | templates/file_sd.j2                       | new - file_sd targets for TDP components                                                     |
 
+## Prometheus/alertmanager
+Based on role alertmanager from [prometheus-community/ansible](https://github.com/prometheus-community/ansible.git) 0.7.0
+List of common adaptations :
+- get rid of notifies
+- use `alertmanager_user` and `alertmanager_group` variables instead of hardcoded values
+
+Specific adaptations
+| file                                         | comments                                                                                     |
+| -------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| tdp_vars_default/prometheus/alertmanager.yml | adapted from `default/main.yml` community file                                               |
+| handlers/main.yml                            | completely changed. Only one handler for `systemctl daemon-reload`                           |
+| tasks/config.yml                             | new - runs some tdp specific adaptations and calls `selinux.yml` and `configure.yml`         |
+| tasks/selinux.yml                            | adapted from community file                                                                  |
+| tasks/configure.yml                          | adapted from community file                                                                  |
+| tasks/config_set_web_config.yml              | new - set web_config in an idempotent way, to feed it to community tasks in `configure.yml`  |
+| tasks/install.yml                            | complete rewrite to install from local tar.gz (air gap)                                      |
+| tasks/preflight.yml                          | copied from community file                                                                   |
+| templates/alertmanager.yml.j2                | copied from community file                                                                   |
+| templates/alertmanager.service.j2            | adapted from community file                                                                  |
+| templates/amtool.j2                         | copied from community file                                                                   |
+
 ## Grafana/server
 Based on role grafana from [cloudalchemy/ansible-grafana](https://github.com/cloudalchemy/ansible-grafana) last version (b77b256)
 ### List of adaptations :

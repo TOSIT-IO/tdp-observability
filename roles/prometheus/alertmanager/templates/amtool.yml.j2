@@ -1,0 +1,11 @@
+{#
+# Copyright 2022 TOSIT.IO
+# Copyright Ansible Project
+# Copyright Prometheus.Prometheus Contributors
+# SPDX-License-Identifier: Apache-2.0
+# Copied and adapted from https://github.com/prometheus-community/ansible
+#}
+alertmanager.url: "{{ alertmanager_amtool_config_alertmanager_url }}"
+{%if alertmanager_amtool_config_output != "" %}
+output: "{{ alertmanager_amtool_config_output }}"
+{% endif %}
