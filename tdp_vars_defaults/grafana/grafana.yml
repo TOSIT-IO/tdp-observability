@@ -72,11 +72,11 @@ grafana_security:
 
 # Database setup
 grafana_database:
-  type: sqlite3
-#  host: 127.0.0.1:3306
-#  name: grafana
-#  user: root
-#  password: ""
+  type: postgres
+  host: "{{ groups['postgresql'][0] | default('') }}:{{ postgresql_server_port }}"
+  name: grafana
+  user: grafana
+  password: grafana
 #  url: ""
 #  ssl_mode: disable
 #  path: grafana.db
