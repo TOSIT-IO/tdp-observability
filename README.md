@@ -24,8 +24,11 @@ git clone git@github.com:TOSIT-IO/tdp-observability.git \
 ## Destructive setup: this will reset tdp-lib database
 ./ansible_collections/tosit/tdp_observability/scripts/setup.sh -c
 
-# Deploy Prometheus
-tdp deploy --targets prometheus_init,grafana_init
+# Configure deployment plan for Prometheus and grafana
+tdp plan dag --target prometheus_init --target grafana_init
+
+# Deploy Prometheus and grafana
+tdp deploy
 ```
 
 Optional non-destructive option for the setup:
