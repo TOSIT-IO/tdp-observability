@@ -1,0 +1,5 @@
+ansible-lint==6.17.2
+ansible-core==2.15.1
+jsonschema==4.18.0
+passlib==1.7.4
+jmespath==1.0.1

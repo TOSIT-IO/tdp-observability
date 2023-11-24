@@ -13,7 +13,7 @@
   tags:
     - backup
 
-- name: Render {{ loki_conf_dir }}/config.yml
+- name: Render config.yml
   ansible.builtin.copy:
     dest: "{{ loki_conf_dir }}/config.yml"
     content: "{{ loki_configuration | to_nice_yaml(indent=1, sort_keys=False) }}"
@@ -33,7 +33,7 @@
   ansible.builtin.copy:
     src: "/etc/ssl/certs/{{ ansible_fqdn }}.{{ item }}"
     dest: "{{ loki_certs_dir }}/{{ ansible_fqdn }}.{{ item }}"
-    remote_src: yes
+    remote_src: true
     owner: "{{ loki_user }}"
     group: "{{ loki_group }}"
     mode: "0640"
