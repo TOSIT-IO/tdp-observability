@@ -1,0 +1,14 @@
+offline: true
+exclude_paths:
+  - .github/
+  - dev/
+  - docs/
+  - venv
+  - playbooks/meta
+  - tdp_lib_dag
+  - galaxy.yml
+
+warn_list: []
+
+skip_list:
+  - yaml[octal-values]

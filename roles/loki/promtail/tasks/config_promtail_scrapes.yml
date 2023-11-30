@@ -11,8 +11,9 @@
            'component': component.key,
          } |
          combine(observability_common_labels | default({})) |
-         combine(job.common_labels           | default({})) |
-         combine(job.loki_labels             | default({}))
+         combine(service_labels              | default({})) |
+         combine(component.value.labels      | default({})) |
+         combine(job.labels                  | default({}))
       }}
 
 - name: Determine job_name

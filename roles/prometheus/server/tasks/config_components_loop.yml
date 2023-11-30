@@ -2,9 +2,23 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
+- name: Set service_labels fact
+  ansible.builtin.set_fact:
+    service_labels: "{{ service.value['labels'] | default({}) }}"
+
+- name: Initialise component_list
+  ansible.builtin.set_fact:
+    component_list: {}
+
+- name: Set component_list fact - exclude reserved keywords
+  ansible.builtin.set_fact:
+    component_list: "{{ component_list | combine({item.key: item.value}) }}"
+  when: item.key not in ['labels']
+  with_dict: "{{ service.value }}"
+
 - name: Loop through each component in observability_tdp_targets[service]
   ansible.builtin.include_tasks: config_jobs_loop.yml
-  loop: "{{ service.value | dict2items }}"
+  loop: "{{ component_list | dict2items }}"
   # ansible group is equal to <service>_<component> unless specified by 'group' key
   when: component.value.group | default(service.key + '_' + component.key) in groups.keys()
   loop_control:

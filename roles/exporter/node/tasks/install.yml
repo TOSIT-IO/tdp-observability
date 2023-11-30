@@ -2,20 +2,20 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-- name: Ensure node exporter's group exists
+- name: Ensure node exporter's group exists    # noqa var-naming[no-role-prefix]
   ansible.builtin.include_role:
     name: tosit.tdp.utils.group
   vars:
     group: "{{ node_exporter_group }}"
 
-- name: Ensure node exporter's user exists
+- name: Ensure node exporter's user exists     # noqa var-naming[no-role-prefix]
   ansible.builtin.include_role:
     name: tosit.tdp.utils.user
   vars:
     user: "{{ node_exporter_user }}"
     group: "{{ node_exporter_group }}"
 
-- name: Upload {{ node_exporter_dist_file }}
+- name: "Upload {{ node_exporter_dist_file }}"
   ansible.builtin.copy:
     src: "{{ binaries_local_dir }}/{{ node_exporter_dist_file }}"
     dest: "{{ binaries_upload_dir }}"
@@ -24,7 +24,7 @@
     mode: "644"
   diff: false
 
-- name: Ensure {{ node_exporter_root_dir }} exists
+- name: "Ensure directory exists : {{ node_exporter_root_dir }}"
   ansible.builtin.file:
     path: "{{ node_exporter_root_dir }}"
     state: directory
@@ -32,7 +32,7 @@
     group: root
     mode: "755"
 
-- name: Extract {{ node_exporter_dist_file }}
+- name: "Extract {{ node_exporter_dist_file }}"
   ansible.builtin.unarchive:
     src: "{{ binaries_upload_dir }}/{{ node_exporter_dist_file }}"
     dest: "{{ node_exporter_root_dir }}"
@@ -71,5 +71,4 @@
     group: root
     owner: root
     mode: "644"
-  notify:
-  - systemctl daemon-reload
+  notify: systemctl daemon-reload

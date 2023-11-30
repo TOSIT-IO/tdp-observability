@@ -5,9 +5,10 @@
 - name: Loki server stop
   hosts: loki
   tasks:
-    - tosit.tdp.resolve:
+    - tosit.tdp.resolve:                # noqa name[missing]
         node_name: loki_server
-    - ansible.builtin.import_role:
+    - name: Stop loki server
+      ansible.builtin.import_role:
         name: tosit.tdp_observability.loki.server
         tasks_from: stop
-    - ansible.builtin.meta: clear_facts
+    - ansible.builtin.meta: clear_facts # noqa name[missing]
