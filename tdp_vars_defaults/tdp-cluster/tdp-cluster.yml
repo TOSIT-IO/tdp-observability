@@ -60,6 +60,8 @@ observability_common_labels: {}
 #
 observability_tdp_targets:
   exporter:
+    labels:
+      type: tdp_infra
     node:          # group exporter_node
       jobs:
         - exporter_port: "{{ exporter_node_http_port }}"
@@ -67,6 +69,8 @@ observability_tdp_targets:
       jobs:
         - exporter_port: "{{ exporter_postgres_http_port }}"
   hbase:
+    labels:
+      type: tdp_core
     master:
       jobs:
         - exporter_port: "{{ exporter_hbase_hm_http_port }}"
@@ -86,6 +90,8 @@ observability_tdp_targets:
         - exporter_port: "{{ exporter_hbase_pqs_http_port }}"
           log_file: "{{ phoenix_log_dir }}/{{ phoenix_queryserver_log_file }}"
   hdfs:
+    labels:
+      type: tdp_core
     datanode:
       group: hdfs_dn
       jobs:
@@ -109,6 +115,8 @@ observability_tdp_targets:
         - log_file: "{{ hdfs_log_dir }}/{{ hadoop_hdfs_httpfs_log_file }}"
           exporter_port: "{{ exporter_hdfs_httpfs_http_port }}"
   hive:
+    labels:
+      type: tdp_core
     metastore:
       group: hive_ms
       jobs:
@@ -120,12 +128,16 @@ observability_tdp_targets:
         - exporter_port: "{{ exporter_hive_hs2_http_port }}"
           log_file: "{{ hive_log_dir }}/{{ hive_s2_log_file }}"
   knox:
+    labels:
+      type: tdp_core
     gateway:
       group: knox
       jobs:
         - exporter_port: "{{ exporter_knox_gateway_http_port }}"
           log_file: "{{ knox_log_dir }}/{{ knox_gateway_log_file }}"
   ranger:
+    labels:
+      type: tdp_core
     admin:
       jobs:
         - exporter_port: "{{ exporter_ranger_ra_http_port }}"
@@ -143,18 +155,24 @@ observability_tdp_targets:
       jobs:
         - log_file: "{{ ranger_log_dir }}/{{ ranger_solr_log_file }}"
   spark2:
+    labels:
+      type: tdp_core
     history_server:
       group: spark_hs
       jobs:
         - log_file: "{{ spark2_log_dir }}/{{ spark2_hs_log_file }}"
           exporter_port: "{{ exporter_spark_hs_http_port }}"
   spark3:
+    labels:
+      type: tdp_core
     history_server:
       group: spark3_hs
       jobs:
         - log_file: "{{ spark3_log_dir }}/{{ spark3_hs_log_file }}"
           exporter_port: "{{ exporter_spark3_hs_http_port }}"
   yarn:
+    labels:
+      type: tdp_core
     ressource_manager:
       group: yarn_rm
       jobs:
@@ -176,6 +194,8 @@ observability_tdp_targets:
         - exporter_port: "{{ exporter_yarn_ats_http_port }}"
           log_file: "{{ yarn_log_dir }}/{{ hadoop_yarn_timelineserver_log_file }}"
   zookeeper:
+    labels:
+      type: tdp_core
     server:
       group: zk
       jobs:
