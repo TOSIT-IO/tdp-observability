@@ -105,6 +105,9 @@ google_analytics_ua_id = "{{ grafana_analytics.google_analytics_ua_id }}"
 # Dashboards
 [dashboards]
 versions_to_keep = 20
+{% if grafana_home_dashboard is defined and grafana_home_dashboard != '' %}
+default_home_dashboard_path: {{ grafana_data_dir }}/dashboards/{{ grafana_home_dashboard }}.json
+{% endif %}
 
 [dashboards.json]
 enabled = true

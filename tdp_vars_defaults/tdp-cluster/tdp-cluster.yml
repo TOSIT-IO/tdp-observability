@@ -58,6 +58,10 @@ observability_common_labels: {}
 #                     job_name in prometheus or promtail scrapes will be
 #                     equal to '{{ service }}_{{ component }}_{{ suffix }}
 #
+dashboard_with_workers: "service02/service-components-and-workers"
+dashboard_without_workers: "service01/service-components"
+dashboard_python: "service03/Python service components"
+
 observability_tdp_targets:
   exporter:
     labels:
@@ -71,12 +75,14 @@ observability_tdp_targets:
   hbase:
     labels:
       type: tdp_core
+      svc_dashboard: "{{ dashboard_with_workers }}"
     master:
       jobs:
         - exporter_port: "{{ exporter_hbase_hm_http_port }}"
           log_file: "{{ hbase_log_dir }}/{{ hbase_hm_log_file }}"
     region_server:
       group: hbase_rs
+      labels: { 'worker': 'True' }
       jobs:
         - exporter_port: "{{ exporter_hbase_hrs_http_port }}"
           log_file: "{{ hbase_log_dir }}/{{ hbase_hrs_log_file }}"
@@ -92,8 +98,10 @@ observability_tdp_targets:
   hdfs:
     labels:
       type: tdp_core
+      svc_dashboard: "{{ dashboard_with_workers }}"
     datanode:
       group: hdfs_dn
+      labels: { 'worker': 'True' }
       jobs:
         - exporter_port: "{{ exporter_hdfs_dn_http_port }}"
           log_file: "{{ hdfs_log_dir }}/{{ hadoop_hdfs_datanode_log_file }}"
@@ -117,6 +125,7 @@ observability_tdp_targets:
   hive:
     labels:
       type: tdp_core
+      svc_dashboard: "{{ dashboard_without_workers }}"
     metastore:
       group: hive_ms
       jobs:
@@ -130,6 +139,7 @@ observability_tdp_targets:
   knox:
     labels:
       type: tdp_core
+      svc_dashboard: "{{ dashboard_without_workers }}"
     gateway:
       group: knox
       jobs:
@@ -138,6 +148,7 @@ observability_tdp_targets:
   ranger:
     labels:
       type: tdp_core
+      svc_dashboard: "{{ dashboard_without_workers }}"
     admin:
       jobs:
         - exporter_port: "{{ exporter_ranger_ra_http_port }}"
@@ -157,6 +168,7 @@ observability_tdp_targets:
   spark2:
     labels:
       type: tdp_core
+      svc_dashboard: "{{ dashboard_without_workers }}"
     history_server:
       group: spark_hs
       jobs:
@@ -165,6 +177,7 @@ observability_tdp_targets:
   spark3:
     labels:
       type: tdp_core
+      svc_dashboard: "{{ dashboard_without_workers }}"
     history_server:
       group: spark3_hs
       jobs:
@@ -173,6 +186,7 @@ observability_tdp_targets:
   yarn:
     labels:
       type: tdp_core
+      svc_dashboard: "{{ dashboard_with_workers }}"
     ressource_manager:
       group: yarn_rm
       jobs:
@@ -184,6 +198,7 @@ observability_tdp_targets:
         - exporter_port: "{{ exporter_mapred_jhs_http_port }}"
           log_file: "{{ mapred_log_dir }}/{{ hadoop_mapred_historyserver_log_file }}"
     node_manager:
+      labels: { 'worker': 'True' }
       group: yarn_nm
       jobs:
         - exporter_port: "{{ exporter_yarn_nm_http_port }}"
@@ -196,6 +211,7 @@ observability_tdp_targets:
   zookeeper:
     labels:
       type: tdp_core
+      svc_dashboard: "{{ dashboard_without_workers }}"
     server:
       group: zk
       jobs:
