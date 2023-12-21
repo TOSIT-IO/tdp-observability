@@ -3,6 +3,54 @@
 # SPDX-License-Identifier: Apache-2.0 AND MIT
 # Copied and adapted from https://github.com/cloudalchemy/ansible-grafana.git
 ---
+#
+# Build list of installed tdp services
+#
+- name: Build a dictionary of service => [ groups ] for overriden groups
+  ansible.builtin.set_fact:
+    _service_custom_groups: "{{ _service_custom_groups | default({}) | combine({item.key: _groups}) }}"
+  loop: "{{ observability_tdp_targets | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  vars:
+    _groups: "{{ observability_tdp_targets[item.key] | dict2items | map(attribute='value') | selectattr('group', 'defined') | map(attribute='group') }}"
+
+- name: Build a dictionary of service => [ groups ] for defaults groups
+  ansible.builtin.set_fact:
+    _service_default_groups: "{{ _service_default_groups | default({}) | combine({item.key: _groups}) }}"
+  loop: "{{ observability_tdp_targets | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  vars:
+    # build a '_components' list of items that includes the key as a new item
+    # aka : { 'master': {group: xx, jobs: []}, {...} } becomes [ {component: master, group: xx, jobs:[], {...} }]
+    _list: "{{ observability_tdp_targets[item.key] | dict2items }}"
+    _keys: "{{ _list | map(attribute='key') | map('community.general.dict_kv', 'component') }}"
+    _vals: "{{ _list | map(attribute='value') }}"
+    _components: "{{ _keys | zip(_vals) | map('combine') }}"
+    # build list of components whithout the 'group' attribute
+    _default_groups: "{{ _components | selectattr('group', 'undefined') | map(attribute='component') }}"
+    # concatenate each group with 'service_'
+    _prefix: "{{ item.key }}_"
+    _groups: "{{ [_prefix] | product(_default_groups | list) | map('join') | list }}"
+
+- name: Merge the two dictionaries, keeping only groups that exists in topology
+  ansible.builtin.set_fact:
+    _service_groups: "{{ _service_groups | default({}) | combine({item: _groups}) }}"
+  loop: "{{ _service_custom_groups.keys() | list | union(_service_default_groups.keys() | list) }}"
+  loop_control:
+    label: "{{ item }}"
+  vars:
+    _groups: "{{ (_service_default_groups[item] + _service_custom_groups[item]) | intersect(groups.keys() | list) }}"
+
+- name: "Build 'installed_services' : list of service with non empty groups"
+  ansible.builtin.set_fact:
+    installed_services: "{{ installed_services | default([]) | union([item.key]) }}"
+  loop: "{{ _service_groups | dict2items }}"
+  loop_control:
+    label: "{{ item.key }}"
+  when: item.value | length > 0
+
 - name: Install dashboards via provisionning
   when: grafana_use_provisioning
   block:
@@ -19,6 +67,7 @@
              type: file
              options:
                path: "{{ grafana_data_dir }}/dashboards"
+               #foldersFromFilesStructure: true
         backup: false
         owner: root
         group: "{{ grafana_group }}"
@@ -27,22 +76,49 @@
     - name: Register previously copied dashboards
       ansible.builtin.find:
         paths: "{{ grafana_data_dir }}/dashboards"
+        recurse: true
         hidden: true
         patterns:
           - "*.json"
       register: _dashboards_present
       when: grafana_provisioning_synced
 
-    - name: Import grafana dashboards
+    - name: Build list of dashboards to copy
+      ansible.builtin.set_fact:
+        _all_dashboards: "{{ _all_dashboards | default([]) + [item.path] }}"
+        _all_directories: "{{ _all_directories | default([]) + [_dir] }}"
+      with_community.general.filetree: "{{ grafana_dashboards_dir }}"
+      loop_control:
+        label: "{{ item.path }}"
+      vars:
+        _dir: "{{ item.path | dirname() }}"
+        _file: "{{ item.path | basename() }}"
+        _re: "{{ grafana_filtered_dashboards[_dir] | default('(.*)') }}"
+        _service: "{{ _file | regex_replace(_re, '\\1') }}"
+      when: >
+        item.path is match(".*[.]json") and
+        ( _dir not in grafana_filtered_dashboards.keys() | default([]) or
+          _service in installed_services
+        )
+
+    - name: Create remote directories
+      ansible.builtin.file:
+        path: "{{ grafana_data_dir }}/dashboards/{{ item }}"
+        state: directory
+        owner: "{{ grafana_user }}"
+        group: "{{ grafana_group }}"
+        mode: '0755'
+      loop: "{{ _all_directories | unique }}"
+
+    - name: Provision every dashboards in list
       become: true
       ansible.builtin.copy:
-        src: "{{ item }}"
-        dest: "{{ grafana_data_dir }}/dashboards/{{ item | basename }}"
+        src: "{{ grafana_dashboards_dir }}/{{ item }}"
+        dest: "{{ grafana_data_dir }}/dashboards/{{ item }}"
         owner: "{{ grafana_user }}"
         group: "{{ grafana_group }}"
         mode: "640"
-      with_fileglob:
-        - "{{ grafana_dashboards_dir }}/*.json"
+      loop: "{{ _all_dashboards }}"
       register: _dashboards_copied
 
     - name: Get dashboard lists

@@ -45,12 +45,6 @@
     file: notifications.yml
   when: (grafana_alert_notifications | length)
 
-- name: "Check if there are any dashboards in local {{ grafana_dashboards_dir }}"
-  become: false
-  ansible.builtin.set_fact:
-    found_dashboards: "{{ lookup('fileglob', grafana_dashboards_dir + '/*.json', wantlist=True) }}"
-
-- name: Install dashbords
+- name: Install dashboards
   ansible.builtin.include_tasks:
     file: dashboards.yml
-  when: (grafana_dashboards | length) or (found_dashboards | length)
