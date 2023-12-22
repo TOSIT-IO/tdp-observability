@@ -56,10 +56,26 @@
     owner: root
     mode: "755"
 
+- name: Create log directory
+  ansible.builtin.file:
+    path: "{{ node_exporter_log_dir }}"
+    state: directory
+    group: "{{ node_exporter_group }}"
+    owner: "{{ node_exporter_user }}"
+    mode: "751"
+
 - name: Template node-exporter tmpfiles.d
   ansible.builtin.template:
     src: tmpfiles-node-exporter.conf.j2
     dest: /etc/tmpfiles.d/node-exporter.conf
+    group: root
+    owner: root
+    mode: "644"
+
+- name: Template node-exporter logrotate file
+  ansible.builtin.template:
+    src: node-exporter.logrotate.j2
+    dest: "/etc/logrotate.d/node-exporter"
     group: root
     owner: root
     mode: "644"

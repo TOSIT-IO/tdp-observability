@@ -8,11 +8,12 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
+UMask=0022
 Type=simple
 User={{ node_exporter_user }}
 Group={{ node_exporter_group }}
 PIDFile={{ node_exporter_pid_dir }}/node-exporter.pid
-ExecStart={{ node_exporter_install_dir }}/node_exporter {{ node_exporter_collectors }} {{ node_exporter_web_listen_address }}
+ExecStart=/bin/bash -c 'exec {{ node_exporter_install_dir }}/node_exporter {{ node_exporter_collectors }} {{ node_exporter_web_listen_address }} >>{{ node_exporter_log_dir }}/{{ node_exporter_log_file }} 2>&1'
 
 [Install]
 WantedBy=multi-user.target
