@@ -17,11 +17,13 @@ node_exporter_dist_file: "{{ node_exporter_release }}.tar.gz"
 node_exporter_root_dir: /opt/tdp_observability
 node_exporter_install_dir: "{{ node_exporter_root_dir }}/node-exporter"
 node_exporter_pid_dir: /run/node-exporter
+node_exporter_log_dir: /var/log/node-exporter
 
 # node exporter configuration directory
 node_exporter_conf_dir: /etc/node-exporter
 node_exporter_collectors: --collector.systemd --collector.ntp
 node_exporter_web_listen_address: --web.listen-address=:{{ exporter_node_http_port }}
+node_exporter_log_file: node-exporter.log
 
 # node exporter service start on boot policies
 node_exporter_start_on_boot: false

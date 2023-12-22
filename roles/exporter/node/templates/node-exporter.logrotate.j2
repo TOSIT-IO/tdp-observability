@@ -1,0 +1,14 @@
+{#
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+#}
+{{ node_exporter_log_dir }}/{{ node_exporter_log_file }} {
+  compress
+  delaycompress
+  daily
+  rotate 31
+  create 0644 {{ node_exporter_user }} {{ node_exporter_group }}
+  postrotate
+    /bin/systemctl restart node-exporter.service 2> /dev/null || true
+  endscript
+}
