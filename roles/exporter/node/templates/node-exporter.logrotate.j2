@@ -7,7 +7,7 @@
   delaycompress
   daily
   rotate 31
-  create 0644 {{ node_exporter_user }} {{ node_exporter_group }}
+  create 0640 {{ node_exporter_user }} {{ node_exporter_group }}
   postrotate
     /bin/systemctl restart node-exporter.service 2> /dev/null || true
   endscript

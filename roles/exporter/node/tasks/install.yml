@@ -62,7 +62,7 @@
     state: directory
     group: "{{ node_exporter_group }}"
     owner: "{{ node_exporter_user }}"
-    mode: "751"
+    mode: "750"
 
 - name: Template node-exporter tmpfiles.d
   ansible.builtin.template:
