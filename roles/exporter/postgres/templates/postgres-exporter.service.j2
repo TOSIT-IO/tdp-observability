@@ -8,6 +8,7 @@ Wants=network-online.target
 After=network-online.target
 
 [Service]
+UMask=0027
 User={{ postgres_exporter_user }}
 Group={{ postgres_exporter_group }}
 WorkingDirectory={{ postgres_exporter_work_dir }}
