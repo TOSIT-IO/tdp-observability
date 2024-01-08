@@ -44,7 +44,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: "755"
+    mode: "750"
     owner: "{{ grafana_user }}"
     group: "{{ grafana_group }}"
   with_items:

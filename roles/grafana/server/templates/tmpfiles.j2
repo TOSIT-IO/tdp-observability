@@ -5,4 +5,4 @@
 # Copied and adapted from https://github.com/cloudalchemy/ansible-grafana.git
 #}
 {{ ansible_managed | comment }}
-d {{ grafana_server.socket | dirname }} 0775 grafana grafana
+d {{ grafana_server.socket | dirname }} 0775 {{ grafana_user }} {{ grafana_group }} 
