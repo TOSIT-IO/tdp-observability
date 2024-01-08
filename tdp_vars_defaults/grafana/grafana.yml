@@ -16,7 +16,7 @@ grafana_start_on_boot: false
 
 # grafana users and group
 grafana_user: grafana
-grafana_group: grafana
+grafana_group: "{{ hadoop_group }}"
 
 # Should we use the provisioning capability when possible (provisioning require grafana >= 5.0)
 grafana_use_provisioning: true
