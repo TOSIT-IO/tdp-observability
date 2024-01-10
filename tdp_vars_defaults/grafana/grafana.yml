@@ -71,8 +71,8 @@ grafana_security:
 #  data_source_proxy_whitelist:
 
 # Database setup
-grafana_database:
-  type: sqlite3
+# grafana_database:
+#  type: sqlite3
 #  host: 127.0.0.1:3306
 #  name: grafana
 #  user: root
@@ -83,6 +83,19 @@ grafana_database:
 #  max_idle_conn: 2
 #  max_open_conn: ""
 #  log_queries: ""
+
+grafana_database: >-
+  {
+    {%- if groups['postgresql'] is defined and groups['postgresql'] | length > 0 -%}
+      "type": "postgres",
+      "host": "{{ groups['postgresql'][0] | tosit.tdp.access_fqdn(hostvars) }}:{{ postgresql_server_port }}",
+      "name": "grafana",
+      "user": "grafana",
+      "password": "grafana",
+    {%- else -%}
+      "type": "sqlite3",
+    {%- endif -%}
+  }
 
 # Remote cache
 grafana_remote_cache: {}
