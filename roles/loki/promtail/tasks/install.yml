@@ -48,13 +48,16 @@
     dest: "{{ promtail_install_dir }}"
     state: link
 
-- name: "Ensure directory exists: {{ promtail_data_dir }}"
+- name: Ensure promtail data and log directories exist
   ansible.builtin.file:
-    path: "{{ promtail_data_dir }}"
+    path: "{{ item }}"
     state: directory
     owner: "{{ promtail_user }}"
     group: "{{ promtail_group }}"
     mode: "750"
+  with_items:
+    - "{{ promtail_data_dir }}"
+    - "{{ promtail_log_dir }}"
 
 - name: "Ensure directory exists: {{ promtail_conf_dir }}"
   ansible.builtin.file:
@@ -63,6 +66,14 @@
     owner: "{{ promtail_user }}"
     group: "{{ promtail_group }}"
     mode: "755"
+
+- name: Template promtail logrotate file
+  ansible.builtin.template:
+    src: promtail.logrotate.j2
+    dest: "/etc/logrotate.d/promtail"
+    group: root
+    owner: root
+    mode: "644"
 
 - name: Template promtail service file
   ansible.builtin.template:

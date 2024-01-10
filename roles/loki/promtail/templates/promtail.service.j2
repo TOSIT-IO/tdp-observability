@@ -7,9 +7,11 @@ Description=Promtail service
 After=network.target
 
 [Service]
+UMask=0027
 Type=simple
 User={{ promtail_user }}
-ExecStart={{ promtail_install_dir }}/promtail-linux-amd64 -config.file {{ promtail_conf_dir }}/config.yml
+Group={{ promtail_group }}
+ExecStart=/bin/bash -c 'exec {{ promtail_install_dir }}/promtail-linux-amd64 -config.file {{ promtail_conf_dir }}/config.yml >>{{ promtail_log_dir }}/{{ promtail_log_file }} 2>&1'
 # Give a reasonable amount of time for promtail to start up/shut down
 TimeoutSec = 60
 Restart = on-failure
