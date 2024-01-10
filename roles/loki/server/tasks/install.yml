@@ -48,13 +48,16 @@
     dest: "{{ loki_install_dir }}"
     state: link
 
-- name: "Ensure directory exists: {{ loki_data_dir }}"
+- name: Ensure loki data and log directories exist
   ansible.builtin.file:
-    path: "{{ loki_data_dir }}"
+    path: "{{ item }}"
     state: directory
     owner: "{{ loki_user }}"
     group: "{{ loki_group }}"
     mode: "750"
+  with_items:
+    - "{{ loki_data_dir }}"
+    - "{{ loki_log_dir }}"
 
 - name: "Ensure directory exists : {{ loki_conf_dir }}"
   ansible.builtin.file:
@@ -63,6 +66,14 @@
     owner: "{{ loki_user }}"
     group: "{{ loki_group }}"
     mode: "755"
+
+- name: Template loki logrotate file
+  ansible.builtin.template:
+    src: loki.logrotate.j2
+    dest: "/etc/logrotate.d/loki"
+    group: root
+    owner: root
+    mode: "644"
 
 - name: Template loki service file
   ansible.builtin.template:

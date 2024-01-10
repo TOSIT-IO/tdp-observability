@@ -7,9 +7,11 @@ Description=Loki service
 After=network.target
 
 [Service]
+UMask=0027
 Type=simple
-User=loki
-ExecStart={{ loki_install_dir }}/loki-linux-amd64 -config.file {{ loki_conf_dir }}/config.yml
+User={{ loki_user }}
+Group={{ loki_group }}
+ExecStart=/bin/bash -c 'exec {{ loki_install_dir }}/loki-linux-amd64 -config.file {{ loki_conf_dir }}/config.yml >>{{ loki_log_dir }}/{{ loki_log_file }} 2>&1'
 # Give a reasonable amount of time for the server to start up/shut down
 TimeoutSec = 120
 Restart = on-failure
