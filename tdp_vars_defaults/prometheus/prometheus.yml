@@ -13,7 +13,7 @@ prometheus_skip_install: true
 
 # Prometheus user and group
 prometheus_user: prometheus
-prometheus_group: prometheus
+prometheus_group: "{{ hadoop_group }}"
 
 # Service start on boot policies
 prometheus_server_start_on_boot: false
@@ -40,6 +40,10 @@ prometheus_web_config:
   tls_server_config: {}
   http_server_config: {}
   basic_auth_users: {}
+
+# Prometheus logging
+prometheus_log_dir: /var/log/prometheus
+prometheus_log_file: prometheus.log
 
 prometheus_storage_retention: "30d"
 # Available since Prometheus 2.7.0

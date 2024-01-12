@@ -39,6 +39,14 @@
     - "{{ prometheus_config_dir }}"
     - "{{ prometheus_config_dir }}/rules"
 
+- name: Create log directory
+  ansible.builtin.file:
+    path: "{{ prometheus_log_dir }}"
+    state: directory
+    owner: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    mode: "750"
+
 - name: Upload {{ prometheus_dist_file }}
   ansible.builtin.copy:
     src: "{{ binaries_local_dir }}/{{ prometheus_dist_file }}"
@@ -80,6 +88,14 @@
   loop:
     - prometheus
     - promtool
+
+- name: Template prometheus logrotate file
+  ansible.builtin.template:
+    src: prometheus.logrotate.j2
+    dest: "/etc/logrotate.d/prometheus"
+    group: root
+    owner: root
+    mode: "644"
 
 - name: Template Prometheus service file
   ansible.builtin.template:
