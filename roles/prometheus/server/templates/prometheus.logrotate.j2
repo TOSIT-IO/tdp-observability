@@ -1,0 +1,14 @@
+{#
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+#}
+{{ prometheus_log_dir }}/{{ prometheus_log_file }} {
+  compress
+  delaycompress
+  daily
+  rotate 31
+  create 0640 {{ prometheus_user }} {{ prometheus_group }}
+  postrotate
+    /bin/systemctl restart prometheus.service 2> /dev/null || true
+  endscript
+}

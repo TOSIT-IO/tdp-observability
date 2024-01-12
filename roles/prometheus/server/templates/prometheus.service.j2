@@ -15,12 +15,13 @@ Requires=local-fs.target
 After=local-fs.target
 
 [Service]
+UMask=0027
 Type=simple
 Environment="GOMAXPROCS={{ prometheus_max_procs }}"
 User={{ prometheus_user }}
 Group={{ prometheus_group }}
 ExecReload=/bin/kill -HUP $MAINPID
-ExecStart={{ _prometheus_binary_install_dir }}/prometheus \
+ExecStart=/bin/bash -c 'exec {{ _prometheus_binary_install_dir }}/prometheus \
 {% if not prometheus_agent_mode %}
   --storage.tsdb.path={{ prometheus_db_dir }} \
 {% if prometheus_version is version('2.7.0', '>=') %}
@@ -51,7 +52,7 @@ ExecStart={{ _prometheus_binary_install_dir }}/prometheus \
 {% endfor %}
 {% endif %}
 {% endfor %}
-  --config.file={{ prometheus_config_dir }}/prometheus.yml
+  --config.file={{ prometheus_config_dir }}/prometheus.yml >>{{ prometheus_log_dir }}/{{ prometheus_log_file }} 2>&1'
 
 CapabilityBoundingSet=CAP_SET_UID
 LimitNOFILE=65000
@@ -66,12 +67,12 @@ RestrictSUIDSGID=true
 #SystemCallFilter=@signal @timer
 
 {% if (ansible_facts.packages.systemd | first).version is version('231', '>=') %}
-ReadWritePaths={{ prometheus_db_dir }}
+ReadWritePaths={{ prometheus_db_dir }} {{ prometheus_log_dir }}
 {% for path in prometheus_read_only_dirs %}
 ReadOnlyPaths={{ path }}
 {% endfor %}
 {% else %}
-ReadWriteDirectories={{ prometheus_db_dir }}
+ReadWriteDirectories={{ prometheus_db_dir }} {{ prometheus_log_dir }}
 {% for path in prometheus_read_only_dirs %}
 ReadOnlyDirectories={{ path }}
 {% endfor %}
