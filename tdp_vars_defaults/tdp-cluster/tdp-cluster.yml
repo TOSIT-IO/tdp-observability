@@ -60,18 +60,8 @@ observability_common_labels: {}
 #
 dashboard_with_workers: "service02/service-components-and-workers"
 dashboard_without_workers: "service01/service-components"
-dashboard_python: "service03/Python service components"
 
 observability_tdp_targets:
-  exporter:
-    labels:
-      type: tdp_infra
-    node:          # group exporter_node
-      jobs:
-        - exporter_port: "{{ exporter_node_http_port }}"
-    postgres:      # group exporter_postgres
-      jobs:
-        - exporter_port: "{{ exporter_postgres_http_port }}"
   hbase:
     labels:
       type: tdp_core
@@ -219,3 +209,42 @@ observability_tdp_targets:
           log_file: "{{ zookeeper_log_dir }}/{{ zookeeper_log_file }}"
         - name_suffix: trace
           log_file: "{{ zookeeper_log_dir }}/{{ zookeeper_tracelog_file }}"
+  #
+  # Observability
+  #
+  grafana:
+    labels:
+      type: tdp_observability
+    server:
+      group: grafana
+      jobs:
+        - log_file: "/var/log/grafana/grafana.log"
+          promtail_pipeline:
+            - logfmt:
+                mapping:
+                  datetime: t
+                  level:
+            - timestamp:
+                format: 'RFC3339'
+                source: 'datetime'
+            - labels:
+                level: ''
+  exporter:
+    node:
+      jobs:
+        - exporter_port: "{{ exporter_node_http_port }}"
+          labels:
+            type: tdp_infra
+        - log_file: "/var/log/node-exporter/node-exporter.log"
+          promtail_pipeline: observability
+          labels:
+            type: tdp_observability
+    postgres:
+      jobs:
+        - log_file: "/var/log/postgres-exporter/postgres-exporter.log"
+          promtail_pipeline: observability
+          labels:
+            type: tdp_observability
+        - exporter_port: "{{ exporter_postgres_http_port }}"
+          labels:
+            type: tdp_infra
