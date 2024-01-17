@@ -9,6 +9,7 @@
            'instance': inventory_hostname,
            'service' : service.key,
            'component': component.key,
+           '__path__': job.log_file,
          } |
          combine(observability_common_labels | default({})) |
          combine(service_labels              | default({})) |
@@ -31,11 +32,21 @@
       Whooops. job name {{ job_name }} duplicates another scrape config.
       You should use 'name_suffix' when several jobs are configured on the
       same component
-  when: job_name in job_list | default([])
+  when: job_name in promtail_job_list | default([])
 
-- name: Add job_name to job_list
+- name: Add job_name to promtail_job_list
   ansible.builtin.set_fact:
-    job_list: "{{ job_list | default([]) + [job_name] }}"
+    promtail_job_list: "{{ promtail_job_list | default([]) + [job_name] }}"
+
+- name: Set pipeline stage from models in promtail_pipelines
+  ansible.builtin.set_fact:
+    pipeline: "{{ promtail_pipelines[job.promtail_pipeline | default('default')] | default([]) }}"
+  when: job.promtail_pipeline is not defined or job.promtail_pipeline is string
+
+- name: Set pipeline stage (hard coded)
+  ansible.builtin.set_fact:
+    pipeline: "{{ job.promtail_pipeline }}"
+  when: job.promtail_pipeline is defined and job.promtail_pipeline is not string
 
 - name: Add scrape_config
   ansible.builtin.set_fact:
@@ -43,25 +54,10 @@
       {{ promtail_scrape_configs | default([]) +
         [{
           'job_name': job_name,
-          'pipeline_stages': [
-            { 'multiline': { 'firstline': promtail_date_regex }},
-            { 'regex': { 'expression': promtail_log_analyser_regex }},
-            { 'template': { 'source': 'level', 'template': '{{ ToLower .Value }}'}},
-            { 'timestamp': {
-                'format': 'RFC3339',
-                'source': 'datetime'
-              }
-            },
-            { 'labels': {
-                'level': ''
-              }
-            }
-          ],
+          'pipeline_stages': pipeline,
           'static_configs': [{
             'targets': [ 'localhost' ],
-            'labels': all_labels | combine({
-              '__path__': job.log_file
-            })
+            'labels': all_labels
           }]
         }]
       }}
