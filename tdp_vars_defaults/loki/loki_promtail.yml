@@ -45,7 +45,7 @@ promtail_scrape_configs: []
 # - default file patern may be overriden by specifying a 'files' value
 #
 promtail_date_regex: '^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}:\d{2}[.,]\d{3}'
-promtail_log_analyser_regex: '^(?P<datetime>.*?) - (?P<level>[A-Z]+)\s* - .*'
+promtail_log_analyser_regex: '^(?P<datetime>.*?) - (?P<level>[A-Z]+) .*'
 
 promtail_pipelines:
   default:

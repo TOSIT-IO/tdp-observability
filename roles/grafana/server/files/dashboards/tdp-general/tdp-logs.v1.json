@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 9,
+  "id": 5,
   "links": [
     {
       "asDropdown": false,
@@ -82,7 +82,7 @@
             "uid": "${DS_LOKI}"
           },
           "editorMode": "builder",
-          "expr": "{service=~\"$service\", component=~\"$component\", instance=~\"$host\", level=~\"$level\", filename=~\"$filename\"} |= `$text`",
+          "expr": "{service=~\"$service\", component=~\"$component\", instance=~\"$host\", level=~\"$level\", filename=~\"$filename\", type=\"tdp_core\"} |= `$text`",
           "queryType": "range",
           "refId": "A"
         }
@@ -124,7 +124,7 @@
       {
         "allValue": ".+",
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
@@ -141,10 +141,10 @@
         "query": {
           "label": "service",
           "refId": "LokiVariableQueryEditor-VariableQuery",
-          "stream": "",
+          "stream": "{type=\"tdp_core\"}",
           "type": 1
         },
-        "refresh": 1,
+        "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
@@ -170,10 +170,10 @@
         "query": {
           "label": "component",
           "refId": "LokiVariableQueryEditor-VariableQuery",
-          "stream": "{service=~\"$service\"}",
+          "stream": "{service=~\"$service\", type=\"tdp_core\"}",
           "type": 1
         },
-        "refresh": 1,
+        "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
@@ -199,10 +199,10 @@
         "query": {
           "label": "instance",
           "refId": "LokiVariableQueryEditor-VariableQuery",
-          "stream": "{service=~\"$service\", component=~\"$component\"}",
+          "stream": "{service=~\"$service\", component=~\"$component\", type=\"tdp_core\"}",
           "type": 1
         },
-        "refresh": 1,
+        "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
@@ -211,7 +211,7 @@
       {
         "allValue": ".+",
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
@@ -228,10 +228,10 @@
         "query": {
           "label": "filename",
           "refId": "LokiVariableQueryEditor-VariableQuery",
-          "stream": "{service=~\"$service\", component=~\"$component\", instance=~\"$host\"}",
+          "stream": "{service=~\"$service\", component=~\"$component\", instance=~\"$host\", type=\"tdp_core\"}",
           "type": 1
         },
-        "refresh": 1,
+        "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
@@ -240,7 +240,7 @@
       {
         "allValue": ".+",
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
@@ -257,13 +257,13 @@
         "query": {
           "label": "level",
           "refId": "LokiVariableQueryEditor-VariableQuery",
-          "stream": "",
+          "stream": "{type=\"tdp_core\"}",
           "type": 1
         },
-        "refresh": 1,
+        "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 0,
+        "sort": 1,
         "type": "query"
       },
       {
@@ -299,5 +299,3 @@
   "version": 1,
   "weekStart": ""
 }
-
-

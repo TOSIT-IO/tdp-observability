@@ -73,11 +73,13 @@ observability_common_labels: {}
 #              +---- jobs  : list of scrape jobs to configure
 #                            each job has the following entries :
 #
-# - exporter_port   : exporter service port (empty to monitor only logs)
-# - log_file        : log file path (empty to monitor only prometheus exporter)
-# - name_suffix     : mandatory if more than one job
-#                     job_name in prometheus or promtail scrapes will be
-#                     equal to '{{ service }}_{{ component }}_{{ suffix }}
+# - exporter_port     : exporter service port (empty to monitor only logs)
+# - log_file          : log file path (empty to monitor only prometheus exporter)
+# - name_suffix       : mandatory if more than one job
+#                       job_name in prometheus or promtail scrapes will be
+#                       equal to '{{ service }}_{{ component }}_{{ suffix }}
+# - promtail_pipeline : pipeline to use. One of :
+#                       - string : will be considered as a key in
 #
 dashboard_with_workers: "service02/service-components-and-workers"
 dashboard_without_workers: "service01/service-components"
@@ -239,7 +241,7 @@ observability_tdp_targets:
     server:
       group: grafana
       jobs:
-        - log_file: "/var/log/grafana/grafana.log"
+        - log_file: "{{ grafana_log_dir }}/{{ grafana_log_file }}"
           promtail_pipeline:
             - logfmt:
                 mapping:
@@ -256,16 +258,39 @@ observability_tdp_targets:
         - exporter_port: "{{ exporter_node_http_port }}"
           labels:
             type: tdp_infra
-        - log_file: "/var/log/node-exporter/node-exporter.log"
+        - log_file: "{{ node_exporter_log_dir }}/{{ node_exporter_log_file }}"
           promtail_pipeline: observability
           labels:
             type: tdp_observability
     postgres:
       jobs:
-        - log_file: "/var/log/postgres-exporter/postgres-exporter.log"
+        - log_file: "{{ postgres_exporter_log_dir }}/{{ postgres_exporter_log_file }}"
           promtail_pipeline: observability
           labels:
             type: tdp_observability
         - exporter_port: "{{ exporter_postgres_http_port }}"
           labels:
             type: tdp_infra
+  prometheus:
+    server:
+      group: prometheus
+      jobs:
+        - log_file: "{{ prometheus_log_dir }}/{{ prometheus_log_file }}"
+          promtail_pipeline: observability
+          labels:
+            type: tdp_observability
+  loki:
+    server:
+      group: loki
+      jobs:
+        - log_file: "{{ loki_log_dir }}/{{ loki_log_file }}"
+          promtail_pipeline: observability
+          labels:
+            type: tdp_observability
+    promtail:
+      group: promtail
+      jobs:
+        - log_file: "{{ promtail_log_dir }}/{{ promtail_log_file }}"
+          promtail_pipeline: observability
+          labels:
+            type: tdp_observability
