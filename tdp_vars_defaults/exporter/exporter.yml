@@ -17,16 +17,16 @@ node_exporter_dist_file: "{{ node_exporter_release }}.tar.gz"
 node_exporter_root_dir: /opt/tdp_observability
 node_exporter_install_dir: "{{ node_exporter_root_dir }}/node-exporter"
 node_exporter_pid_dir: /run/node-exporter
-node_exporter_log_dir: /var/log/node-exporter
 
 # node exporter configuration directory
 node_exporter_conf_dir: /etc/node-exporter
 node_exporter_collectors: --collector.systemd --collector.ntp
 node_exporter_web_listen_address: --web.listen-address=:{{ exporter_node_http_port }}
-node_exporter_log_file: node-exporter.log
 
 # node exporter service start on boot policies
 node_exporter_start_on_boot: false
+
+# node_exporter log_dir and log_file are defined in tdp_cluster.yml
 
 #####################
 # postgres-exporter #
@@ -42,13 +42,11 @@ postgres_exporter_dist_file: "{{ postgres_exporter_release }}.tar.gz"
 # postgres exporter installation directory
 postgres_exporter_root_dir: /opt/tdp_observability
 postgres_exporter_install_dir: "{{ postgres_exporter_root_dir }}/postgres-exporter"
-postgres_exporter_log_dir: /var/log/postgres-exporter
 postgres_exporter_work_dir: /var/lib/postgres-exporter
 
 # postgres exporter configuration
 postgres_exporter_telemetry: --web.telemetry-path=/metrics
 postgres_exporter_web_listen_address: --web.listen-address=:{{ exporter_postgres_http_port }}
-postgres_exporter_log_file: postgres-exporter.log
 postgres_exporter_log_conf: --log.level=info --log.format=logfmt
 
 # postgres exporter service start on boot policies
@@ -57,3 +55,5 @@ postgres_exporter_start_on_boot: false
 # postgresql server connexion
 postgres_exporter_sql_user: exporter
 postgres_exporter_sql_password: exporter
+
+# postgres_exporter log_dir and log_file are defined in tdp_cluster.yml

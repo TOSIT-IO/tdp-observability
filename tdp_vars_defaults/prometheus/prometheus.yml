@@ -41,9 +41,7 @@ prometheus_web_config:
   http_server_config: {}
   basic_auth_users: {}
 
-# Prometheus logging
-prometheus_log_dir: /var/log/prometheus
-prometheus_log_file: prometheus.log
+# Prometheus log_dir and log_file are defined in tdp_cluster.yml
 
 prometheus_storage_retention: "30d"
 # Available since Prometheus 2.7.0
