@@ -21,9 +21,7 @@ loki_certs_dir: "{{ loki_conf_dir }}/certs"
 # loki data directory
 loki_data_dir: /var/lib/loki
 
-# loki log directory and file
-loki_log_dir: /var/log/loki
-loki_log_file: loki.log
+# loki log_dir and log_file are defined in tdp_cluster.yml
 
 # loki configuration
 loki_configuration:

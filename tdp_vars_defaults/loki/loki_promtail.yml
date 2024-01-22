@@ -20,9 +20,7 @@ promtail_conf_dir: /etc/promtail
 # promtail data directory
 promtail_data_dir: /var/lib/promtail
 
-# promtail log directory and file
-promtail_log_dir: /var/log/promtail
-promtail_log_file: promtail.log
+# promtail log_dir and log_file are defined in tdp_cluster.yml
 
 # promtail service start on boot policies
 promtail_start_on_boot: false

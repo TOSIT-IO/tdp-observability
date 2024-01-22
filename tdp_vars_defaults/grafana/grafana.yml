@@ -29,8 +29,10 @@ grafana_instance: "{{ ansible_fqdn | default(ansible_host) | default(inventory_h
 # Grafana directories
 grafana_certs_dir: "/etc/grafana/certs"
 grafana_pid_dir: "/var/run/grafana"
-grafana_logs_dir: "/var/log/grafana"
 grafana_data_dir: "/var/lib/grafana"
+
+# grafana log_dir is defined in tdp_cluster.yml
+
 
 grafana_address: "{{ ansible_fqdn }}"
 grafana_port: "{{ grafana_web_port }}"

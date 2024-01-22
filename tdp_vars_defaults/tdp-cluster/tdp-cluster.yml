@@ -39,6 +39,27 @@ exporter_node_http_port: 9100
 # Postgres Exporter port
 exporter_postgres_http_port: 9187
 
+#################################
+# Service & Component logs dirs #
+#################################
+node_exporter_log_dir: /var/log/node-exporter
+node_exporter_log_file: node-exporter.log
+
+postgres_exporter_log_dir: /var/log/postgres-exporter
+postgres_exporter_log_file: postgres-exporter.log
+
+grafana_log_dir: /var/log/grafana
+grafana_log_file: "grafana.log"     # do not change. Grafana forces this filename. Variable is here only for promtail
+
+promtail_log_dir: /var/log/promtail
+promtail_log_file: promtail.log
+
+loki_log_dir: /var/log/loki
+loki_log_file: loki.log
+
+prometheus_log_dir: /var/log/prometheus
+prometheus_log_file: prometheus.log
+
 observability_common_labels: {}
 #  cluster: "{{ cluster_name }}"
 
