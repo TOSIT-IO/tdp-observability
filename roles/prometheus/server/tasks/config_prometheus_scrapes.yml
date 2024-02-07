@@ -30,11 +30,11 @@
       Whooops. job name {{ job_name }} duplicates another scrape config.
       You should use 'name_suffix' when several jobs are configured on the
       same component
-  when: job_name in job_list | default([])
+  when: job_name in prometheus_job_list | default([])
 
-- name: Add job_name to job_list
+- name: Add job_name to prometheus_job_list
   ansible.builtin.set_fact:
-    job_list: "{{ job_list | default([]) + [job_name] }}"
+    prometheus_job_list: "{{ prometheus_job_list | default([]) + [job_name] }}"
 
 - name: Template Prometheus file_sd targets for TDP components
   ansible.builtin.template:
@@ -48,15 +48,19 @@
     port_num: "{{ job.exporter_port }}"
     labels: "{{  all_labels }}"
 
-- name: Enrich prometheus_scrape_configs var with TDP components targets
+- name: Build scrape config
   ansible.builtin.set_fact:
-    prometheus_scrape_configs: |
-      {{ prometheus_scrape_configs
-         + [{
-               'job_name': job_name,
-               'file_sd_configs': [
-                 {'files': [prometheus_static_targets_dir + '/' + job_name + '.yml']}
-                 ],
-               'relabel_configs': prometheus_relabels
-           }]
-      }}
+    scrape_config:
+      job_name: "{{ job_name }}"
+      file_sd_configs:
+        - files:
+            - "{{ prometheus_static_targets_dir }}/{{ job_name }}.yml"
+      relabel_configs: "{{ prometheus_relabels }}"
+- name: Enrich scrape config
+  ansible.builtin.set_fact:
+    scrape_config: "{{ scrape_config | combine({item.key: item.value}) }}"
+  loop: "{{ job.prometheus_scrape_options | default({}) | dict2items }}"
+
+- name: Add scrape to prometheus_scrape_configs
+  ansible.builtin.set_fact:
+    prometheus_scrape_configs: "{{ prometheus_scrape_configs + [scrape_config] }}"
