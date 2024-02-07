@@ -71,15 +71,37 @@ observability_common_labels: {}
 #              |             Optional : should be specified only if not equal
 #              |             to '{{ service_name }}_{{ component_name }}'
 #              +---- jobs  : list of scrape jobs to configure
-#                            each job has the following entries :
 #
-# - exporter_port     : exporter service port (empty to monitor only logs)
-# - log_file          : log file path (empty to monitor only prometheus exporter)
-# - name_suffix       : mandatory if more than one job
-#                       job_name in prometheus or promtail scrapes will be
-#                       equal to '{{ service }}_{{ component }}_{{ suffix }}
-# - promtail_pipeline : pipeline to use. One of :
-#                       - string : will be considered as a key in
+# each job has the following entries :
+# - exporter_port              : exporter service port - for prometheus job
+# - log_file                   : log file path - for promtail job
+# - name_suffix                : mandatory if more than one job :
+#                                job_name in prometheus or promtail scrapes will be
+#                                equal to '{{ service }}_{{ component }}_{{ suffix }}
+# - prometheus_scrape_options  : options passed to prometheus scrape
+#                                cf. https://prometheus.io/docs/prometheus/latest/configuration/configuration
+# - promtail_pipeline          : can be either a pipeline dictionary as specified in
+#                                cf. https://grafana.com/docs/loki/latest/send-data/promtail/pipelines
+#                                or a string, key to a predefined pipeline from the "promtail_pipelines" dictionary
+#                                defined in "tdp_vars_default/loki/loki_promtail.yml"
+#                                default pipeline is promtail_pipelines['default']
+#
+# Additionaly, labels can be applied to scrapes and defined at any level of the configuration tree
+#
+# example:
+# service:
+#   component:
+#     jobs:
+#       - log_file: /var/log/foo/foo.log
+#         promtail_pipeline:
+#           - multiline:
+#               firstline: '^\d{4}-\d{2}-\d{2}[T]\d{2}:\d{2}:\d{2}'
+#       - exporter_port: 8888
+#         prometheus_scrape_options:
+#           scrape_interval: 10s
+#           scheme: https
+#           tls_config:
+#             ca_file: "{{ ca_file }}"
 #
 dashboard_with_workers: "service02/service-components-and-workers"
 dashboard_without_workers: "service01/service-components"
