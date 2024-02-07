@@ -105,6 +105,7 @@ observability_common_labels: {}
 #
 dashboard_with_workers: "service02/service-components-and-workers"
 dashboard_without_workers: "service01/service-components"
+dashboard_python: "service03/python-process"
 
 observability_tdp_targets:
   hbase:
