@@ -3,8 +3,5 @@
 
 ---
 - ansible.builtin.import_playbook: ../exporter_node_install.yml
-- ansible.builtin.import_playbook: ../exporter_postgres_install.yml
 # exporter_node_config
 - ansible.builtin.import_playbook: ../exporter_node_start.yml
-# exporter_postgres_config
-- ansible.builtin.import_playbook: ../exporter_postgres_start.yml

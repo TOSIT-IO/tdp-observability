@@ -1,9 +1,0 @@
-# Copyright 2022 TOSIT.IO
-# SPDX-License-Identifier: Apache-2.0
-
----
-- name: Stop postgres-exporter
-  ansible.builtin.service:
-    name: postgres-exporter
-    state: stopped
-    enabled: "{{ postgres_exporter_start_on_boot }}"
