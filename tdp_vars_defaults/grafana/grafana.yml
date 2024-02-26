@@ -242,7 +242,8 @@ grafana_dashboards: []
 #    revision_id: '1'
 #    datasource: 'Prometheus'
 #
-grafana_dashboards_dir: "dashboards"
+grafana_dashboards_dir:
+  default: "dashboards"
 grafana_home_dashboard: "tdp-nav/tdp-cluster-home"
 # Files in these directories should be filtered by service
 # value is a regex used to extract service_name from filename
