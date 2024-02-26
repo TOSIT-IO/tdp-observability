@@ -36,17 +36,11 @@ loki_grpc_port: 9096
 # Node Exporter port
 exporter_node_http_port: 9100
 
-# Postgres Exporter port
-exporter_postgres_http_port: 9187
-
 #################################
 # Service & Component logs dirs #
 #################################
 node_exporter_log_dir: /var/log/node-exporter
 node_exporter_log_file: node-exporter.log
-
-postgres_exporter_log_dir: /var/log/postgres-exporter
-postgres_exporter_log_file: postgres-exporter.log
 
 grafana_log_dir: /var/log/grafana
 grafana_log_file: "grafana.log"     # do not change. Grafana forces this filename. Variable is here only for promtail
@@ -285,15 +279,6 @@ observability_tdp_targets:
           promtail_pipeline: observability
           labels:
             type: tdp_observability
-    postgres:
-      jobs:
-        - log_file: "{{ postgres_exporter_log_dir }}/{{ postgres_exporter_log_file }}"
-          promtail_pipeline: observability
-          labels:
-            type: tdp_observability
-        - exporter_port: "{{ exporter_postgres_http_port }}"
-          labels:
-            type: tdp_infra
   prometheus:
     server:
       group: prometheus
