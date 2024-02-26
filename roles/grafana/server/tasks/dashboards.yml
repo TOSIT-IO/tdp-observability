@@ -85,9 +85,9 @@
 
     - name: Build list of dashboards to copy
       ansible.builtin.set_fact:
-        _all_dashboards: "{{ _all_dashboards | default([]) + [item.path] }}"
+        _all_dashboards: "{{ _all_dashboards | default([]) + [{'src': item.src, 'path': item.path}] }}"
         _all_directories: "{{ _all_directories | default([]) + [_dir] }}"
-      with_community.general.filetree: "{{ grafana_dashboards_dir }}"
+      with_community.general.filetree: "{{ grafana_dashboards_dir | dict2items | map(attribute='value') | list }}"
       loop_control:
         label: "{{ item.path }}"
       vars:
@@ -113,12 +113,15 @@
     - name: Provision every dashboards in list
       become: true
       ansible.builtin.copy:
-        src: "{{ grafana_dashboards_dir }}/{{ item }}"
-        dest: "{{ grafana_data_dir }}/dashboards/{{ item }}"
+        src: "{{ item.src }}"
+        dest: "{{ grafana_data_dir }}/dashboards/{{ item.path }}"
         owner: "{{ grafana_user }}"
         group: "{{ grafana_group }}"
         mode: "640"
       loop: "{{ _all_dashboards }}"
+      loop_control:
+        label: "{{ item.path }}"
+
       register: _dashboards_copied
 
     - name: Get dashboard lists
