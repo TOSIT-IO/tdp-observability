@@ -71,3 +71,11 @@ promtail_pipelines:
         source: 'datetime'
     - labels:
         level: ''
+  json_audit:
+    - json:
+        expressions:
+          datetime: evtTime
+    - timestamp:
+        format: '2006-01-02 15:04:05.000'
+        source: datetime
+        location: Local
