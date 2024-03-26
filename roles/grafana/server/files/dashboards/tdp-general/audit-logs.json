@@ -1,0 +1,317 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 13,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "TOSIT-IO/tdp-observability ",
+      "tooltip": "GitHub repository",
+      "type": "link",
+      "url": "https://github.com/TOSIT-IO/tdp-observability"
+    },
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Made with ❤️ by TOSIT",
+      "tooltip": "TOSIT website",
+      "type": "link",
+      "url": "https://tosit.io/"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "${DS_LOKI}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": true,
+            "inspect": true
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "result"
+            },
+            "properties": [
+              {
+                "id": "custom.align",
+                "value": "center"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "0": {
+                        "color": "dark-red",
+                        "index": 1,
+                        "text": "ERROR"
+                      },
+                      "1": {
+                        "color": "dark-green",
+                        "index": 0,
+                        "text": "OK"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "custom.width",
+                "value": 99
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 168
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 17,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "10.4.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "${DS_LOKI}"
+          },
+          "editorMode": "code",
+          "expr": "{type=\"tdp_audit\", service=~\"${service}\"}",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Audit logs",
+      "transformations": [
+        {
+          "id": "extractFields",
+          "options": {
+            "format": "json",
+            "source": "Line"
+          }
+        },
+        {
+          "id": "extractFields",
+          "options": {
+            "format": "json",
+            "source": "labels"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Line": true,
+              "agentHost": true,
+              "cluster_name": true,
+              "component": true,
+              "evtTime": true,
+              "filename": true,
+              "id": true,
+              "id 2": false,
+              "labels": true,
+              "service": true,
+              "svc_dashboard": true,
+              "tsNs": true,
+              "type": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "Line": 5,
+              "Time": 1,
+              "access": 10,
+              "action": 11,
+              "agent": 12,
+              "agentHost": 15,
+              "cluster_name": 22,
+              "component": 24,
+              "enforcer": 14,
+              "event_count": 19,
+              "event_dur_ms": 20,
+              "evtTime": 4,
+              "filename": 25,
+              "id": 7,
+              "id 2": 17,
+              "instance": 26,
+              "labels": 0,
+              "logType": 16,
+              "policy": 13,
+              "policy_version": 23,
+              "repo": 8,
+              "repoType": 9,
+              "reqUser": 2,
+              "result": 3,
+              "seq_num": 18,
+              "service": 27,
+              "svc_dashboard": 28,
+              "tags": 21,
+              "tsNs": 6,
+              "type": 29
+            },
+            "renameByName": {
+              "Time": "",
+              "id 2": "id",
+              "logType": "",
+              "repo": "",
+              "reqUser": "User"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [
+    "logs"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "TDP Loki",
+          "value": "PDE669774B005FC71"
+        },
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "DS_LOKI",
+        "options": [],
+        "query": "loki",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "allValue": ".*",
+        "datasource": {
+          "type": "loki",
+          "uid": "${DS_LOKI}"
+        },
+        "definition": "",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Service",
+        "multi": false,
+        "name": "service",
+        "options": [],
+        "query": {
+          "label": "service",
+          "refId": "LokiVariableQueryEditor-VariableQuery",
+          "stream": "{type=\"tdp_audit\"}",
+          "type": 1
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Ranger Audit logs",
+  "uid": "auditlogs",
+  "version": 1,
+  "weekStart": ""
+}

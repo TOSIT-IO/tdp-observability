@@ -110,12 +110,24 @@ observability_tdp_targets:
       jobs:
         - exporter_port: "{{ exporter_hbase_hm_http_port }}"
           log_file: "{{ hbase_log_dir }}/{{ hbase_hm_log_file }}"
+        - name_suffix: audit
+          log_file: "{{ hbase_log_dir }}/{{ hbase_master_ranger_audit_file }}"
+          labels:
+            type: tdp_audit
+          promtail_pipeline: json_audit
+
     region_server:
       group: hbase_rs
       labels: { 'worker': 'True' }
       jobs:
         - exporter_port: "{{ exporter_hbase_hrs_http_port }}"
           log_file: "{{ hbase_log_dir }}/{{ hbase_hrs_log_file }}"
+        - name_suffix: audit
+          log_file: "{{ hbase_log_dir }}/{{ hbase_rs_ranger_audit_file }}"
+          labels:
+            type: tdp_audit
+          promtail_pipeline: json_audit
+
     rest:
       jobs:
         - exporter_port: "{{ exporter_hbase_hr_http_port }}"
@@ -148,6 +160,12 @@ observability_tdp_targets:
         - name_suffix: zkfc
           exporter_port: "{{ exporter_hdfs_zkfc_http_port }}"
           log_file: "{{ hdfs_log_dir }}/{{ hadoop_hdfs_zkfc_log_file }}"
+        - name_suffix: audit
+          log_file: "{{ hdfs_log_dir }}/{{ hadoop_hdfs_ranger_audit_file }}"
+          labels:
+            type: tdp_audit
+          promtail_pipeline: json_audit
+
     httpfs:
       jobs:
         - log_file: "{{ hdfs_log_dir }}/{{ hadoop_hdfs_httpfs_log_file }}"
@@ -166,6 +184,12 @@ observability_tdp_targets:
       jobs:
         - exporter_port: "{{ exporter_hive_hs2_http_port }}"
           log_file: "{{ hive_log_dir }}/{{ hive_s2_log_file }}"
+        - name_suffix: audit
+          log_file: "{{ hive_log_dir }}/{{ hive_ranger_audit_file }}"
+          labels:
+            type: tdp_audit
+          promtail_pipeline: json_audit
+
   knox:
     labels:
       type: tdp_core
@@ -175,6 +199,12 @@ observability_tdp_targets:
       jobs:
         - exporter_port: "{{ exporter_knox_gateway_http_port }}"
           log_file: "{{ knox_log_dir }}/{{ knox_gateway_log_file }}"
+        - name_suffix: audit
+          log_file: "{{ knox_log_dir }}/{{ knox_ranger_audit_file }}"
+          labels:
+            type: tdp_audit
+          promtail_pipeline: json_audit
+
   ranger:
     labels:
       type: tdp_core
@@ -222,6 +252,12 @@ observability_tdp_targets:
       jobs:
         - exporter_port: "{{ exporter_yarn_rm_http_port }}"
           log_file: "{{ yarn_log_dir }}/{{ hadoop_yarn_resourcemanager_log_file }}"
+        - name_suffix: audit
+          log_file: "{{ yarn_log_dir }}/{{ hadoop_yarn_ranger_audit_file }}"
+          labels:
+            type: tdp_audit
+          promtail_pipeline: json_audit
+
     mapred_history_server:
       group: mapred_jhs
       jobs:
