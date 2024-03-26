@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0 AND MIT
 
 ---
-grafana_version: 9.2.0
+grafana_version: 10.4.1
 grafana_package: "grafana-{{ grafana_version }}"
 grafana_release: "{{ grafana_package }}.linux-amd64"
 grafana_dist_file: "{{ grafana_release }}.tar.gz"
