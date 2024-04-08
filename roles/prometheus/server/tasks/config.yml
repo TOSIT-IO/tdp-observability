@@ -33,6 +33,14 @@
   ansible.builtin.include_tasks:
     file: config_set_web_config.yml
 
+- name: Template environment file
+  ansible.builtin.template:
+    src: prometheus.env.j2
+    dest: /etc/sysconfig/prometheus
+    owner: root
+    group: root
+    mode: "644"
+
 - name: Build prometheus scrape config and file_sd targets
   ansible.builtin.include_tasks: config_components_loop.yml
   loop: "{{ observability_tdp_targets | dict2items }}"
