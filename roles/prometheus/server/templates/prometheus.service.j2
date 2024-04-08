@@ -17,19 +17,13 @@ After=local-fs.target
 [Service]
 UMask=0027
 Type=simple
-Environment="GOMAXPROCS={{ prometheus_max_procs }}"
 User={{ prometheus_user }}
 Group={{ prometheus_group }}
 ExecReload=/bin/kill -HUP $MAINPID
-ExecStart=/bin/bash -c 'exec {{ _prometheus_binary_install_dir }}/prometheus \
+EnvironmentFile=-/etc/sysconfig/prometheus
+ExecStart=/bin/bash -c 'exec {{ _prometheus_binary_install_dir }}/prometheus $OPTIONS \
 {% if not prometheus_agent_mode %}
   --storage.tsdb.path={{ prometheus_db_dir }} \
-{% if prometheus_version is version('2.7.0', '>=') %}
-  --storage.tsdb.retention.time={{ prometheus_storage_retention }} \
-  --storage.tsdb.retention.size={{ prometheus_storage_retention_size }} \
-{% else %}
-  --storage.tsdb.retention={{ prometheus_storage_retention }} \
-{% endif %}
 {% else %}
   --enable-feature=agent \
   --storage.agent.path={{ prometheus_db_dir }} \
@@ -39,19 +33,6 @@ ExecStart=/bin/bash -c 'exec {{ _prometheus_binary_install_dir }}/prometheus \
 {% endif %}
   --web.console.libraries={{ prometheus_config_dir }}/console_libraries \
   --web.console.templates={{ prometheus_config_dir }}/consoles \
-  --web.listen-address={{ prometheus_web_listen_address }} \
-  --web.external-url={{ prometheus_web_external_url }} \
-{% for flag, flag_value in prometheus_config_flags_extra.items() %}
-{% if not flag_value %}
-  --{{ flag }} \
-{% elif flag_value is string %}
-  --{{ flag }}={{ flag_value }} \
-{% elif flag_value is sequence %}
-{% for flag_value_item in flag_value %}
-  --{{ flag }}={{ flag_value_item }} \
-{% endfor %}
-{% endif %}
-{% endfor %}
   --config.file={{ prometheus_config_dir }}/prometheus.yml >>{{ prometheus_log_dir }}/{{ prometheus_log_file }} 2>&1'
 
 CapabilityBoundingSet=CAP_SET_UID
