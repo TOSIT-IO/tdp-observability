@@ -6,9 +6,9 @@
   depends_on: []
 
 - name: exporter_node_config
-  noop: yes
   depends_on:
     - tdp-cluster_config
+    - exporter_node_install
 
 - name: exporter_node_start
   depends_on:
