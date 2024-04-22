@@ -1,0 +1,11 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Template environment file
+  ansible.builtin.template:
+    src: node-exporter.env.j2
+    dest: /etc/sysconfig/node-exporter
+    owner: root
+    group: root
+    mode: "644"
