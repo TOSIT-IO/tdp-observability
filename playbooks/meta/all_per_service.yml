@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-# tdp-cluster
 - ansible.builtin.import_playbook: exporter.yml
 - ansible.builtin.import_playbook: grafana.yml
 - ansible.builtin.import_playbook: loki.yml

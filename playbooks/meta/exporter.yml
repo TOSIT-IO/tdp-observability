@@ -3,5 +3,5 @@
 
 ---
 - ansible.builtin.import_playbook: ../exporter_node_install.yml
-# exporter_node_config
+- ansible.builtin.import_playbook: ../exporter_node_config.yml
 - ansible.builtin.import_playbook: ../exporter_node_start.yml
