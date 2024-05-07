@@ -4,7 +4,9 @@
 ---
 - name: Parse promtail scrape configs
   ansible.builtin.include_tasks: config_promtail_scrapes.yml
-  when: job.log_file is defined and job.log_file  | length > 0
+  when:
+    - job.enabled | default(true)
+    - job.log_file is defined and job.log_file  | length > 0
   loop: "{{ component.value.jobs }}"
   loop_control:
     loop_var: job
