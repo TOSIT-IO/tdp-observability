@@ -80,7 +80,9 @@ observability_common_labels: {}
 #                                defined in "tdp_vars_default/loki/loki_promtail.yml"
 #                                default pipeline is promtail_pipelines['default']
 #
-# Additionaly, labels can be applied to scrapes and defined at any level of the configuration tree
+# Additionaly :
+# - labels can be applied to scrapes and defined at any level of the configuration tree
+# - enabled: jobs can be disabled by setting 'enabled' key to false.
 #
 # example:
 # service:
@@ -115,6 +117,7 @@ observability_tdp_targets:
           labels:
             type: tdp_audit
           promtail_pipeline: json_audit
+          enabled: "{{ enable_ranger_audit_log4j | default(false) }}"
 
     region_server:
       group: hbase_rs
@@ -127,6 +130,8 @@ observability_tdp_targets:
           labels:
             type: tdp_audit
           promtail_pipeline: json_audit
+          enabled: "{{ enable_ranger_audit_log4j | default(false) }}"
+
 
     rest:
       jobs:
@@ -165,6 +170,7 @@ observability_tdp_targets:
           labels:
             type: tdp_audit
           promtail_pipeline: json_audit
+          enabled: "{{ enable_ranger_audit_log4j | default(false) }}"
 
     httpfs:
       jobs:
@@ -189,6 +195,7 @@ observability_tdp_targets:
           labels:
             type: tdp_audit
           promtail_pipeline: json_audit
+          enabled: "{{ enable_ranger_audit_log4j | default(false) }}"
 
   knox:
     labels:
@@ -204,6 +211,7 @@ observability_tdp_targets:
           labels:
             type: tdp_audit
           promtail_pipeline: json_audit
+          enabled: "{{ enable_ranger_audit_log4j | default(false) }}"
 
   ranger:
     labels:
@@ -257,6 +265,7 @@ observability_tdp_targets:
           labels:
             type: tdp_audit
           promtail_pipeline: json_audit
+          enabled: "{{ enable_ranger_audit_log4j | default(false) }}"
 
     mapred_history_server:
       group: mapred_jhs
