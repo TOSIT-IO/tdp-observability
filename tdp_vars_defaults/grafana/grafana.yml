@@ -248,7 +248,7 @@ grafana_home_dashboard: "tdp-nav/tdp-cluster-home"
 # Files in these directories should be filtered by service
 # value is a regex used to extract service_name from filename
 grafana_filtered_dashboards:
-  tdp-custom: '^tdp-(.*).v[0-9]+.json$'
+  tdp-custom: '^tdp-(.*).json$'
 
 
 # Alert notification channels to configure

@@ -22,10 +22,10 @@
     ]
   },
   "description": "",
-  "editable": true,
+  "editable": false,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 13,
+  "id": 19,
   "links": [
     {
       "asDropdown": false,
@@ -75,14 +75,14 @@
         "content": "<h1><p style=\"text-align: center;\">${service} components</p></h1>",
         "mode": "markdown"
       },
-      "pluginVersion": "9.2.0",
+      "pluginVersion": "10.4.1",
       "transparent": true,
       "type": "text"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "P959124A7822DE9A5"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -133,20 +133,22 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {
           "titleSize": 16,
           "valueSize": 16
         },
-        "textMode": "name"
+        "textMode": "name",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.0",
+      "pluginVersion": "10.4.1",
       "repeat": "job",
       "repeatDirection": "h",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "P959124A7822DE9A5"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "up{job=\"${job}\"}",
@@ -159,9 +161,8 @@
       "type": "stat"
     }
   ],
-  "refresh": "",
-  "schemaVersion": 37,
-  "style": "dark",
+  "refresh": "auto",
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [
@@ -169,12 +170,12 @@
         "current": {
           "selected": false,
           "text": "TDP Prometheus",
-          "value": "TDP Prometheus"
+          "value": "P959124A7822DE9A5"
         },
         "hide": 2,
         "includeAll": false,
         "multi": false,
-        "name": "DS",
+        "name": "DS_PROMETHEUS",
         "options": [],
         "query": "prometheus",
         "refresh": 1,
@@ -183,14 +184,9 @@
         "type": "datasource"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "hive",
-          "value": "hive"
-        },
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS}"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "label_values(service)",
         "hide": 2,
@@ -216,7 +212,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS}"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "label_values(up{service=\"${service}\", worker=\"\"},job)",
         "hide": 2,
@@ -236,14 +232,10 @@
       }
     ]
   },
-  "time": {
-    "from": "now-1h",
-    "to": "now"
-  },
   "timepicker": {},
   "timezone": "",
   "title": "Service components",
   "uid": "service01",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }

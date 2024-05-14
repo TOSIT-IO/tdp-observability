@@ -21,10 +21,10 @@
       }
     ]
   },
-  "editable": true,
+  "editable": false,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 2,
   "links": [
     {
       "asDropdown": false,
@@ -59,7 +59,7 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 5,
+        "h": 3,
         "w": 4,
         "x": 0,
         "y": 0
@@ -71,10 +71,10 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "<img src='https://raw.githubusercontent.com/TOSIT-IO/.github/master/profile/static/tdp_logo.png' height=\"150\"/>",
+        "content": "<img src='https://raw.githubusercontent.com/TOSIT-IO/.github/master/profile/static/tdp_logo.png' height=\"100\"/>",
         "mode": "markdown"
       },
-      "pluginVersion": "9.2.0",
+      "pluginVersion": "10.4.1",
       "transparent": true,
       "type": "text"
     },
@@ -113,7 +113,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 15,
+        "w": 16,
         "x": 4,
         "y": 0
       },
@@ -130,13 +130,15 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {
           "titleSize": 20,
           "valueSize": 20
         },
-        "textMode": "name"
+        "textMode": "name",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.0",
+      "pluginVersion": "10.4.1",
       "targets": [
         {
           "datasource": {
@@ -151,7 +153,6 @@
         }
       ],
       "title": "Services status",
-      "transformations": [],
       "type": "stat"
     },
     {
@@ -162,11 +163,13 @@
       "gridPos": {
         "h": 8,
         "w": 4,
-        "x": 19,
+        "x": 20,
         "y": 0
       },
       "id": 100,
       "options": {
+        "includeVars": false,
+        "keepTime": false,
         "maxItems": 10,
         "query": "",
         "showHeadings": false,
@@ -177,8 +180,8 @@
           "tdp-custom"
         ]
       },
-      "pluginVersion": "9.2.0",
-      "title": "Custom dashboards",
+      "pluginVersion": "10.4.1",
+      "title": "Service dashboards",
       "transparent": true,
       "type": "dashlist"
     },
@@ -188,13 +191,15 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 3,
+        "h": 5,
         "w": 4,
         "x": 0,
-        "y": 5
+        "y": 3
       },
       "id": 99,
       "options": {
+        "includeVars": false,
+        "keepTime": false,
         "maxItems": 10,
         "query": "",
         "showHeadings": false,
@@ -205,7 +210,7 @@
           "logs"
         ]
       },
-      "pluginVersion": "9.2.0",
+      "pluginVersion": "10.4.1",
       "transparent": true,
       "type": "dashlist"
     },
@@ -228,13 +233,15 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 5,
         "x": 0,
         "y": 9
       },
       "id": 98,
       "options": {
+        "includeVars": false,
+        "keepTime": false,
         "maxItems": 10,
         "query": "",
         "showHeadings": false,
@@ -245,8 +252,9 @@
           "infrastructure"
         ]
       },
-      "pluginVersion": "9.2.0",
-      "title": "Dashboards",
+      "pluginVersion": "10.4.1",
+      "title": "Infrastructure dashboards",
+      "transparent": true,
       "type": "dashlist"
     },
     {
@@ -255,7 +263,7 @@
         "uid": "grafana"
       },
       "gridPos": {
-        "h": 4,
+        "h": 5,
         "w": 19,
         "x": 5,
         "y": 9
@@ -270,7 +278,7 @@
         "content": "<h1><p style=\"text-align: center;\"><br>node_exporter status</p></h1>",
         "mode": "markdown"
       },
-      "pluginVersion": "9.2.0",
+      "pluginVersion": "10.4.1",
       "transparent": true,
       "type": "text"
     },
@@ -323,7 +331,7 @@
         "h": 2,
         "w": 3,
         "x": 0,
-        "y": 13
+        "y": 14
       },
       "id": 26,
       "maxPerRow": 8,
@@ -339,13 +347,15 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {
           "titleSize": 20,
           "valueSize": 14
         },
-        "textMode": "value"
+        "textMode": "value",
+        "wideLayout": true
       },
-      "pluginVersion": "9.2.0",
+      "pluginVersion": "10.4.1",
       "repeat": "exporter_node",
       "repeatDirection": "h",
       "targets": [
@@ -365,17 +375,19 @@
       "type": "stat"
     }
   ],
-  "refresh": "",
-  "schemaVersion": 37,
-  "style": "dark",
-  "tags": [],
+  "refresh": "auto",
+  "schemaVersion": 39,
+  "tags": [
+    "tdp",
+    "cluster"
+  ],
   "templating": {
     "list": [
       {
         "current": {
           "selected": false,
           "text": "TDP Prometheus",
-          "value": "TDP Prometheus"
+          "value": "P959124A7822DE9A5"
         },
         "hide": 2,
         "includeAll": false,
@@ -442,14 +454,10 @@
       }
     ]
   },
-  "time": {
-    "from": "now-1h",
-    "to": "now"
-  },
   "timepicker": {},
   "timezone": "",
   "title": "TDP Cluster home",
   "uid": "tdp-cluster-home",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }

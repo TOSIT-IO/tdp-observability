@@ -21,7 +21,7 @@
       }
     ]
   },
-  "editable": true,
+  "editable": false,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 5,
@@ -288,13 +288,9 @@
       }
     ]
   },
-  "time": {
-    "from": "now-6h",
-    "to": "now"
-  },
   "timepicker": {},
   "timezone": "",
-  "title": "TDP Cluster logs",
+  "title": "Cluster logs",
   "uid": "5VgU2IiIkd",
   "version": 1,
   "weekStart": ""
