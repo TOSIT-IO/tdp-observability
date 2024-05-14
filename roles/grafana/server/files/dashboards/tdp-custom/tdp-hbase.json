@@ -1710,7 +1710,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": false,
+  "refresh": "auto",
   "schemaVersion": 37,
   "style": "dark",
   "tags": [
@@ -1750,11 +1750,6 @@
         "type": "constant"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "jmgervais-master-01.novalocal",
-          "value": "jmgervais-master-01.novalocal"
-        },
         "datasource": {
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
@@ -1776,10 +1771,6 @@
         "type": "query"
       }
     ]
-  },
-  "time": {
-    "from": "now-1h",
-    "to": "now"
   },
   "timepicker": {},
   "timezone": "",
