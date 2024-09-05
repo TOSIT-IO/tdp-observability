@@ -22,7 +22,7 @@ prometheus_server_restart: "no"
 prometheus_max_procs: "{{ ansible_processor_vcpus | default(ansible_processor_count) }}"
 
 # Prometheus directories
-prometheus_root_dir: /opt/tdp_observability
+prometheus_root_dir: "{{ tdp_observability_root_dir }}"
 prometheus_install_dir: "{{ prometheus_root_dir }}/prometheus"
 _prometheus_binary_install_dir: "/usr/local/bin"
 prometheus_config_dir: /etc/prometheus

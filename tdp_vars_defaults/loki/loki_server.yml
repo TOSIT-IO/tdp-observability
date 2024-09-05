@@ -11,7 +11,7 @@ loki_release: loki-2.7.2-linux-amd64
 loki_dist_file: "{{ loki_release }}.zip"
 
 # loki installation directory
-loki_root_dir: /opt/tdp_observability
+loki_root_dir: "{{ tdp_observability_root_dir }}"
 loki_install_dir: "{{ loki_root_dir }}/loki"
 
 # loki configuration directory

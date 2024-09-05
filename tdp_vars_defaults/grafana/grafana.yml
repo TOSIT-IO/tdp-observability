@@ -8,7 +8,7 @@ grafana_package: "grafana-{{ grafana_version }}"
 grafana_release: "{{ grafana_package }}.linux-amd64"
 grafana_dist_file: "{{ grafana_release }}.tar.gz"
 # Grafana installation directory
-grafana_root_dir: /opt/tdp_observability
+grafana_root_dir: "{{ tdp_observability_root_dir }}"
 grafana_install_dir: "{{ grafana_root_dir }}/grafana"
 grafana_binary_install_dir: "/usr/local/sbin"
 

@@ -15,6 +15,7 @@ cluster_name: mycluster
 # Remove after the vars are tracked in tdp_vars_defaults/tdp_cluster  #
 #######################################################################
 
+tdp_observability_root_dir: "{{ tdp_root_dir }}"
 # Grafana ports
 grafana_web_port: 3000
 
