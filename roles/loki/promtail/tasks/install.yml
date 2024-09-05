@@ -9,11 +9,10 @@
     group: "{{ promtail_group }}"
 
 - name: Ensure promtail's user exists   # noqa var-naming[no-role-prefix]
-  ansible.builtin.include_role:
-    name: tosit.tdp.utils.user
-  vars:
-    user: "{{ promtail_user }}"
+  ansible.builtin.user:
+    name: "{{ promtail_user }}"
     group: "{{ promtail_group }}"
+    groups: "{{ promtail_secondary_groups }}"
 
 - name: "Upload {{ promtail_dist_file }}"
   ansible.builtin.copy:
