@@ -13,7 +13,7 @@ promtail_release: promtail-2.7.2-linux-amd64
 promtail_dist_file: "{{ promtail_release }}.zip"
 
 # promtail installation directory
-promtail_root_dir: /opt/tdp_observability
+promtail_root_dir: "{{ tdp_observability_root_dir }}"
 promtail_install_dir: "{{ promtail_root_dir }}/promtail"
 
 # promtail configuration directory

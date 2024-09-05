@@ -10,7 +10,7 @@ alertmanager_skip_install: true
 
 alertmanager_release: "alertmanager-{{ alertmanager_version }}.linux-amd64"
 alertmanager_dist_file: "{{ alertmanager_release }}.tar.gz"
-alertmanager_root_dir: /opt/tdp_observability
+alertmanager_root_dir: "{{ tdp_observability_root_dir }}"
 alertmanager_install_dir: "{{ alertmanager_root_dir }}/alertmanager"
 alertmanager_certs_dir: "{{ alertmanager_config_dir }}/certs"
 alertmanager_server_start_on_boot: false
