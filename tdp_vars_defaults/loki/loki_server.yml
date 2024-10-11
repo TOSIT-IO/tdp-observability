@@ -7,7 +7,7 @@ loki_user: loki
 loki_group: "{{ hadoop_group }}"
 
 # loki version
-loki_release: loki-2.7.2-linux-amd64
+loki_release: loki-linux-amd64
 loki_dist_file: "{{ loki_release }}.zip"
 
 # loki installation directory
