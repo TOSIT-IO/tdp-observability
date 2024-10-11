@@ -9,7 +9,7 @@ promtail_secondary_groups:
   - "{{ hadoop_group }}"
   - node-exporter
 # promtail version
-promtail_release: promtail-2.7.2-linux-amd64
+promtail_release: promtail-linux-amd64
 promtail_dist_file: "{{ promtail_release }}.zip"
 
 # promtail installation directory
