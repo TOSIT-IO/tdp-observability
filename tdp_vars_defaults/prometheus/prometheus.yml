@@ -13,7 +13,6 @@ prometheus_skip_install: true
 
 # Prometheus user and group
 prometheus_user: prometheus
-prometheus_group: "{{ hadoop_group }}"
 
 # Service start on boot policies
 prometheus_server_start_on_boot: false
