@@ -1,8 +1,100 @@
 # Copyright 2022 TOSIT.IO
 # SPDX-License-Identifier: Apache-2.0
-
 ---
-- name: Ensure promtail's group exists  # noqa var-naming[no-role-prefix]
+- name: "Compute promtail info dictionary from observability_tdp_targets"
+  block:
+    - name: "Initialize dictionaries and lists"
+      run_once: true
+      ansible.builtin.set_fact:
+        _component_keys: []
+        _unix_groups: []
+        _custom_ansible_groups: []
+        _all_jobs: []
+        components_infos: {}
+        components_without_unix_group: []
+        secondary_groups: []
+    #
+    # Build lists :
+    #  - '_components_keys' (aka <service>_<component>)
+    #  - '_unix_groups' extracted from service or component level
+    #  - '_custom_ansible_groups' (empty when keyword 'group' not specified)
+    #  - '_all_jobs' list of list of jobs
+    - name: "Build lists of unix_groups and ansible_groups"
+      ansible.builtin.set_fact:
+        _component_keys: "{{ _component_keys + _comp_keys }}"
+        _unix_groups: "{{ _unix_groups + _service_unix_groups }}"
+        _custom_ansible_groups: "{{ _custom_ansible_groups + _custom_groups }}"
+        _all_jobs: "{{ _all_jobs + _jobs }}"
+      loop: "{{ observability_tdp_targets | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
+      vars:
+        # Build a list of <service_component>
+        _components: "{{ observability_tdp_targets[item.key] | dict2items | rejectattr('key', 'in', ['unix_group', 'labels']) | list }}"
+        _comp_keys: "{{ [item.key + '_'] | product(_components | map(attribute='key') | list) | map('join') | list }}"
+        # build a list of unix_groups
+        _service_unix_group: "{{ observability_tdp_targets[item.key]['unix_group'] | default(omit) }}"
+        _service_unix_groups: "{{ _components | map(attribute='value') | map(attribute='unix_group', default=_service_unix_group) }}"
+        # build a list of custom groups
+        _custom_groups: "{{ _components | map(attribute='value') | map(attribute='group', default='') }}"
+        # jobs
+        _jobs: "{{ _components | map(attribute='value') | map(attribute='jobs') }}"
+        #
+        # Combine those lists into a dictionary:
+        #
+    - name: "Make them dictionaries indexed by <service>_<component>"
+      ansible.builtin.set_fact:
+        components_infos: "{{ components_infos | combine({component: items}) }}"
+      vars:
+        _ansible_group: "{{ (_custom_ansible_groups[idx] == '') | ternary(component, _custom_ansible_groups[idx]) }}"
+        items:
+          unix_group: "{{ _unix_groups[idx] }}"
+          ansible_group: "{{ _ansible_group }}"
+          jobs: "{{ _all_jobs[idx] }}"
+      loop: "{{ _component_keys }}"
+      loop_control:
+        index_var: idx
+        loop_var: component
+        label: "{{ component }}"
+
+    - name: Build list of all service_components that do not have a 'unix_group' defined
+      ansible.builtin.set_fact:
+        components_without_unix_group: "{{ components_without_unix_group + [component] }}"
+      when: promtail_job_count | int != 0 and 'unix_group' not in components_infos[component]
+      vars:
+        promtail_jobs: "{{ components_infos[component]['jobs'] | map(attribute='log_file', default='_no_log_') }}"
+        promtail_job_count: "{{ promtail_jobs | difference(['_no_log_']) | length }}"
+      loop: "{{ _component_keys }}"
+      loop_control:
+        index_var: idx
+        loop_var: component
+        label: "{{ component }}"
+
+    - name: "Fail if some promtail services do not have a unix_group"
+      ansible.builtin.fail:
+        msg: "The following components which have promtail jobs do not have a unix_group defined : \n - {{ components_without_unix_group | join('\n - ') }}"
+      when: components_without_unix_group | length > 0
+  # End of global set_facts block
+
+- name: "Build list of secondary groups on this host"
+  ansible.builtin.set_fact:
+    secondary_groups: "{{ (secondary_groups + [components_infos[component]['unix_group']]) | unique }}"
+  when: components_infos[component]['ansible_group'] in group_names and promtail_job_count | int != 0
+  vars:
+    promtail_jobs: "{{ components_infos[component]['jobs'] | map(attribute='log_file', default='_no_log_') }}"
+    promtail_job_count: "{{ promtail_jobs | difference(['_no_log_']) | length }}"
+  loop: "{{ components_infos.keys() }}"
+  loop_control:
+    loop_var: component
+
+- name: Ensure promtail's secondary groups exists  # noqa var-naming[no-role-prefix]
+  ansible.builtin.include_role:
+    name: tosit.tdp.utils.group
+  vars:
+    group: "{{ item }}"
+  loop: "{{ secondary_groups }}"
+
+- name: Ensure promtail's primary group exists  # noqa var-naming[no-role-prefix]
   ansible.builtin.include_role:
     name: tosit.tdp.utils.group
   vars:
@@ -12,7 +104,7 @@
   ansible.builtin.user:
     name: "{{ promtail_user }}"
     group: "{{ promtail_group }}"
-    groups: "{{ promtail_secondary_groups }}"
+    groups: "{{ secondary_groups }}"
 
 - name: "Upload {{ promtail_dist_file }}"
   ansible.builtin.copy:

@@ -4,10 +4,7 @@
 ---
 # promtail users and group
 promtail_user: promtail
-promtail_group: promtail
-promtail_secondary_groups:
-  - "{{ hadoop_group }}"
-  - node-exporter
+
 # promtail version
 promtail_release: promtail-2.7.2-linux-amd64
 promtail_dist_file: "{{ promtail_release }}.zip"

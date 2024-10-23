@@ -13,7 +13,7 @@
 - name: Set component_list fact - exclude reserved keywords
   ansible.builtin.set_fact:
     component_list: "{{ component_list | combine({item.key: item.value}) }}"
-  when: item.key not in ['labels']
+  when: item.key not in ['labels', 'unix_group']
   with_dict: "{{ service.value }}"
 
 - name: Loop through each component in observability_tdp_targets[service]

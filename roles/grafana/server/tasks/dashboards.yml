@@ -6,50 +6,47 @@
 #
 # Build list of installed tdp services
 #
-- name: Build a dictionary of service => [ groups ] for overriden groups
+- name: "Build list of all <service>_<component> and ansible custom groups ('' when undefined)"
   ansible.builtin.set_fact:
-    _service_custom_groups: "{{ _service_custom_groups | default({}) | combine({item.key: _groups}) }}"
+    _component_keys: "{{ _component_keys | default([]) + _comp_keys }}"
+    _custom_ansible_groups: "{{ _custom_ansible_groups | default([]) + _custom_groups }}"
+    _service_components: "{{ _service_components | default([]) + _svce_components }}"
   loop: "{{ observability_tdp_targets | dict2items }}"
   loop_control:
     label: "{{ item.key }}"
   vars:
-    _groups: "{{ observability_tdp_targets[item.key] | dict2items | map(attribute='value') | selectattr('group', 'defined') | map(attribute='group') }}"
+    # Build a list of <service_component>
+    _components: "{{ observability_tdp_targets[item.key] | dict2items | rejectattr('key', 'in', ['unix_group', 'labels']) | list }}"
+    _comp_keys: "{{ [item.key + '_'] | product(_components | map(attribute='key') | list) | map('join') | list }}"
+    # build a list of custom groups
+    _custom_groups: "{{ _components | map(attribute='value') | map(attribute='group', default='') }}"
+    # build list of [ { service: service_component }, {service: service_component2} ]
+    _svce_components: "{{ _comp_keys | map('community.general.dict_kv', item.key) }}"
 
-- name: Build a dictionary of service => [ groups ] for defaults groups
+- name: "Build a dictionary of <service>_<component>: service"
   ansible.builtin.set_fact:
-    _service_default_groups: "{{ _service_default_groups | default({}) | combine({item.key: _groups}) }}"
-  loop: "{{ observability_tdp_targets | dict2items }}"
-  loop_control:
-    label: "{{ item.key }}"
+    component_service: "{{ component_service | default({}) | combine({item[service]: service}) }}"
+  loop: "{{ _service_components }}"
   vars:
-    # build a '_components' list of items that includes the key as a new item
-    # aka : { 'master': {group: xx, jobs: []}, {...} } becomes [ {component: master, group: xx, jobs:[], {...} }]
-    _list: "{{ observability_tdp_targets[item.key] | dict2items }}"
-    _keys: "{{ _list | map(attribute='key') | map('community.general.dict_kv', 'component') }}"
-    _vals: "{{ _list | map(attribute='value') }}"
-    _components: "{{ _keys | zip(_vals) | map('combine') }}"
-    # build list of components whithout the 'group' attribute
-    _default_groups: "{{ _components | selectattr('group', 'undefined') | map(attribute='component') }}"
-    # concatenate each group with 'service_'
-    _prefix: "{{ item.key }}_"
-    _groups: "{{ [_prefix] | product(_default_groups | list) | map('join') | list }}"
+    service: "{{ item.keys() | first }}"
 
-- name: Merge the two dictionaries, keeping only groups that exists in topology
+- name: "Build a dictionary of <service>_<component>: ansible_group"
   ansible.builtin.set_fact:
-    _service_groups: "{{ _service_groups | default({}) | combine({item: _groups}) }}"
-  loop: "{{ _service_custom_groups.keys() | list | union(_service_default_groups.keys() | list) }}"
+    ansible_groups: "{{ ansible_groups | default({}) | combine({component: _ansible_group}) }}"
+  loop: "{{ _component_keys }}"
   loop_control:
-    label: "{{ item }}"
+    index_var: idx
+    loop_var: component
+    label: "{{ component }}"
   vars:
-    _groups: "{{ (_service_default_groups[item] + _service_custom_groups[item]) | intersect(groups.keys() | list) }}"
+    _custom_group: "{{ _custom_ansible_groups[idx] }}"
+    _ansible_group: "{{ (_custom_group == '') | ternary(component, _custom_group) }}"
 
-- name: "Build 'installed_services' : list of service with non empty groups"
+- name: "Build list of services used in this cluster"
   ansible.builtin.set_fact:
-    installed_services: "{{ installed_services | default([]) | union([item.key]) }}"
-  loop: "{{ _service_groups | dict2items }}"
-  loop_control:
-    label: "{{ item.key }}"
-  when: item.value | length > 0
+    installed_services: "{{ (installed_services | default([]) + [component_service[item]]) | unique }}"
+  when: ansible_groups[item] in groups and groups[ansible_groups[item]] | length > 0
+  loop: "{{ _component_keys }}"
 
 - name: Install dashboards via provisionning
   when: grafana_use_provisioning
