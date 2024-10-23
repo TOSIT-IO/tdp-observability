@@ -47,21 +47,27 @@ exporter_node_http_port: 9100
 #################################
 node_exporter_log_dir: /var/log/node-exporter
 node_exporter_log_file: node-exporter.log
+node_exporter_group: node-exporter
 
 grafana_log_dir: /var/log/grafana
 grafana_log_file: "grafana.log"     # do not change. Grafana forces this filename. Variable is here only for promtail
+grafana_group: "{{ hadoop_group }}"
 
 promtail_log_dir: /var/log/promtail
 promtail_log_file: promtail.log
+promtail_group: promtail
 
 loki_log_dir: /var/log/loki
 loki_log_file: loki.log
+loki_group: "{{ hadoop_group }}"
 
 prometheus_log_dir: /var/log/prometheus
 prometheus_log_file: prometheus.log
+prometheus_group: "{{ hadoop_group }}"
 
 alertmanager_log_dir: /var/log/alertmanager
 alertmanager_log_file: alertmanager.log
+alertmanager_group: "{{ hadoop_group }}"
 
 observability_common_labels: {}
 #  cluster: "{{ cluster_name }}"
@@ -117,6 +123,7 @@ observability_tdp_targets:
     labels:
       type: tdp_observability
     server:
+      unix_group: "{{ grafana_group }}"
       group: grafana
       jobs:
         - log_file: "{{ grafana_log_dir }}/{{ grafana_log_file }}"
@@ -131,6 +138,7 @@ observability_tdp_targets:
             - labels:
                 level: ''
   exporter:
+    unix_group: "{{ node_exporter_group }}"
     node:
       jobs:
         - exporter_port: "{{ exporter_node_http_port }}"
@@ -141,6 +149,7 @@ observability_tdp_targets:
           labels:
             type: tdp_observability
   prometheus:
+    unix_group: "{{ prometheus_group }}"
     server:
       group: prometheus
       jobs:
@@ -150,6 +159,7 @@ observability_tdp_targets:
             type: tdp_observability
   loki:
     server:
+      unix_group: "{{ loki_group }}"
       group: loki
       jobs:
         - log_file: "{{ loki_log_dir }}/{{ loki_log_file }}"
@@ -157,6 +167,7 @@ observability_tdp_targets:
           labels:
             type: tdp_observability
     promtail:
+      unix_group: "{{ promtail_group }}"
       group: promtail
       jobs:
         - log_file: "{{ promtail_log_dir }}/{{ promtail_log_file }}"

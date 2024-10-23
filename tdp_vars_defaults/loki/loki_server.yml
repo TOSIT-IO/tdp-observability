@@ -4,7 +4,6 @@
 ---
 # loki users and group
 loki_user: loki
-loki_group: "{{ hadoop_group }}"
 
 # loki version
 loki_release: loki-2.7.2-linux-amd64

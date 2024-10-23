@@ -27,7 +27,6 @@ _alertmanager_repo: "prometheus/alertmanager"
 _alertmanager_binary_install_dir: '/usr/local/bin'
 
 alertmanager_user: alertmanager
-alertmanager_group: "{{ hadoop_group }}"
 
 alertmanager_config_dir: /etc/alertmanager
 alertmanager_db_dir: /var/lib/alertmanager
