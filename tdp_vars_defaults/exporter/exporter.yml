@@ -21,7 +21,6 @@ node_exporter_pid_dir: /run/node-exporter
 node_exporter_conf_dir: /etc/node-exporter
 node_exporter_flags:
   - "collector.systemd"
-  - "collector.ntp"
 node_exporter_web_listen_address: --web.listen-address=:{{ exporter_node_http_port }}
 
 # node exporter service start on boot policies
