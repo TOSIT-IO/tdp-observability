@@ -54,7 +54,7 @@ promtail_pipelines:
         expression: "{{ promtail_log_analyser_regex }}"
     - template:
         source: 'level'
-        template: "{{ '{{ ToLower .Value }}' }}"
+        template: "{{ '{{ ToLower (regexReplaceAll \"(?i)warn.*\" .Value \"warning\")  }}' }}"
     - timestamp:
         format: 'RFC3339'
         source: 'datetime'
