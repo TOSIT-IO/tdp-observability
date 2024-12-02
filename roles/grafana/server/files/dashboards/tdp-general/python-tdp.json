@@ -115,12 +115,12 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 4,
         "w": 4,
         "x": 0,
         "y": 2
       },
-      "id": 8,
+      "id": 10,
       "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
@@ -129,17 +129,16 @@
         "orientation": "horizontal",
         "reduceOptions": {
           "calcs": [
-            "lastNotNull"
+            "mean"
           ],
           "fields": "",
           "values": false
         },
         "showPercentChange": false,
-        "textMode": "auto",
+        "textMode": "name",
         "wideLayout": true
       },
       "pluginVersion": "10.4.1",
-      "repeat": "pod",
       "repeatDirection": "h",
       "targets": [
         {
@@ -149,16 +148,16 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "(time() - process_start_time_seconds{job=~\"$job\"})",
+          "expr": "python_info{job=~\"$job\"}",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{service}}",
+          "legendFormat": "{{version}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Uptime",
+      "title": "Python Version",
       "type": "stat"
     },
     {
@@ -224,7 +223,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
+        "h": 8,
         "w": 8,
         "x": 4,
         "y": 2
@@ -326,7 +325,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 9,
+        "h": 8,
         "w": 12,
         "x": 12,
         "y": 2
@@ -398,96 +397,15 @@
               }
             ]
           },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 0,
-        "y": 5
-      },
-      "id": 10,
-      "maxDataPoints": 100,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "name",
-        "wideLayout": true
-      },
-      "pluginVersion": "10.4.1",
-      "repeatDirection": "h",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "${DS}"
-          },
-          "editorMode": "code",
-          "exemplar": true,
-          "expr": "python_info{job=~\"$job\"}",
-          "format": "time_series",
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "{{version}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Python Version",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "${DS}"
-      },
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [
-            {
-              "options": {
-                "match": "null",
-                "result": {
-                  "text": "N/A"
-                }
-              },
-              "type": "special"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "dark-blue",
-                "value": null
-              }
-            ]
-          },
           "unit": "short"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 4,
         "w": 4,
         "x": 0,
-        "y": 8
+        "y": 6
       },
       "id": 11,
       "maxDataPoints": 100,
@@ -594,7 +512,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 11
+        "y": 10
       },
       "id": 6,
       "options": {
@@ -698,7 +616,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 11
+        "y": 10
       },
       "id": 12,
       "options": {
