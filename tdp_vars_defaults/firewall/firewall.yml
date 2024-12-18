@@ -1,0 +1,15 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+firewalld_rules:
+# Grafana
+  grafana:
+    - name: grafana_web_port
+      short: Grafana - HTTP port - bind_url_port
+      port: "{{ grafana_web_port }}"
+      protocol: tcp
+      zones:
+        - internal
+        - public
+      state: present
