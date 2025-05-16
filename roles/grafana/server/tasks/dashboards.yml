@@ -74,6 +74,7 @@
       ansible.builtin.find:
         paths: "{{ grafana_data_dir }}/dashboards"
         recurse: true
+        follow: false
         hidden: true
         patterns:
           - "*.json"
