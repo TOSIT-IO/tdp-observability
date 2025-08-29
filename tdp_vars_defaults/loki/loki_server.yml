@@ -6,7 +6,7 @@
 loki_user: loki
 
 # loki version
-loki_release: loki-2.7.2-linux-amd64
+loki_release: loki-3.5.4-linux-amd64
 loki_dist_file: "{{ loki_release }}.zip"
 
 # loki installation directory
@@ -52,10 +52,10 @@ loki_configuration:
           max_size_mb: 100
   schema_config:
     configs:
-      - from: 2020-10-24
-        store: boltdb-shipper
+      - from: 2025-07-31
+        store: tsdb
         object_store: filesystem
-        schema: v11
+        schema: v13
         index:
           prefix: index_
           period: 24h
