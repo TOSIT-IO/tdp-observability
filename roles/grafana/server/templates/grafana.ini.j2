@@ -114,10 +114,10 @@ enabled = true
 path = {{ grafana_data_dir }}/dashboards
 
 # Alerting
-[alerting]
-{% if grafana_alerting != {} %}
+[unified_alerting]
+{% if grafana_unified_alerting != {} %}
 enabled = true
-{%   for k,v in grafana_alerting.items() %}
+{%   for k,v in grafana_unified_alerting.items() %}
 {%     if k != 'enabled' %}
 {{ k }} = {{ v }}
 {%     endif %}
