@@ -60,14 +60,11 @@
     dest: "{{ grafana_install_dir }}"
     state: link
 
-- name: Symlink grafana-server and grafana-cli binaries
+- name: Symlink grafana binary
   ansible.builtin.file:
-    src: "{{ grafana_install_dir }}/bin/{{ item }}"
-    dest: "{{ grafana_binary_install_dir }}/{{ item }}"
+    src: "{{ grafana_install_dir }}/bin/grafana"
+    dest: "{{ grafana_binary_install_dir }}/grafana"
     state: link
-  loop:
-    - grafana-server
-    - grafana-cli
 
 - name: Template grafana-server service file
   ansible.builtin.template:
