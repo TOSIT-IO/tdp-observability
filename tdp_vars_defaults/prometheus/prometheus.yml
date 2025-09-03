@@ -5,7 +5,7 @@
 # Copied and adapted from https://github.com/prometheus-community/ansible
 ---
 # Prometheus version
-prometheus_version: 2.37.6
+prometheus_version: 3.5.0
 prometheus_binary_local_dir: ''
 prometheus_release: "prometheus-{{ prometheus_version }}.linux-amd64"
 prometheus_dist_file: "{{ prometheus_release }}.tar.gz"
