@@ -97,7 +97,7 @@ grafana_database: >-
     {%- else -%}
       "type": "sqlite3",
     {%- endif -%}
-    high_availability = false
+    "high_availability": false,
   }
 
 # Remote cache
