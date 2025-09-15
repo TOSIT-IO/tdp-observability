@@ -4,10 +4,10 @@
 #}
 ---
 - targets:
-{% for host_name in hosts_list %}
-    - {{ host_name }}:{{ port_num }}
+{% for host_name in job.host_list %}
+    - {{ host_name }}:{{ job.port_num }}
 {% endfor %}
   labels:
-{% for name, value in labels.items() %}
-    {{ name }}: {{ value }}
+{% for name in job.labels.keys() | sort() %}
+    {{ name }}: {{ job.labels[name] }}
 {% endfor %}
