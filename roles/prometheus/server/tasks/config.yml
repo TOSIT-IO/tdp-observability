@@ -41,12 +41,37 @@
     group: root
     mode: "644"
 
-- name: Build prometheus scrape config and file_sd targets
-  ansible.builtin.include_tasks: config_components_loop.yml
-  loop: "{{ observability_tdp_targets | dict2items }}"
+- name: Get observability data
+  ansible.builtin.set_fact:
+    jobs: "{{ lookup('tosit.tdp_observability.observability_data', 'prometheus_jobs', wantlist=True) }}"
+
+- name: Template Prometheus file_sd targets for TDP components
+  ansible.builtin.template:
+    src: file_sd.yml.j2
+    dest: "{{ prometheus_static_targets_dir }}/{{ job.job_name }}.yml"
+    owner: root
+    group: "{{ prometheus_group }}"
+    mode: "0640"
+  loop: "{{ jobs }}"
   loop_control:
-    label: "{{ service.key }}"
-    loop_var: service
+    label: "{{ job.job_name }}"
+    loop_var: job
+
+- name: Add scrapes to prometheus_scrape_configs
+  ansible.builtin.set_fact:
+    prometheus_scrape_configs: "{{ prometheus_scrape_configs + [scrape_config] }}"
+  vars:
+    scrape_config_base:
+      job_name: "{{ job.job_name }}"
+      file_sd_configs:
+        - files:
+            - "{{ prometheus_static_targets_dir }}/{{ job.job_name }}.yml"
+      relabel_configs: "{{ prometheus_relabels }}"
+    scrape_config: "{{ scrape_config_base | combine(job.scrape_options) }}"
+  loop: "{{ jobs }}"
+  loop_control:
+    label: "{{ job.job_name }}"
+    loop_var: job
 
 - name: Build alert rules
   ansible.builtin.set_fact:

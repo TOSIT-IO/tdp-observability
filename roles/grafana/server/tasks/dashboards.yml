@@ -3,50 +3,9 @@
 # SPDX-License-Identifier: Apache-2.0 AND MIT
 # Copied and adapted from https://github.com/cloudalchemy/ansible-grafana.git
 ---
-#
-# Build list of installed tdp services
-#
-- name: "Build list of all <service>_<component> and ansible custom groups ('' when undefined)"
+- name: Get Installed services list
   ansible.builtin.set_fact:
-    _component_keys: "{{ _component_keys | default([]) + _comp_keys }}"
-    _custom_ansible_groups: "{{ _custom_ansible_groups | default([]) + _custom_groups }}"
-    _service_components: "{{ _service_components | default([]) + _svce_components }}"
-  loop: "{{ observability_tdp_targets | dict2items }}"
-  loop_control:
-    label: "{{ item.key }}"
-  vars:
-    # Build a list of <service_component>
-    _components: "{{ observability_tdp_targets[item.key] | dict2items | rejectattr('key', 'in', ['unix_group', 'labels']) | list }}"
-    _comp_keys: "{{ [item.key + '_'] | product(_components | map(attribute='key') | list) | map('join') | list }}"
-    # build a list of custom groups
-    _custom_groups: "{{ _components | map(attribute='value') | map(attribute='group', default='') }}"
-    # build list of [ { service: service_component }, {service: service_component2} ]
-    _svce_components: "{{ _comp_keys | map('community.general.dict_kv', item.key) }}"
-
-- name: "Build a dictionary of <service>_<component>: service"
-  ansible.builtin.set_fact:
-    component_service: "{{ component_service | default({}) | combine({item[service]: service}) }}"
-  loop: "{{ _service_components }}"
-  vars:
-    service: "{{ item.keys() | first }}"
-
-- name: "Build a dictionary of <service>_<component>: ansible_group"
-  ansible.builtin.set_fact:
-    ansible_groups: "{{ ansible_groups | default({}) | combine({component: _ansible_group}) }}"
-  loop: "{{ _component_keys }}"
-  loop_control:
-    index_var: idx
-    loop_var: component
-    label: "{{ component }}"
-  vars:
-    _custom_group: "{{ _custom_ansible_groups[idx] }}"
-    _ansible_group: "{{ (_custom_group == '') | ternary(component, _custom_group) }}"
-
-- name: "Build list of services used in this cluster"
-  ansible.builtin.set_fact:
-    installed_services: "{{ (installed_services | default([]) + [component_service[item]]) | unique }}"
-  when: ansible_groups[item] in groups and groups[ansible_groups[item]] | length > 0
-  loop: "{{ _component_keys }}"
+    installed_services: "{{ lookup('tosit.tdp_observability.observability_data', 'installed_services', wantlist=True) }}"
 
 - name: Install dashboards via provisionning
   when: grafana_use_provisioning
@@ -105,7 +64,7 @@
         state: directory
         owner: "{{ grafana_user }}"
         group: "{{ grafana_group }}"
-        mode: '0755'
+        mode: '0750'
       loop: "{{ _all_directories | unique }}"
 
     - name: Provision every dashboards in list
