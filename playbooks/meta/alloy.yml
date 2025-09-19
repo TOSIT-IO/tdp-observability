@@ -1,0 +1,11 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- ansible.builtin.import_playbook: ../alloy_server_install.yml
+# alloy_install
+- ansible.builtin.import_playbook: ../alloy_server_config.yml
+# alloy_config
+- ansible.builtin.import_playbook: ../alloy_server_start.yml
+# alloy_start
+# alloy_init

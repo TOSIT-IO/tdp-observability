@@ -57,6 +57,10 @@ promtail_log_dir: /var/log/promtail
 promtail_log_file: promtail.log
 promtail_group: promtail
 
+alloy_group: alloy
+alloy_log_dir: /var/log/alloy
+alloy_log_file: alloy.log
+
 loki_log_dir: /var/log/loki
 loki_log_file: loki.log
 loki_group: "{{ hadoop_group }}"
@@ -89,11 +93,11 @@ observability_common_labels: {}
 #                                equal to '{{ service }}_{{ component }}_{{ suffix }}
 # - prometheus_scrape_options  : options passed to prometheus scrape
 #                                cf. https://prometheus.io/docs/prometheus/latest/configuration/configuration
-# - promtail_pipeline          : can be either a pipeline dictionary as specified in
-#                                cf. https://grafana.com/docs/loki/latest/send-data/promtail/pipelines
-#                                or a string, key to a predefined pipeline from the "promtail_pipelines" dictionary
-#                                defined in "tdp_vars_default/loki/loki_promtail.yml"
-#                                default pipeline is promtail_pipelines['default']
+# - alloy_pipeline             : can be either a pipeline dictionary as specified in
+#                                cf. https://grafana.com/docs/alloy/latest/reference/components/loki/loki.process/
+#                                or a string, key to a predefined pipeline from the "alloy_pipelines" dictionary
+#                                defined in "tdp_vars_default/grafana/grafana_alloy.yml"
+#                                default pipeline is alloy_pipelines['default']
 #
 # Additionaly :
 # - labels can be applied to scrapes and defined at any level of the configuration tree
@@ -127,16 +131,18 @@ observability_tdp_targets:
       group: grafana
       jobs:
         - log_file: "{{ grafana_log_dir }}/{{ grafana_log_file }}"
-          promtail_pipeline:
-            - logfmt:
-                mapping:
-                  datetime: t
-                  level:
-            - timestamp:
-                format: 'RFC3339'
-                source: 'datetime'
-            - labels:
-                level: ''
+          alloy_pipeline:
+          - logfmt:
+              mapping:
+                datetime: "t"
+                level: ""
+          - timestamp:
+              source: "datetime"
+              format: "RFC3339"
+          - labels:
+              values:
+                level: ""
+
   exporter:
     unix_group: "{{ node_exporter_group }}"
     node:
@@ -145,7 +151,7 @@ observability_tdp_targets:
           labels:
             type: tdp_infra
         - log_file: "{{ node_exporter_log_dir }}/{{ node_exporter_log_file }}"
-          promtail_pipeline: observability
+          alloy_pipeline: observability
           labels:
             type: tdp_observability
   prometheus:
@@ -154,7 +160,7 @@ observability_tdp_targets:
       group: prometheus
       jobs:
         - log_file: "{{ prometheus_log_dir }}/{{ prometheus_log_file }}"
-          promtail_pipeline: observability
+          alloy_pipeline: observability
           labels:
             type: tdp_observability
   loki:
@@ -163,7 +169,7 @@ observability_tdp_targets:
       group: loki
       jobs:
         - log_file: "{{ loki_log_dir }}/{{ loki_log_file }}"
-          promtail_pipeline: observability
+          alloy_pipeline: observability
           labels:
             type: tdp_observability
     promtail:
@@ -171,6 +177,6 @@ observability_tdp_targets:
       group: promtail
       jobs:
         - log_file: "{{ promtail_log_dir }}/{{ promtail_log_file }}"
-          promtail_pipeline: observability
+          alloy_pipeline: observability
           labels:
             type: tdp_observability

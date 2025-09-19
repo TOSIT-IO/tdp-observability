@@ -1,0 +1,21 @@
+{#
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+#}
+[Unit]
+Description=Grafana Alloy service
+After=network.target
+
+[Service]
+UMask=0027
+Type=simple
+User={{ alloy_user }}
+Group={{ alloy_group }}
+ExecStart=/bin/bash -c 'exec {{ alloy_install_dir }}/alloy-linux-amd64 --storage.path={{ alloy_data_dir }}/data run {{ alloy_conf_dir }}/alloy.conf >>{{ alloy_log_dir }}/{{ alloy_log_file }} 2>&1'
+# Give a reasonable amount of time for alloy to start up/shut down
+TimeoutSec = 60
+Restart = on-failure
+RestartSec = 2
+
+[Install]
+WantedBy=multi-user.target

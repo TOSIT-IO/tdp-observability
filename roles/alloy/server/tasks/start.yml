@@ -1,0 +1,9 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Start alloy
+  ansible.builtin.service:
+    name: alloy
+    state: started
+    enabled: "{{ alloy_start_on_boot }}"
