@@ -3,6 +3,7 @@
 
 ---
 - ansible.builtin.import_playbook: ../exporter_node_install.yml
+# exporter_install
 - ansible.builtin.import_playbook: ../grafana_server_install.yml
 # grafana_install
 - ansible.builtin.import_playbook: ../loki_promtail_install.yml
@@ -12,7 +13,10 @@
 - ansible.builtin.import_playbook: ../prometheus_server_install.yml
 # prometheus_install
 - ansible.builtin.import_playbook: ../exporter_node_config.yml
+# exporter_config
 - ansible.builtin.import_playbook: ../exporter_node_start.yml
+# exporter_start
+# exporter_init
 - ansible.builtin.import_playbook: ../grafana_server_config.yml
 # grafana_config
 - ansible.builtin.import_playbook: ../grafana_server_start.yml
