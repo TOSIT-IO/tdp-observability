@@ -1,0 +1,53 @@
+{#
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+#}
+{% for job in alloy_job_list %}
+local.file_match "{{ job.job_name }}" {
+    path_targets = [{
+        __address__ = "localhost",
+        {%- for lbl_key, lbl_value in job.labels.items() %}
+
+        {{ lbl_key }}    = "{{ lbl_value }}",
+        {%- endfor -%}
+    }]
+}
+loki.source.file "{{ job.job_name }}" {
+        targets               = local.file_match.{{ job.job_name }}.targets
+        forward_to            = [loki.process.{{ job.pipeline }}.receiver]
+}
+
+{% endfor %}
+
+{% for pipeline_name, pipeline in alloy_pipelines.items() %}
+loki.process "{{ pipeline_name }}" {
+    forward_to = [loki.write.default.receiver]
+
+    {% for stage in pipeline %}
+    {% for stage_name, stage_args in stage.items() %}
+
+    stage.{{ stage_name }} {
+
+    {% for arg_name, arg_value in stage_args.items() %}
+       {% if arg_value is string %}
+        {{ arg_name }} = "{{ arg_value }}"
+       {% else %}
+        {{ arg_name }} = {
+          {% for subarg_name, subarg_value in arg_value.items() %}
+            {{ subarg_name }} = "{{ subarg_value }}",
+          {% endfor %}
+        }
+       {% endif %}
+    {% endfor %}{# stages args #}
+    }
+    {% endfor %}{# stages keys #}
+    {% endfor %}{# stages #}
+}
+{% endfor %}{# alloy_pipelines #}
+
+loki.write "default" {
+    endpoint {
+        url = "https://{{ loki_server}}:{{ loki_web_port }}/loki/api/v1/push"
+    }
+    external_labels = {}
+}

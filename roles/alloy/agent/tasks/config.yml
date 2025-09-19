@@ -1,0 +1,38 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+- name: Backup configuration
+  ansible.builtin.copy:
+    src: "{{ alloy_conf_dir }}/"
+    dest: "{{ alloy_conf_dir }}.{{ ansible_date_time.epoch }}"
+    owner: "{{ alloy_user }}"
+    group: "{{ alloy_group }}"
+    mode: "755"
+    remote_src: true
+  tags: ['backup', 'never']
+
+- name: Get list of alloy jobs with their data
+  ansible.builtin.set_fact:
+    alloy_job_list: "{{ lookup('tosit.tdp_observability.observability_data', 'alloy_jobs', wantlist=True) }}"
+
+- name: Search for custom pipelines and add them to alloy_pipelines list
+  ansible.builtin.set_fact:
+    alloy_pipelines: "{{ alloy_pipelines | combine({job.job_name: job.custom_pipeline}) }}"
+  when: "'custom_pipeline' in job"
+  loop: "{{ alloy_job_list }}"
+  loop_control:
+    label: "{{ job.job_name }}"
+    loop_var: job
+
+- name: "Render config.yml"
+  ansible.builtin.template:
+    dest: "{{ alloy_conf_dir }}/alloy.conf"
+    src: "alloy.conf.j2"
+    owner: "{{ alloy_user }}"
+    group: "{{ alloy_group }}"
+    mode: "755"
+
+- name: "Validate configuration"
+  ansible.builtin.command: "{{ alloy_install_dir }}/alloy-linux-amd64 validate {{ alloy_conf_dir }}/alloy.conf"
+  changed_when: false
