@@ -4,6 +4,8 @@
 ---
 - ansible.builtin.import_playbook: ../exporter_node_install.yml
 # exporter_install
+- ansible.builtin.import_playbook: ../alloy_agent_install.yml
+# alloy_install
 - ansible.builtin.import_playbook: ../grafana_server_install.yml
 # grafana_install
 - ansible.builtin.import_playbook: ../loki_promtail_install.yml
@@ -17,6 +19,11 @@
 - ansible.builtin.import_playbook: ../exporter_node_start.yml
 # exporter_start
 # exporter_init
+- ansible.builtin.import_playbook: ../alloy_agent_config.yml
+- ansible.builtin.import_playbook: ../alloy_agent_start.yml
+# alloy_config
+# alloy_start
+# alloy_init
 - ansible.builtin.import_playbook: ../grafana_server_config.yml
 # grafana_config
 - ansible.builtin.import_playbook: ../grafana_server_start.yml

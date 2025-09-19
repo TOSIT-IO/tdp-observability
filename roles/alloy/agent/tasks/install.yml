@@ -1,0 +1,94 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+---
+- name: Get alloy secondary groups list
+  ansible.builtin.set_fact:
+    secondary_groups: "{{ lookup('tosit.tdp_observability.observability_data', 'alloy_unix_groups', wantlist=True) }}"
+
+- name: Ensure alloy's secondary groups exists  # noqa var-naming[no-role-prefix]
+  ansible.builtin.include_role:
+    name: tosit.tdp.utils.group
+  vars:
+    group: "{{ item }}"
+  loop: "{{ secondary_groups }}"
+
+- name: Ensure alloy's primary group exists  # noqa var-naming[no-role-prefix]
+  ansible.builtin.include_role:
+    name: tosit.tdp.utils.group
+  vars:
+    group: "{{ alloy_group }}"
+
+- name: Ensure alloy's user exists   # noqa var-naming[no-role-prefix]
+  ansible.builtin.user:
+    name: "{{ alloy_user }}"
+    group: "{{ alloy_group }}"
+    groups: "{{ secondary_groups }}"
+
+- name: "Upload {{ alloy_dist_file }}"
+  ansible.builtin.copy:
+    src: "{{ binaries_local_dir }}/{{ alloy_dist_file }}"
+    dest: "{{ binaries_upload_dir }}/{{ alloy_dist_file }}"
+    owner: root
+    group: root
+    mode: "644"
+  diff: false
+
+- name: "Ensure directory exists : {{ alloy_release }}"
+  ansible.builtin.file:
+    path: "{{ alloy_root_dir }}/{{ alloy_release }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "755"
+
+- name: "Extract {{ alloy_dist_file }}"
+  ansible.builtin.unarchive:
+    src: "{{ binaries_upload_dir }}/{{ alloy_dist_file }}"
+    dest: "{{ alloy_root_dir }}/{{ alloy_release }}"
+    group: root
+    owner: root
+    mode: "755"
+    remote_src: true
+    creates: "{{ alloy_root_dir }}/{{ alloy_release }}/alloy-linux-amd64"
+
+- name: Create symbolic link to alloy installation
+  ansible.builtin.file:
+    src: "{{ alloy_root_dir }}/{{ alloy_release }}"
+    dest: "{{ alloy_install_dir }}"
+    state: link
+
+- name: Ensure alloy data and log directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ alloy_user }}"
+    group: "{{ alloy_group }}"
+    mode: "750"
+  with_items:
+    - "{{ alloy_data_dir }}"
+    - "{{ alloy_log_dir }}"
+
+- name: "Ensure directory exists: {{ alloy_conf_dir }}"
+  ansible.builtin.file:
+    path: "{{ alloy_conf_dir }}"
+    state: directory
+    owner: "{{ alloy_user }}"
+    group: "{{ alloy_group }}"
+    mode: "755"
+
+- name: Template alloy logrotate file
+  ansible.builtin.template:
+    src: alloy.logrotate.j2
+    dest: "/etc/logrotate.d/alloy"
+    group: root
+    owner: root
+    mode: "644"
+
+- name: Template alloy service file
+  ansible.builtin.template:
+    src: alloy.service.j2
+    dest: /usr/lib/systemd/system/alloy.service
+    group: root
+    owner: root
+    mode: "644"
+  notify: systemctl daemon-reload

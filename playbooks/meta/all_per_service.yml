@@ -3,6 +3,7 @@
 
 ---
 - ansible.builtin.import_playbook: exporter.yml
+- ansible.builtin.import_playbook: alloy.yml
 - ansible.builtin.import_playbook: grafana.yml
 - ansible.builtin.import_playbook: loki.yml
 - ansible.builtin.import_playbook: prometheus.yml

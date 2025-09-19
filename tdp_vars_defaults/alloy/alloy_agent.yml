@@ -1,0 +1,67 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+# alloy users and group
+alloy_user: alloy
+
+# alloy version
+alloy_release: alloy-1.10.2-linux-amd64
+alloy_dist_file: "{{ alloy_release }}.zip"
+
+# alloy installation directory
+alloy_root_dir: "{{ tdp_observability_root_dir }}"
+alloy_install_dir: "{{ alloy_root_dir }}/alloy"
+
+# alloy configuration directory
+alloy_conf_dir: /etc/alloy
+
+# alloy data directory
+alloy_data_dir: /var/lib/alloy
+
+# alloy log_dir and log_file are defined in tdp_cluster.yml
+
+# alloy service start on boot policies
+alloy_start_on_boot: false
+
+# alloy configuration
+loki_server: "{{ groups['loki'][0] | tosit.tdp.access_fqdn(hostvars) }}"
+
+alloy_scrape_configs: []
+alloy_date_regex: '^\\d{4}-\\d{2}-\\d{2}[T ]\\d{2}:\\d{2}:\\d{2}[.,]\\d{3}'
+alloy_log_analyser_regex: '^(?P<datetime>.*?) - (?P<level>[A-Z]+) .*'
+
+alloy_pipelines:
+  default:
+    - multiline:
+        firstline: "{{ alloy_date_regex }}"
+    - regex:
+        expression: "{{ alloy_log_analyser_regex }}"
+      template:
+        source: "level"
+        template: "{{ '{{ ToLower (regexReplaceAll \\\"(?i)warn.*\\\" .Value \\\"warning\\\")  }}' }}"
+    - timestamp:
+        source: "datetime"
+        format: "RFC3339"
+    - labels:
+        values:
+          level: ""
+  observability:
+    - logfmt:
+        mapping:
+          datetime: "ts"
+          level: ""
+    - timestamp:
+        source: "datetime"
+        format: "RFC3339"
+    - labels:
+        values:
+          level: ""
+  json_audit:
+    - json:
+        expressions:
+          datetime: "evtTime"
+    - timestamp:
+        source: "datetime"
+        format: "2006-01-02 15:04:05.000"
+        location: "Local"
