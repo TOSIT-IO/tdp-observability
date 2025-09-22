@@ -2,12 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-- ansible.builtin.import_playbook: ../loki_promtail_install.yml
 - ansible.builtin.import_playbook: ../loki_server_install.yml
 # loki_install
-- ansible.builtin.import_playbook: ../loki_promtail_config.yml
-- ansible.builtin.import_playbook: ../loki_promtail_start.yml
-# loki_promtail_init
 - ansible.builtin.import_playbook: ../loki_server_config.yml
 # loki_config
 - ansible.builtin.import_playbook: ../loki_server_start.yml

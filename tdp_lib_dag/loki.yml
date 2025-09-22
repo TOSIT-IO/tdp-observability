@@ -19,46 +19,25 @@
   depends_on:
     - loki_server_start
 
-- name: loki_promtail_install
-  depends_on: []
-
-- name: loki_promtail_config
-  depends_on:
-    - tdp-cluster_config
-    - loki_promtail_install
-
-- name: loki_promtail_start
-  depends_on:
-    - loki_promtail_config
-
-- name: loki_promtail_init
-  noop: yes
-  depends_on:
-    - loki_promtail_start
-
 - name: loki_install
   noop: yes
   depends_on:
     - loki_server_install
-    - loki_promtail_install
 
 - name: loki_config
   noop: yes
   depends_on:
     - loki_install
     - loki_server_config
-    - loki_promtail_config
 
 - name: loki_start
   noop: yes
   depends_on:
     - loki_config
     - loki_server_start
-    - loki_promtail_start
 
 - name: loki_init
   noop: yes
   depends_on:
     - loki_start
-    - loki_promtail_init
     - loki_server_init

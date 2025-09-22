@@ -30,7 +30,6 @@ prometheus_admin_password: PrometheusAdmin123
 alertmanager_admin_user: admin
 alertmanager_admin_password: AlertAdmin123
 
-
 # Loki ports
 loki_web_port: 3100
 loki_grpc_port: 9096
