@@ -31,10 +31,6 @@ alertmanager_admin_user: admin
 alertmanager_admin_password: AlertAdmin123
 
 
-# Promtail ports
-promtail_web_port: 9080
-promtail_grpc_port: 9095
-
 # Loki ports
 loki_web_port: 3100
 loki_grpc_port: 9096
@@ -50,12 +46,8 @@ node_exporter_log_file: node-exporter.log
 node_exporter_group: node-exporter
 
 grafana_log_dir: /var/log/grafana
-grafana_log_file: "grafana.log"     # do not change. Grafana forces this filename. Variable is here only for promtail
+grafana_log_file: "grafana.log"     # do not change. Grafana forces this filename. Variable is here only for alloy
 grafana_group: "{{ hadoop_group }}"
-
-promtail_log_dir: /var/log/promtail
-promtail_log_file: promtail.log
-promtail_group: promtail
 
 alloy_group: alloy
 alloy_log_dir: /var/log/alloy
@@ -87,9 +79,9 @@ observability_common_labels: {}
 #
 # each job has the following entries :
 # - exporter_port              : exporter service port - for prometheus job
-# - log_file                   : log file path - for promtail job
+# - log_file                   : log file path - for alloy job
 # - name_suffix                : mandatory if more than one job :
-#                                job_name in prometheus or promtail scrapes will be
+#                                job_name in prometheus or alloy scrapes will be
 #                                equal to '{{ service }}_{{ component }}_{{ suffix }}
 # - prometheus_scrape_options  : options passed to prometheus scrape
 #                                cf. https://prometheus.io/docs/prometheus/latest/configuration/configuration
@@ -108,9 +100,9 @@ observability_common_labels: {}
 #   component:
 #     jobs:
 #       - log_file: /var/log/foo/foo.log
-#         promtail_pipeline:
+#         alloy:
 #           - multiline:
-#               firstline: '^\d{4}-\d{2}-\d{2}[T]\d{2}:\d{2}:\d{2}'
+#               firstline: '^\\d{4}-\\d{2}-\\d{2}[T]\\d{2}:\\d{2}:\\d{2}'
 #       - exporter_port: 8888
 #         prometheus_scrape_options:
 #           scrape_interval: 10s
@@ -172,11 +164,12 @@ observability_tdp_targets:
           alloy_pipeline: observability
           labels:
             type: tdp_observability
-    promtail:
-      unix_group: "{{ promtail_group }}"
-      group: promtail
+  alloy:
+    server:
+      unix_group: "{{ alloy_group }}"
+      group: alloy
       jobs:
-        - log_file: "{{ promtail_log_dir }}/{{ promtail_log_file }}"
+        - log_file: "{{ alloy_log_dir }}/{{ alloy_log_file }}"
           alloy_pipeline: observability
           labels:
             type: tdp_observability
