@@ -1,0 +1,14 @@
+{#
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+#}
+{{ alloy_log_dir }}/{{ alloy_log_file }} {
+  compress
+  delaycompress
+  daily
+  rotate 31
+  create 0640 {{ alloy_user }} {{ alloy_group }}
+  postrotate
+    /bin/systemctl restart alloy.service 2> /dev/null || true
+  endscript
+}

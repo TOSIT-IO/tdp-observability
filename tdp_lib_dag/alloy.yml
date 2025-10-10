@@ -1,0 +1,37 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+---
+- name: alloy_agent_install
+  depends_on: []
+
+- name: alloy_agent_config
+  depends_on:
+    - tdp-cluster_config
+    - alloy_agent_install
+
+- name: alloy_agent_start
+  depends_on:
+    - alloy_agent_config
+
+- name: alloy_install
+  noop: yes
+  depends_on:
+    - alloy_agent_install
+
+- name: alloy_config
+  noop: yes
+  depends_on:
+    - alloy_install
+    - alloy_agent_config
+
+- name: alloy_start
+  noop: yes
+  depends_on:
+    - alloy_config
+    - alloy_agent_start
+
+- name: alloy_init
+  noop: yes
+  depends_on:
+    - alloy_start
+

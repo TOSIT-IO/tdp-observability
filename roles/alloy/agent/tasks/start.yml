@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ---
-- name: Start promtail
+- name: Start alloy
   ansible.builtin.service:
-    name: promtail
+    name: alloy
     state: started
-    enabled: "{{ promtail_start_on_boot }}"
+    enabled: "{{ alloy_start_on_boot }}"
