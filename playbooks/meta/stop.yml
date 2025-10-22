@@ -1,0 +1,15 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+# prometheus_stop
+- ansible.builtin.import_playbook: ../prometheus_server_stop.yml
+- ansible.builtin.import_playbook: ../prometheus_alertmanager_stop.yml
+# loki_stop
+- ansible.builtin.import_playbook: ../loki_server_stop.yml
+# grafana_stop
+- ansible.builtin.import_playbook: ../grafana_server_stop.yml
+# alloy_stop
+- ansible.builtin.import_playbook: ../alloy_agent_stop.yml
+# exporter_stop
+- ansible.builtin.import_playbook: ../exporter_node_stop.yml

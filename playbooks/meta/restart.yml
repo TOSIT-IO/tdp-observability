@@ -1,0 +1,43 @@
+# Copyright 2022 TOSIT.IO
+# SPDX-License-Identifier: Apache-2.0
+
+---
+# - ansible.builtin.import_playbook: ../exporter_node_install.yml
+## exporter_install
+# - ansible.builtin.import_playbook: ../alloy_agent_install.yml
+## alloy_install
+# - ansible.builtin.import_playbook: ../grafana_server_install.yml
+## grafana_install
+# - ansible.builtin.import_playbook: ../loki_server_install.yml
+## loki_install
+# - ansible.builtin.import_playbook: ../prometheus_alertmanager_install.yml
+# - ansible.builtin.import_playbook: ../prometheus_server_install.yml
+## prometheus_install
+# - ansible.builtin.import_playbook: ../exporter_node_config.yml
+## exporter_config
+- ansible.builtin.import_playbook: ../exporter_node_restart.yml
+## exporter_restart
+## exporter_init
+# - ansible.builtin.import_playbook: ../alloy_agent_config.yml
+- ansible.builtin.import_playbook: ../alloy_agent_restart.yml
+## alloy_config
+## alloy_restart
+## alloy_init
+# - ansible.builtin.import_playbook: ../grafana_server_config.yml
+## grafana_config
+- ansible.builtin.import_playbook: ../grafana_server_restart.yml
+## grafana_restart
+## grafana_init
+# - ansible.builtin.import_playbook: ../loki_server_config.yml
+## loki_config
+- ansible.builtin.import_playbook: ../loki_server_restart.yml
+## loki_server_init
+## loki_restart
+## loki_init
+# - ansible.builtin.import_playbook: ../prometheus_alertmanager_config.yml
+- ansible.builtin.import_playbook: ../prometheus_alertmanager_restart.yml
+# - ansible.builtin.import_playbook: ../prometheus_server_config.yml
+## prometheus_config
+- ansible.builtin.import_playbook: ../prometheus_server_restart.yml
+## prometheus_restart
+## prometheus_init
