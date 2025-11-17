@@ -23,25 +23,23 @@ loki.source.file "{{ job.job_name }}" {
 loki.process "{{ pipeline_name }}" {
     forward_to = [loki.write.default.receiver]
 
-    {% for stage in pipeline %}
-    {% for stage_name, stage_args in stage.items() %}
-
+{%   for stage in pipeline %}
+{%     for stage_name, stage_args in stage.items() %}
     stage.{{ stage_name }} {
-
-    {% for arg_name, arg_value in stage_args.items() %}
-       {% if arg_value is string %}
+{%       for arg_name, arg_value in stage_args.items() %}
+{%         if arg_value is string %}
         {{ arg_name }} = "{{ arg_value }}"
-       {% else %}
+{%         else %}
         {{ arg_name }} = {
-          {% for subarg_name, subarg_value in arg_value.items() %}
+{%           for subarg_name, subarg_value in arg_value.items() %}
             {{ subarg_name }} = "{{ subarg_value }}",
-          {% endfor %}
+{%           endfor %}
         }
-       {% endif %}
-    {% endfor %}{# stages args #}
+{%         endif %}
+{%       endfor %}{# stages args #}
     }
-    {% endfor %}{# stages keys #}
-    {% endfor %}{# stages #}
+{%     endfor %}{# stages keys #}
+{%   endfor %}{# stages #}
 }
 {% endfor %}{# alloy_pipelines #}
 
