@@ -122,18 +122,7 @@ observability_tdp_targets:
       group: grafana
       jobs:
         - log_file: "{{ grafana_log_dir }}/{{ grafana_log_file }}"
-          alloy_pipeline:
-            - logfmt:
-                mapping:
-                  datetime: "t"
-                  level: ""
-            - timestamp:
-                source: "datetime"
-                format: "RFC3339"
-            - labels:
-                values:
-                  level: ""
-
+          alloy_pipeline: observability
   exporter:
     unix_group: "{{ node_exporter_group }}"
     node:
