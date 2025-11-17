@@ -37,7 +37,7 @@ alloy_pipelines:
         firstline: "{{ alloy_date_regex }}"
     - regex:
         expression: "{{ alloy_log_analyser_regex }}"
-      template:
+    - template:
         source: "level"
         template: "{{ '{{ ToLower (regexReplaceAll \\\"(?i)warn.*\\\" .Value \\\"warning\\\")  }}' }}"
     - timestamp:
@@ -49,11 +49,20 @@ alloy_pipelines:
   observability:
     - logfmt:
         mapping:
-          datetime: "ts"
+          datetime: "t"     # grafana uses t=<datetime>
           level: ""
+    - logfmt:
+        mapping:
+          datetime: "time"  # node_exporter and prometheus use time=<datetime>
+    - logfmt:
+        mapping:
+          datetime: "ts"    # loki and alloy use ts=<datetime>
     - timestamp:
         source: "datetime"
         format: "RFC3339"
+    - template:
+        source: "level"
+        template: "{{ '{{ ToLower (regexReplaceAll \\\"(?i)warn.*\\\" .Value \\\"warning\\\")  }}' }}"
     - labels:
         values:
           level: ""
