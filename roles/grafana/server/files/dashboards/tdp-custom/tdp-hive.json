@@ -181,7 +181,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "metrics_heap_used_Value{ job=\"hive_metastore\"}",
+          "expr": "metrics_memory_heap_used_Value{job=\"hive_metastore\"}",
           "hide": false,
           "legendFormat": "{{ instance }} heap used",
           "range": true,
@@ -193,7 +193,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(metrics_heap_max_Value{ job=\"hive_metastore\"})",
+          "expr": "avg(metrics_memory_heap_max_Value{job=\"hive_metastore\"})",
           "hide": false,
           "legendFormat": "Max heap",
           "range": true,
@@ -205,7 +205,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "avg(metrics_heap_max_Value{ job=\"hive_metastore\"})*1.1",
+          "expr": "avg(metrics_memory_heap_max_Value{job=\"hive_metastore\"})*1.1",
           "hide": false,
           "legendFormat": "MaxGraph",
           "range": true,
