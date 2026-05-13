@@ -989,7 +989,7 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "metrics_open_connections_Value{ job=\"hive_metastore\"}",
+          "expr": "metrics_open_connections_Count{job=\"hive_metastore\"}",
           "legendFormat": "Open on {{ instance }}",
           "range": true,
           "refId": "A"
