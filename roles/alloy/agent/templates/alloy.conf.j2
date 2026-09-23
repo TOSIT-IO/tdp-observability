@@ -20,8 +20,13 @@ loki.source.file "{{ job.job_name }}" {
 {% endfor %}
 
 {% for pipeline_name, pipeline in alloy_pipelines.items() %}
+{% if pipeline_name.startswith("filter_") %}
+loki.process "{{ pipeline_name }}" {
+    forward_to = [loki.process.default.receiver]
+{% else %}
 loki.process "{{ pipeline_name }}" {
     forward_to = [loki.write.default.receiver]
+{% endif %}
 
 {%   for stage in pipeline %}
 {%     for stage_name, stage_args in stage.items() %}
