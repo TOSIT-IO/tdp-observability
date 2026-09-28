@@ -21,8 +21,14 @@ loki.source.file "{{ job.job_name }}" {
 
 {% for pipeline_name, pipeline in alloy_pipelines.items() %}
 {% if pipeline_name.startswith("filter_") %}
+{# Only take the string after the word "_receiver" #}
+{% if "_receiver_" not in pipeline_name %}
+{% set receiver_name =  "default" %}
+{% else %}
+{% set receiver_name =  pipeline_name.split("_receiver_") | last %}
+{% endif %}
 loki.process "{{ pipeline_name }}" {
-    forward_to = [loki.process.default.receiver]
+    forward_to = [loki.process.{{ receiver_name }}.receiver]
 {% else %}
 loki.process "{{ pipeline_name }}" {
     forward_to = [loki.write.default.receiver]
